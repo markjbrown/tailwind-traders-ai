@@ -8,6 +8,24 @@ variable "app_vnet_address_space" {
   description = "The address space that is used by the application virtual network."
 }
 
+variable "deploy_identity" {
+  type = object({
+    client_id     = string
+    principal_id     = string
+    id = string
+  })
+  description = "The identity to use for the deployment."
+}
+
+variable "kubelet_identity" {
+  type = object({
+    client_id     = string
+    principal_id     = string
+    id = string
+  })
+  description = "The kubelet identity."
+}
+
 variable "location" {
   type = string
   description = "The location/region where the resource group should exist."

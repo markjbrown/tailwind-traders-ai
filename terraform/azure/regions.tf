@@ -1,6 +1,8 @@
 module "primary_region" {
   source = "./region"
 
+  deploy_identity = module.global.deploy_identity
+  kubelet_identity = module.global.kubelet_identity
   location = "East US 2"
   resource_prefix = local.primary_resource_prefix
 
