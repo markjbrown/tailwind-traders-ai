@@ -67,7 +67,7 @@ namespace InitializeData2
                 .AddTransient<ProfileContextSeed>()
                 .AddScoped<CsvReaderHelper>();
         }
-
+        
         private static void RegisterProductStuff(HostBuilderContext ctx, IServiceCollection service)
         {
             service.AddDbContext<ProductContext>(options =>
