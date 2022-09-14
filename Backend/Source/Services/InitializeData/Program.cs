@@ -41,11 +41,12 @@ namespace InitializeData2
 
                 Log.Information("Seeding database");
                 var profileSeed = serviceProvider.GetRequiredService<ProfileContextSeed>();
-                profileSeed.SeedInternalAsync(profileContext, @"D:\Projects\Microsoft\Code\TailwindTraders\Backend\Services\Tailwind.Traders.Profile.Api").Wait();
+                profileSeed.SeedInternalAsync(profileContext,
+                    @"D:\Projects\Microsoft\Code\TailwindTraders\Backend\Source\Services\Tailwind.Traders.Profile.Api").Wait();
 
                 var productSeed = serviceProvider.GetRequiredService<ProductContextSeed>();
                 productSeed.SeedInternalAsync(productContext,
-                    @"D:\Projects\Microsoft\Code\TailwindTraders\Backend\Services\Tailwind.Traders.Product.Api").Wait();
+                    @"D:\Projects\Microsoft\Code\TailwindTraders\Backend\Source\Services\Tailwind.Traders.Product.Api").Wait();
             }
             catch (Exception e)
             {

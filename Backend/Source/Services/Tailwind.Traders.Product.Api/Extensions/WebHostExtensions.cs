@@ -18,9 +18,10 @@ namespace Tailwind.Traders.Product.Api.Extensions
 
                 var logger = services.GetRequiredService<ILogger<TContext>>();
                 var context = services.GetRequiredService<TContext>();
+                var env = services.GetRequiredService<IWebHostEnvironment>();
                 var seed = services.GetRequiredService<IContextSeed<TContext>>();
                 
-                seed.SeedAsync(context).Wait();
+                seed.SeedAsync(context, env).Wait();
             }
 
             return webHost;
