@@ -1,0 +1,40 @@
+replicaCount: 1
+applicationName: tailwindtraders
+
+image:
+  repository: tailwindtradersacr.azurecr.io/stock.api
+  tag: prod
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+
+resources:
+  limits:
+    cpu: "500m"
+  requests:
+    cpu: "100m"
+
+nodeSelector:
+  "kubernetes.io/os": linux
+
+tolerations: []
+
+affinity: {}
+
+env:
+  configmap:
+    - name: APPLICATION_INSIGHTS_IKEY
+    - name: ISSUER
+    - name: SECURITYKEY
+    - name: COSMOSDB_AUTHKEY
+    - name: COSMOSDB_HOST
+  values: {}
+
+probes:
+  liveness:
+    path: /liveness
+    initialDelaySeconds: 100
+    periodSeconds: 30
+    port: http

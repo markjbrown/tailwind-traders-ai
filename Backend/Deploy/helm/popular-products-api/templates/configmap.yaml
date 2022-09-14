@@ -1,0 +1,18 @@
+{{- $name := include "tt-popularproducts.fullname" . -}}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "cfg-{{ $name }}"
+  labels:
+    app: {{ template "tt-popularproducts.name" . }}
+    chart: {{ template "tt-popularproducts.chart" .}}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  AUTHKEY: {{ .Values.inf.db.popularproducts.auth }}
+  HOST: {{ .Values.inf.db.popularproducts.host }}
+  ApplicationInsightsIK:  "{{ .Values.inf.appinsights.id }}"
+  AzureStorageUrl: {{ .Values.inf.storage.productimages }}
+  ISSUER: {{ .Values.sec.issuer }}
+  SECURITYKEY: {{ .Values.sec.securityKey }}

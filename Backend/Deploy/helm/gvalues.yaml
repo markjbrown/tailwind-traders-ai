@@ -1,0 +1,118 @@
+# Global values for all helm charts. See comments for usage
+#
+# NOTE: If you update this file beware to not commit/push inside your repo!
+# Instead of updating this file, can place a updated copy of it in helm/__values folder and use the -valuesFile parameter of Deploy-Images-Aks.ps1 script.
+# Everything on helm/__values folder is ignored by .gitignore.
+
+inf:
+  sa: ttsa
+  db:
+    products:
+      host: # COSMOS HOST FOR PRODUCTS like https://ttwebbasket-dev.documents.azure.com:443/
+      auth: # COSMOS AUTH KEY
+    profile:
+      host: # COSMOS HOST FOR PROFILE like https://ttwebbasket-dev.documents.azure.com:443/
+      auth: # COSMOS AUTH KEY
+    popularproducts:
+      host: # COSMOS HOST FOR POPULAR PRODUCTS like https://ttwebbasket-dev.documents.azure.com:443/
+      auth: # COSMOS AUTH KEY
+    stock:
+      host: # COSMOS HOST FOR STOCK like https://ttwebbasket-dev.documents.azure.com:443/
+      auth: # COSMOS AUTH KEY
+    cart:
+      host: # COSMOS HOST FOR THE CART like https://ttwebbasket-dev.documents.azure.com:443/
+      auth: # COSMOS AUTH KEY
+    rewards:
+      host: # DB HOST LIKE tailwindtradersserver-dev.database.windows.net
+      port: "1433"
+      catalog: rewardsdb
+      user: # ADMIN USERNAME LIKE tailadmin
+      pwd: # ADMIN PWD  
+    coupons:
+      user: # COSMOS USER tailwindtraders-coupons-dev
+      pwd: # COSMOS PWD 
+      host: # COSMOS HOST LIKE tailwindtraders-coupons-dev.documents.azure.com
+      port: "10255"
+      dbName: Coupon
+      constr: # COSMOS CONSTR
+      collection: CouponCollection
+  storage:
+    productimages: https://tailwindtraders.blob.core.windows.net/product-list
+    productdetailimages: https://tailwindtraders.blob.core.windows.net/product-detail
+    couponimage: https://tailwindtraders.blob.core.windows.net/coupon-list
+    profileimages: https://tailwindtraders.blob.core.windows.net/profiles-list
+  appinsights:
+    id: ""
+  ingress:
+    products:
+      path: /product-api
+    profile:
+      path: /profile-api
+    coupons:
+      path: /coupons-api
+    popularproducts:
+      path: /popular-products-api
+    stock:
+      path: /stock-api
+    imageclassifier:
+      path: /image-classifier-api
+    mobilebff:
+      path: /mobilebff
+    webbff:
+      path: /webbff
+    login:
+      path: /login-api
+    cart:
+      path: /cart-api
+    rewardsregistration:
+      path: /rewards-registration-api
+  apiurls:
+    popularproductsapiurl: http://popularproducts
+    productsapiurl: http://product 
+    profileapiurl: http://profile
+    couponsapiurl: http://coupons
+    stockapiurl: http://stock
+    imageclassifierapiurl: http://imageclassifier
+    loginapiurl: http://login
+  registrationusers:
+    registerusers: false
+    registrationusersurl: http://rewards-registration/UserService.svc
+
+# Shared ingress configurations
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+#  hosts:
+#    - <guid>.<region>.aksapp.io   # NOT NEEDED. SET BY SCRIPTS
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+sec:
+  issuer: TTFakeLogin
+  securityKey: nEpLzQJGNSCNL5H6DIQCtTdNxf5VgAGcBbtXLms1YDD01KJBAs0WVawaEjn97uwB
+
+B2C:
+  UseB2C: "false"
+  B2CIssuer: ""
+  Authority: ""
+  tenantID: ""
+  clientID: ""
+  policyName: ""
+  identityMetadata: ""
+  issuer: ""
+
+# Autoscaling global settings
+hpa:
+  activated: false # set to true to deploy HPA for services
+  cpu:
+    averageUtilization: 40 
+  minReplicas: 1
+  maxReplicas: 40

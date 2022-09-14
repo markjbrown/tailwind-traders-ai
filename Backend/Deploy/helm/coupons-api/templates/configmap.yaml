@@ -1,0 +1,21 @@
+{{- $name := include "tt-coupons.fullname" . -}}
+{{- $imagebaseurl := .Values.inf.storage.couponimage -}}
+{{- $collection := .Values.inf.db.coupons.collection -}}
+{{ $constr := include "tt-coupons-constr" . -}}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "cfg-{{ $name }}"
+  labels:
+    app: {{ template "tt-coupons.name" . }}
+    chart: {{ template "tt-coupons.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  CONNECTIONSTRING: {{ $constr }}
+  COUPON_COLLECTION: {{ $collection }}
+  URL_BASE: {{ $imagebaseurl }}
+  ISSUER: {{ .Values.sec.issuer }}
+  SECURITYKEY: {{ .Values.sec.securityKey }}
+  APPLICATIONINSIGHTSIK:  "{{ .Values.inf.appinsights.id }}" 
