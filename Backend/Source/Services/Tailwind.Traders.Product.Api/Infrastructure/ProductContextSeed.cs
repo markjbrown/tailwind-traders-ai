@@ -10,20 +10,24 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 {
     public class ProductContextSeed : IContextSeed<ProductContext>
     {
-        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ILogger<ProductContextSeed> _logger;
         private readonly IProcessFile _processFile;
 
-        public ProductContextSeed(IWebHostEnvironment hostingEnvironment, ILogger<ProductContextSeed> logger, IProcessFile processFile)
+        public ProductContextSeed(
+            ILogger<ProductContextSeed> logger, IProcessFile processFile)
         {
-            _hostingEnvironment = hostingEnvironment;
             _logger = logger;
             _processFile = processFile;
         }
 
-        public async Task SeedAsync(ProductContext productContext)
+        public async Task SeedAsync(ProductContext productContext, IWebHostEnvironment env)
         {
-            var contentRootPath = _hostingEnvironment.ContentRootPath;
+            var contentRootPath = env.ContentRootPath;
+            await SeedInternalAsync(productContext, contentRootPath);
+        }
+
+        public async Task SeedInternalAsync(ProductContext productContext, string contentRootPath)
+        {
             await productContext.Database.EnsureCreatedAsync();
 
             if (!productContext.ProductItems.ToList().Any())

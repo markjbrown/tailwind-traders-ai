@@ -7,7 +7,7 @@ using Tailwind.Traders.Profile.Api.Models;
 
 namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
-    public class ProfileContextSeed
+    public class ProfileContextSeed : IContextSeed<ProfileContext>
     {
         private readonly CsvReaderHelper _csvHelper;
 
@@ -36,6 +36,6 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
                 await profileContext.Profiles.AddRangeAsync(profiles);
                 await profileContext.SaveChangesAsync();
             }
-        }        
+        }
     }    
 }

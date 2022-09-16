@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Threading.Tasks;
 
-namespace Tailwind.Traders.Product.Api.Infrastructure
+namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
     public interface IContextSeed<TContext>
         where TContext : DbContext
