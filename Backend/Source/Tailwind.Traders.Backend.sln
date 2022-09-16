@@ -23,8 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tailwind.Traders.Login.Api"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tailwind.Traders.Rewards.Registration.Api", "Services\Tailwind.Traders.Rewards.Registration.Api\Tailwind.Traders.Rewards.Registration.Api.csproj", "{05581061-B0A2-4044-85ED-E219C11C2EAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InitializeData", "Services\InitializeData\InitializeData.csproj", "{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,18 +129,6 @@ Global
 		{05581061-B0A2-4044-85ED-E219C11C2EAA}.Release|x64.Build.0 = Release|Any CPU
 		{05581061-B0A2-4044-85ED-E219C11C2EAA}.Release|x86.ActiveCfg = Release|Any CPU
 		{05581061-B0A2-4044-85ED-E219C11C2EAA}.Release|x86.Build.0 = Release|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Debug|x64.Build.0 = Debug|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Debug|x86.Build.0 = Debug|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Release|x64.ActiveCfg = Release|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Release|x64.Build.0 = Release|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Release|x86.ActiveCfg = Release|Any CPU
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,7 +141,6 @@ Global
 		{25077CC7-F3BD-4645-BF8C-B98587B46D53} = {E8A4248E-1EAC-48AE-9060-973D4C15B548}
 		{6B477ACB-8A9C-4F7C-9E1E-0B195B56A14C} = {E8A4248E-1EAC-48AE-9060-973D4C15B548}
 		{05581061-B0A2-4044-85ED-E219C11C2EAA} = {E8A4248E-1EAC-48AE-9060-973D4C15B548}
-		{5B0DCBB9-1C3D-4E54-B58B-9F336F641969} = {E8A4248E-1EAC-48AE-9060-973D4C15B548}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5D3E7ED9-6991-46BF-BBD8-57AE7000A309}

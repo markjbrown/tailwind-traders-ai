@@ -87,7 +87,7 @@ Write-Host " TLS/SSL environment to enable: $tlsEnv"  -ForegroundColor Yellow
 Write-Host " Namespace (empty means the one in .kube/config): $namespace"  -ForegroundColor Yellow
 Write-Host " --------------------------------------------------------" 
 
-$acrLogin=$(az acr show -n $acrName -o json| ConvertFrom-Json).loginServer
+$acrLogin=$(az acr show -n $acrName -g $resourceGroup -o json| ConvertFrom-Json).loginServer
 
 if ($tlsEnv -ne "custom" -and [String]::IsNullOrEmpty($tlsHost)) {
     $aksHost=$(az aks show -n $aksName -g $resourceGroup --query addonProfiles.httpapplicationrouting.config.HTTPApplicationRoutingZoneName -o json | ConvertFrom-Json)

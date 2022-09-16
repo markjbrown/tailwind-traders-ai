@@ -24,11 +24,6 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
         public async Task SeedAsync(ProductContext productContext)
         {
             var contentRootPath = _hostingEnvironment.ContentRootPath;
-            await SeedInternalAsync(productContext, contentRootPath);
-        }
-
-        public async Task SeedInternalAsync(ProductContext productContext, string contentRootPath)
-        {
             await productContext.Database.EnsureCreatedAsync();
 
             if (!productContext.ProductItems.ToList().Any())
@@ -46,7 +41,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await productContext.ProductItems.AddRangeAsync(products);
 
                 await productContext.SaveChangesAsync();
-            }
+           }
         }
     }
 }

@@ -97,8 +97,8 @@ $tokens.appinsightsik=$appinsightsId
 $tokens.ingressclass=$ingressClass
 $tokens.secissuer="TTFakeLogin"
 $tokens.seckey="nEpLzQJGNSCNL5H6DIQCtTdNxf5VgAGcBbtXLms1YDD01KJBAs0WVawaEjn97uwB"
-$tokens.ingressrewritepath=""
-$tokens.ingressrewritetarget=""
+$tokens.ingressrewritepath="(/|$)(.*)"
+$tokens.ingressrewritetarget="`$2"
 
 if($ingressClass -eq "nginx") {
     $tokens.ingressrewritepath="(/|$)(.*)" 

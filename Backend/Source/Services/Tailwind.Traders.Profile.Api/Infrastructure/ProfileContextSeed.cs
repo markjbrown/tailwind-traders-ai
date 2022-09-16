@@ -19,11 +19,6 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
         public async Task SeedAsync(ProfileContext profileContext, IWebHostEnvironment env)
         {
             var contentRootPath = env.ContentRootPath;
-            await SeedInternalAsync(profileContext, contentRootPath);
-        }
-
-        public async Task SeedInternalAsync(ProfileContext profileContext, string contentRootPath)
-        {
             await profileContext.Database.EnsureCreatedAsync();
             if (!profileContext.Profiles.ToList().Any())
             {
@@ -40,7 +35,7 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
                 });
                 await profileContext.Profiles.AddRangeAsync(profiles);
                 await profileContext.SaveChangesAsync();
-            }            
-        }
+            }
+        }        
     }    
 }
