@@ -1,7 +1,8 @@
 // -----------------------------------------------------------------------------
 // This file contains styles that are specific to the login popup.
 // -----------------------------------------------------------------------------
-.modal {
+.modal { 
+    display: block;
     border-radius: $border-radius-s;
     box-shadow: $box-shadow-l;
     background-color: $color-background-light;
