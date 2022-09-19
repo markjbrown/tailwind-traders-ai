@@ -11,7 +11,9 @@ namespace Tailwind.Traders.Product.Api
         {
             CreateWebHostBuilder(args)
                 .Build()
+#if AZURE
                 .MigrateDbContext<ProductContext, ProductContextSeed>()
+#endif
                 .Run();
         }
 

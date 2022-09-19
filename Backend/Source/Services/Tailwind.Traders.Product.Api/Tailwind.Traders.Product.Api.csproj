@@ -5,6 +5,7 @@
     <DockerDefaultTargetOS>$(DockerDefaultTargetOS)</DockerDefaultTargetOS>
     <UserSecretsId>f2fcf537-652a-4a9e-840e-ab5f0651520f</UserSecretsId>
     <AssemblyName>Tailwind.Traders.Product.Api</AssemblyName>
+    <Configurations>Debug;Release;AWS;AZURE;GCP</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,6 +41,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="$(MicrosoftVisualStudioAzureContainersToolsTargets)" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(MicrosoftVisualStudioWebCodeGenerationDesign)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="$(MicrosoftAspNetCoreMvcNewtonsoftJson)" />
+    <PackageReference Include="MongoDB.Driver" Version="2.17.1" />
     <PackageReference Include="prometheus-net" Version="3.6.0" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="3.6.0" />
   </ItemGroup>

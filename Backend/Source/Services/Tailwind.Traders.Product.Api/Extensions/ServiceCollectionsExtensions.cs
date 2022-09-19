@@ -8,6 +8,7 @@ using System;
 using Tailwind.Traders.Product.Api.HealthCheck;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
+using Tailwind.Traders.Product.Api.Repos;
 
 namespace Tailwind.Traders.Product.Api.Extensions
 {
@@ -34,6 +35,11 @@ namespace Tailwind.Traders.Product.Api.Extensions
                 .AddTransient<ClassMap, ProductTypeMap>()
                 .AddTransient<ClassMap, ProductTagMap>()
                 .AddTransient<MapperDtos>()
+#if AZURE
+                .AddTransient<IProductItemRepository, ProductItemAzureRepository>()
+#elif AWS
+                .AddSingleton<IProductItemRepository, ProductItemAWSRepository>()
+#endif
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             service.Configure<AppSettings>(configuration);
