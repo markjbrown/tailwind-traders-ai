@@ -87,7 +87,7 @@ function createHelmCommand([string]$command, $chart) {
     $newcmd = $command
 
     if (-not [string]::IsNullOrEmpty($tlsSecretNameToUse)) {
-        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts={$aksHost}"
+        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts='{$aksHost}'"
     }
     else {
         $newcmd = "$newcmd --set ingress.protocol=http"
