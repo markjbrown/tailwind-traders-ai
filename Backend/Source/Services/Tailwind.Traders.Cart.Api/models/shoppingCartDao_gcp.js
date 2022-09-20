@@ -37,7 +37,6 @@ class ShoppingCartDao {
         var doc = await this.dataRef.doc(docRef.id).get()
         let result = doc.data()
         result.id = doc.id
-        console.log(result)
         return result
       }
       else {
