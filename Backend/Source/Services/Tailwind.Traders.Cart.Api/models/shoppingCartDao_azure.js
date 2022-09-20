@@ -50,7 +50,7 @@ class ShoppingCartDao {
 
   async addItem(item) {
     const { resource: doc } = await this.container.items.create(item);
-    return doc.data();
+    return doc;
   }
 
   async updateQuantity(id, newqty) {
