@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Tailwind.Traders.Product.Api.Models
 {
@@ -9,9 +11,11 @@ namespace Tailwind.Traders.Product.Api.Models
         {
             Features = new HashSet<ProductFeature>();
         }
+        [BsonId]
+        public ObjectId _id { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public int Id { get; set; } 
 
         public string Name { get; set; }
 

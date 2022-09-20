@@ -14,7 +14,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         private readonly string _productCollection = "ProductItem";
         private readonly string _brandCollection = "ProductBrand";
         private readonly string _typeCollection = "ProductType";
-        private readonly string _tagCollection = "Tag";
+        private readonly string _tagCollection = "ProductTag";
         private readonly string _featureCollection = "ProductFeature";
 
         private readonly IMongoCollection<ProductItem> _productItem;
