@@ -11,8 +11,10 @@ namespace Tailwind.Traders.Product.Api.Models
         {
             Features = new HashSet<ProductFeature>();
         }
+#if AWS
         [BsonId]
         public ObjectId _id { get; set; }
+#endif
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; } 

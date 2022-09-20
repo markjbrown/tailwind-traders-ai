@@ -7,8 +7,10 @@ namespace Tailwind.Traders.Product.Api.Models
 {
     public class ProductType
     {
+#if AWS
         [BsonId]
         public ObjectId _id { get; set; }
+#endif
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
