@@ -31,7 +31,8 @@ namespace Tailwind.Traders.Product.Api.Mappers
                 BrandId = productItem.BrandId,
                 Tag = productItem.Tag is not null ?MapperToProductTag(productItem.Tag) : null,
                 TagId = productItem.TagId,
-                ImageName = productItem.ImageName
+                ImageName = productItem.ImageName,
+                TypeId = productItem.TypeId
             };
         }
 
