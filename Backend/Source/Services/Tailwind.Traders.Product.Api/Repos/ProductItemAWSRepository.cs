@@ -11,6 +11,7 @@ namespace Tailwind.Traders.Product.Api.Repos
 {
     public class ProductItemAWSRepository : IProductItemRepository
     {
+        #region DataMember
         private readonly string _productCollection = "ProductItem";
         private readonly string _brandCollection = "ProductBrand";
         private readonly string _typeCollection = "ProductType";
@@ -22,6 +23,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         private readonly IMongoCollection<ProductType> _productType;
         private readonly IMongoCollection<ProductTag> _productTag;
         private readonly IMongoCollection<ProductFeature> _productFeature;
+        #endregion
 
         public ProductItemAWSRepository(IConfiguration configuration)
         {
