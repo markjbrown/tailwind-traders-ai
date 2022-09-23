@@ -83,7 +83,8 @@
         "profile.recommended.title": "Recommended For You",
         "profile.favorite.title": "Favorite Categories",
 
-        "shoppingCart.title": "Your shopping cart"
+        "shoppingCart.title": "Your shopping cart",
+        "shoppingCart.checkout": "Checkout"
       }
     }
 }

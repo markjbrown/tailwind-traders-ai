@@ -89,6 +89,11 @@ const CartService = {
 
         const response = await axios.delete(`${ConfigService._apiUrlShoppingCart}/shoppingcart/product`, config);
         return response;
+    },
+
+    async checkout(email, token) {
+        const response = await axios.post(`${ConfigService._apiUrlShoppingCart}/shoppingcart/checkout`, { email }, ConfigService.HeadersConfig(token));
+        return response.data;
     }
 }
 

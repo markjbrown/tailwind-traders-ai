@@ -1,7 +1,8 @@
 class CartController {
-    constructor(shoppingCartDao, recommendedDao) {
+    constructor(shoppingCartDao, recommendedDao, orderDao) {
         this.shoppingCartDao = shoppingCartDao;
         this.recommendedDao = recommendedDao;
+        this.orderDao = orderDao;
     }
 
     retrieveUser(req) {
@@ -56,5 +57,15 @@ class CartController {
         }
     }
 
+    async checkout(req, res) {
+        const data = req.body;
+        const items = await this.shoppingCartDao.find(data.email);
+        const order = await this.orderDao.createOrder(data.email, items);
+        for (const item of items) {
+            await this.shoppingCartDao.deleteItem(item._cdbid);
+        }
+        res.status(200).send({ message: `checkout for ${data.email} successful`, order: order});
+    }
 }
+
 module.exports = CartController;
