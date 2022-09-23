@@ -3,13 +3,10 @@ class RecommendedDao {
         this.Firebaseclient = serviceAccount;
         this.collectionId = 'recommendations';
         this.dataRef = this.Firebaseclient.collection(this.collectionId)
-
     }
 
     async init() {
         let snapshot = await this.dataRef.limit(1).get()
-        console.log(snapshot._size)
-
         if (snapshot._size == 1)
             return
 
@@ -29,11 +26,12 @@ class RecommendedDao {
 
         snapshot.forEach(doc => {
             let res = doc.data()
-            res.id = doc.id
-            result.push(res)
+           result.push({email:res.email,
+            typeid:res.typeid,
+            recommendations: res.recommendations})
 
         });
-        console.log(result)
+
         return result
     }
 }

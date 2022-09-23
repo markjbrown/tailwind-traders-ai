@@ -11,13 +11,10 @@ class CartController {
     async addProduct(req, res) {
         const item = req.body;
         const doc = await this.shoppingCartDao.addItem(item);
-       
-       res.status(201).send({ message: `${doc.detailProduct.name} added to shopping cart`, id: doc.id });
-        console.log(`Succsessfully added product ${doc.detailProduct.name} to shopping cart`)
-    }
+        res.status(201).send({ message: `${doc.detailProduct.name} added to shopping cart`, id: doc.id });
+        }
 
     async getProductsByUser(req, res) {
-        console.log("saasas")
         const user = this.retrieveUser(req);
         const items = await this.shoppingCartDao.find(user);
         res.json(items);
@@ -40,7 +37,6 @@ class CartController {
             res.status(400).send({ message: "'id' missing" });
         }
         else {
-            console.log("Product Id--",data.id)
             await this.shoppingCartDao.deleteItem(data.id);
             res.status(200).send({ message: "Product deleted" });
         }

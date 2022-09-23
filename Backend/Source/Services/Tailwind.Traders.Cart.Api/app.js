@@ -3,8 +3,9 @@ const ConnectionPolicy = require("@azure/cosmos").ConnectionPolicy;
 const config = require("./config/config");
 const authConfig = require("./config/authConfig");
 const CartController = require("./routes/cartController");
-const ShoppingCartDao = require("./models/shoppingCartDao");
-const RecommededDao = require("./models/recommendedDao");
+//const ShoppingCartDao = require("./models/shoppingCartDao");
+const ShoppingCartDao = require(config.cartDaoFile);
+const RecommededDao = require(config.recommendationDaoFile);
 const ensureAuthenticated = require("./middlewares/authorization");
 const ensureB2cAuthenticated = require("./middlewares/authorizationB2c");
 const setHeaders = require("./middlewares/headers");
@@ -19,6 +20,8 @@ const bodyParser = require("body-parser");
 const indexRouter = require("./routes/index");
 const appInsights = require("applicationinsights");
 
+var recommendedDao
+var cartController
 if (config.applicationInsightsIK) {
   appInsights.setup(config.applicationInsightsIK);
   appInsights.start();
@@ -32,36 +35,42 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(cookieParser());
 app.use(handlerHealthCheck);
+console.log("auth Config",authConfig.UseB2C)
 
-if (JSON.parse(authConfig.UseB2C)) {
-  const options = {
-    identityMetadata: authConfig.identityMetadata,
-    issuer: authConfig.issuer,
-    clientID: authConfig.clientID,
-    policyName: authConfig.policyName,
-    isB2C: true,
-    validateIssuer: true,
-    loggingLevel: "info",
-    passReqToCallback: false
-  };
+// if (JSON.parse(authConfig.UseB2C)) {
+//   const options = {
+//     identityMetadata: authConfig.identityMetadata,
+//     issuer: authConfig.issuer,
+//     clientID: authConfig.clientID,
+//     policyName: authConfig.policyName,
+//     isB2C: true,
+//     validateIssuer: true,
+//     loggingLevel: "info",
+//     passReqToCallback: false
+//   };
 
-  const bearerStrategy = new BearerStrategy(options, function(token, done) {
-    done(null, {}, token);
-  });
+//   const bearerStrategy = new BearerStrategy(options, function(token, done) {
+//     done(null, {}, token);
+//   });
 
-  app.use("/", indexRouter);
+//   app.use("/", indexRouter);
 
-  app.use(passport.initialize());
-  passport.use(bearerStrategy);
+//   app.use(passport.initialize());
+//   passport.use(bearerStrategy);
 
-  app.use(ensureB2cAuthenticated());
-} else {
-  app.use(ensureAuthenticated);
-}
+//   app.use(ensureB2cAuthenticated());
+// } else {
+  //app.use(ensureAuthenticated);
+//}
 
-app.use(setHeaders);
+//app.use(setHeaders);
 
-console.log(`Cosmos to use is ${config.host}`);
+
+if(process.env.CLOUD_PLATFORM=="AZURE")
+{
+
+ console.log(`Cosmos to use is ${config.host}`);
+console.log(`Cosmos to use is ${config.authKey}`);
 const cosmosClientOptions = {
   endpoint: config.host,
   key: config.authKey
@@ -94,9 +103,10 @@ const shoppingCartDao = new ShoppingCartDao(
   config.containerId
 );
 
-const recommendedDao = new RecommededDao(cosmosClient, config.databaseId);
 
-const cartController = new CartController(shoppingCartDao, recommendedDao);
+ recommendedDao = new RecommededDao(cosmosClient, config.databaseId);
+
+cartController = new CartController(shoppingCartDao, recommendedDao);
 
 console.log("Begin initialization of cosmosdb " + config.host);
 
@@ -105,12 +115,13 @@ shoppingCartDao
     console.error(err);
   })
   .then(() => {
+    console.log("HOST:",config.host )
     console.log(`cosmosdb ${config.host} initializated`);
   })
   .catch(err => {
     console.error(err);
     console.error(
-      "Shutting down because there was an error setting up the database."
+      "Shutting down because there was an error setting up the database.1"
     );
     process.exit(1);
   });
@@ -125,11 +136,73 @@ recommendedDao
   .catch(err => {
     console.error(err);
     console.error(
-      "Shutting down because there was an error setting up the database."
+      "Shutting down because there was an error setting up the database.2"
     );
     process.exit(1);
   });
 
+
+}
+
+
+if(process.env.CLOUD_PLATFORM=="GCP")
+{
+  
+  var admin = require("firebase-admin");
+var serviceAccount = config.serviceAccount;
+var firebaseSettings = admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+   
+  });
+
+  firebaseClient = firebaseSettings.firestore();
+  const recommendedDao = new RecommededDao(firebaseClient);
+   shoppingCartDao=new ShoppingCartDao(firebaseClient,config.collectionId);
+  cartController = new CartController(shoppingCartDao,recommendedDao);
+  recommendedDao
+  .init(err => {
+    console.error(err);
+  })
+  .then(() => {
+    console.log(`FireBase  initialized`);
+  })
+  .catch(err => {
+    console.error(err);
+    console.error(
+      "Shutting down because there was an error setting up the database.2"
+    );
+    process.exit(1);
+  });
+
+}
+
+
+if(process.env.CLOUD_PLATFORM=="AWS")
+{
+  
+  const AWS = require('aws-sdk');
+
+  AWS.config.update({
+    region: process.env.AWS_DEFAULT_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  });
+
+  var client = new AWS.DynamoDB()
+ 
+  const documentClient = new AWS.DynamoDB.DocumentClient();
+
+
+  const recommendedDao = new RecommededDao(client,config.tableName,documentClient);
+  shoppingCartDao=new ShoppingCartDao(client,config.tableName,documentClient);
+  cartController = new CartController(shoppingCartDao,recommendedDao);
+ 
+  recommendedDao.init()
+
+  shoppingCartDao.init()
+  
+
+}
 app.get("/liveness", (req, res, next) => {
   res.status(200);
   res.send("Healthy");
