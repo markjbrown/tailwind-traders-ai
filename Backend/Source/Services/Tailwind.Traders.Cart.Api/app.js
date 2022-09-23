@@ -5,6 +5,7 @@ const authConfig = require("./config/authConfig");
 const CartController = require("./routes/cartController");
 const ShoppingCartDao = require("./models/shoppingCartDao");
 const RecommededDao = require("./models/recommendedDao");
+const OrderDao = require("./models/orderDao");
 const ensureAuthenticated = require("./middlewares/authorization");
 const ensureB2cAuthenticated = require("./middlewares/authorizationB2c");
 const setHeaders = require("./middlewares/headers");
@@ -96,7 +97,9 @@ const shoppingCartDao = new ShoppingCartDao(
 
 const recommendedDao = new RecommededDao(cosmosClient, config.databaseId);
 
-const cartController = new CartController(shoppingCartDao, recommendedDao);
+const orderDao = new OrderDao(cosmosClient, config.databaseId);
+
+const cartController = new CartController(shoppingCartDao, recommendedDao, orderDao);
 
 console.log("Begin initialization of cosmosdb " + config.host);
 
@@ -105,7 +108,7 @@ shoppingCartDao
     console.error(err);
   })
   .then(() => {
-    console.log(`cosmosdb ${config.host} initializated`);
+    console.log(`cosmosdb ${config.host} ${config.databaseId} initializated`);
   })
   .catch(err => {
     console.error(err);
@@ -121,6 +124,21 @@ recommendedDao
   })
   .then(() => {
     console.log(`cosmosdb ${config.host} recommendations initializated`);
+  })
+  .catch(err => {
+    console.error(err);
+    console.error(
+      "Shutting down because there was an error setting up the database."
+    );
+    process.exit(1);
+  });
+
+orderDao
+  .init(err => {
+    console.error(err);
+  })
+  .then(() => {
+    console.log(`cosmosdb ${config.host} orders initializated`);
   })
   .catch(err => {
     console.error(err);
@@ -166,6 +184,13 @@ app.get("/shoppingcart/relatedproducts", (req, res, next) =>
     next(e);
   })
 );
+app.post("/shoppingcart/checkout", (req, res, next) =>
+  cartController.checkout(req, res).catch(e => {
+    console.log(e);
+    next(e);
+  })
+);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
