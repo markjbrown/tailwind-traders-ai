@@ -47,7 +47,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         {
             //var items = await _productItem.FindAsync(item => brand.Contains(item.BrandId) || type.Contains(item.TypeId))?.Result?.ToListAsync();
             var productItemSnapshot = await _productItemCollection.WhereArrayContains("BrandId", brand).GetSnapshotAsync();
-            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<PrdItem>()).ToList();
+            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
 
             var prdBrandSnapshot = await _brandCollection.GetSnapshotAsync();
             var prdTypeSnapshot = await _typeCollection.GetSnapshotAsync();
@@ -56,19 +56,19 @@ namespace Tailwind.Traders.Product.Api.Repos
 
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
-                .Joins(
-                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<PrdBrand>()).AsQueryable(),
-                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<PrdType>()).AsQueryable(),
-                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<PrdFeature>()).AsQueryable(),
-                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<PrdTag>()).AsQueryable()
+                .Join(
+                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
+                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
+                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<ProductFeature>()).AsQueryable(),
+                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).AsQueryable()
                     );
-            return null;//items;
+            return items;
         }
 
         public async Task<List<ProductItem>> FindProductsByTag(string tag)
         {
             var tagSnapshot = await _tagCollection.WhereEqualTo("Value", tag).GetSnapshotAsync();
-            var productTag = tagSnapshot.Documents.Select(x => x.ConvertTo<PrdTag>()).SingleOrDefault();
+            var productTag = tagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).SingleOrDefault();
 
 
             if (productTag == null)
@@ -77,7 +77,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             }
 
             var productItemSnapshot = await _productItemCollection.WhereEqualTo("TagId", productTag.Id).GetSnapshotAsync();
-            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<PrdItem>()).ToList();
+            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
 
             items = items.Take(3).ToList();
 
@@ -87,79 +87,78 @@ namespace Tailwind.Traders.Product.Api.Repos
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
 
             items
-                .Joins(
-                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<PrdBrand>()).AsQueryable(),
-                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<PrdType>()).AsQueryable(),
-                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<PrdFeature>()).AsQueryable(),
-                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<PrdTag>()).AsQueryable()
+                .Join(
+                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
+                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
+                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<ProductFeature>()).AsQueryable(),
+                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).AsQueryable()
                     );
 
-            return null;//items;
+            return items;
         }
 
         public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
             var branhSnapshot = await _brandCollection.GetSnapshotAsync();
-            var brands = branhSnapshot.Documents.Select(x => x.ConvertTo<PrdType>()).ToList();
-            return null;//types;
+            var brands = branhSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).ToList();
+            return brands;
         }
 
         public async Task<List<ProductItem>> GetAllProductsAsync()
         {
             var productItemSnapshot = await _productItemCollection.GetSnapshotAsync();
-            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<PrdItem>()).ToList();
+            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
 
             var prdBrandSnapshot = await _brandCollection.GetSnapshotAsync();
             var prdTypeSnapshot = await _typeCollection.GetSnapshotAsync();
             var prdFeatureSnapshot = await _featureCollection.GetSnapshotAsync();
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
+            
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
-                .Joins(
-                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<PrdBrand>()).AsQueryable(),
-                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<PrdType>()).AsQueryable(),
-                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<PrdFeature>()).AsQueryable(),
-                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<PrdTag>()).AsQueryable()
+                .Join(
+                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
+                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
+                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<ProductFeature>()).AsQueryable(),
+                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).AsQueryable()
                     );
 
-            var d = _mapperGCPModels.MapperToProductItem(items);
 
-
-            return _mapperGCPModels.MapperToProductItem(items).ToList();
+            return items;
         }
 
         public async Task<List<ProductType>> GetAllTypesAsync()
         {
             var typeSnapshot = await _typeCollection.GetSnapshotAsync();
-            var types = typeSnapshot.Documents.Select(x => x.ConvertTo<PrdType>()).ToList();
-            return null;//types;
+            var types = typeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).ToList();
+            return types;
         }
 
         public async Task<ProductItem> GetProductById(int productId)
         {
             var productItemSnapshot = await _productItemCollection.WhereEqualTo("Id", productId).GetSnapshotAsync();
-            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<PrdItem>()).ToList();
+            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
 
             var prdBrandSnapshot = await _brandCollection.GetSnapshotAsync();
             var prdTypeSnapshot = await _typeCollection.GetSnapshotAsync();
             var prdFeatureSnapshot = await _featureCollection.GetSnapshotAsync();
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
 
-            items.Joins(
-                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<PrdBrand>()).AsQueryable(),
-                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<PrdType>()).AsQueryable(),
-                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<PrdFeature>()).AsQueryable(),
-                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<PrdTag>()).AsQueryable()
+            items.Join(
+                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
+                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
+                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<ProductFeature>()).AsQueryable(),
+                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).AsQueryable()
                     );
 
             var item = items.FirstOrDefault();
-            return null;//item;
+            return item;
         }
 
         public async Task<List<ProductItem>> RecommendedProductsAsync()
         {
             var productItemSnapshot = await _productItemCollection.GetSnapshotAsync();
-            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<PrdItem>()).ToList();
+            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
             items = items.OrderBy(product => new Random().Next()).Take(3).ToList();
 
             var prdBrandSnapshot = await _brandCollection.GetSnapshotAsync();
@@ -168,11 +167,11 @@ namespace Tailwind.Traders.Product.Api.Repos
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
-                .Joins(
-                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<PrdBrand>()).AsQueryable(),
-                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<PrdType>()).AsQueryable(),
-                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<PrdFeature>()).AsQueryable(),
-                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<PrdTag>()).AsQueryable()
+                .Join(
+                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
+                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
+                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<ProductFeature>()).AsQueryable(),
+                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).AsQueryable()
                     );
 
             return null;
