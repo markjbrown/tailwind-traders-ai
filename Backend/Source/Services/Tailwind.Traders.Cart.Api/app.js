@@ -37,33 +37,33 @@ app.use(cookieParser());
 app.use(handlerHealthCheck);
 console.log("auth Config",authConfig.UseB2C)
 
-// if (JSON.parse(authConfig.UseB2C)) {
-//   const options = {
-//     identityMetadata: authConfig.identityMetadata,
-//     issuer: authConfig.issuer,
-//     clientID: authConfig.clientID,
-//     policyName: authConfig.policyName,
-//     isB2C: true,
-//     validateIssuer: true,
-//     loggingLevel: "info",
-//     passReqToCallback: false
-//   };
+if (JSON.parse(authConfig.UseB2C)) {
+  const options = {
+    identityMetadata: authConfig.identityMetadata,
+    issuer: authConfig.issuer,
+    clientID: authConfig.clientID,
+    policyName: authConfig.policyName,
+    isB2C: true,
+    validateIssuer: true,
+    loggingLevel: "info",
+    passReqToCallback: false
+  };
 
-//   const bearerStrategy = new BearerStrategy(options, function(token, done) {
-//     done(null, {}, token);
-//   });
+  const bearerStrategy = new BearerStrategy(options, function(token, done) {
+    done(null, {}, token);
+  });
 
-//   app.use("/", indexRouter);
+  app.use("/", indexRouter);
 
-//   app.use(passport.initialize());
-//   passport.use(bearerStrategy);
+  app.use(passport.initialize());
+  passport.use(bearerStrategy);
 
-//   app.use(ensureB2cAuthenticated());
-// } else {
-  //app.use(ensureAuthenticated);
-//}
+  app.use(ensureB2cAuthenticated());
+} else {
+  app.use(ensureAuthenticated);
+}
 
-//app.use(setHeaders);
+app.use(setHeaders);
 
 
 if(process.env.CLOUD_PLATFORM=="AZURE")
