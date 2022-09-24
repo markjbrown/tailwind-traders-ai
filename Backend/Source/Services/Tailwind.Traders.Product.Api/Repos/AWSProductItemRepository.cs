@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Tailwind.Traders.Product.Api.Repos
 {
-    public class ProductItemAWSRepository : IProductItemRepository
+    public class AWSProductItemRepository : IProductItemRepository
     {
         private readonly string _productCollection = "ProductItem";
         private readonly string _brandCollection = "ProductBrand";
@@ -22,8 +22,9 @@ namespace Tailwind.Traders.Product.Api.Repos
         private readonly IMongoCollection<ProductType> _productType;
         private readonly IMongoCollection<ProductTag> _productTag;
         private readonly IMongoCollection<ProductFeature> _productFeature;
+        private const int _take = 3;
 
-        public ProductItemAWSRepository(IConfiguration configuration)
+        public AWSProductItemRepository(IConfiguration configuration)
         {
             var client = new MongoClient(configuration["DocumentDb:Host"]);
             var db = client.GetDatabase(configuration["DocumentDb:Database"]);
@@ -58,7 +59,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             }
 
             var items = await _productItem.FindAsync(p => p.TagId == productTag.Id)?.Result?.ToListAsync();
-            items = items.Take(3).ToList();
+            items = items.Take(_take).ToList();
             items
                 .Join(
                     _productBrand.AsQueryable(),
@@ -101,7 +102,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         {
             var items = await _productItem.FindAsync(_ => true)?.Result?.ToListAsync();
 
-            items = items.OrderBy(product => new Random().Next()).Take(3).ToList();
+            items = items.OrderBy(product => new Random().Next()).Take(_take).ToList();
 
             items.Join(
                     _productBrand.AsQueryable(),

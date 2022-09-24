@@ -8,10 +8,11 @@ using Tailwind.Traders.Product.Api.Extensions;
 
 namespace Tailwind.Traders.Product.Api.Repos
 {
-    public class ProductItemAzureRepository : IProductItemRepository
+    public class AzureProductItemRepository : IProductItemRepository
     {
         private readonly ProductContext _productContext;
-        public ProductItemAzureRepository(ProductContext productContext)
+        private const int _take = 3;
+        public AzureProductItemRepository(ProductContext productContext)
         {
             _productContext = productContext;
         }
@@ -41,7 +42,7 @@ namespace Tailwind.Traders.Product.Api.Repos
                 return null;
             }
 
-            var items = await _productContext.ProductItems.Where(p => p.TagId == productTag.Id).Take(3).ToListAsync();
+            var items = await _productContext.ProductItems.Where(p => p.TagId == productTag.Id).Take(_take).ToListAsync();
 
             items.Join(
                 _productContext.ProductBrands,
@@ -84,7 +85,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         {
             var items = await _productContext.ProductItems.ToListAsync();
 
-            items = items.OrderBy(product => new Random().Next()).Take(3).ToList();
+            items = items.OrderBy(product => new Random().Next()).Take(_take).ToList();
 
             items.Join(
               _productContext.ProductBrands,
