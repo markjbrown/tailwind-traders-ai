@@ -12,7 +12,7 @@ using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Repos
 {
-    public class ProductItemGCPRepository : IProductItemRepository
+    public class GCPProductItemRepository : IProductItemRepository
     {
         #region DataMembers
         private readonly IHostEnvironment _env;
@@ -26,7 +26,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         private readonly MapperGCPModels _mapperGCPModels;
         #endregion
 
-        public ProductItemGCPRepository(IHostEnvironment env, MapperGCPModels mapperGCPModels)
+        public GCPProductItemRepository(IHostEnvironment env, MapperGCPModels mapperGCPModels)
         {
             _env = env;
             _mapperGCPModels = mapperGCPModels;

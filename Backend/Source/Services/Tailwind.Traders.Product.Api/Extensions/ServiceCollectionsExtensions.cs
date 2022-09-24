@@ -37,11 +37,12 @@ namespace Tailwind.Traders.Product.Api.Extensions
                 .AddTransient<MapperDtos>()
                 .AddTransient<MapperGCPModels>()
 #if AZURE
-                .AddTransient<IProductItemRepository, ProductItemAzureRepository>()
+                .AddScoped<IProductItemRepository, AzureProductItemRepository>()
 #elif AWS
+                .AddScoped<IProductItemRepository, AWSProductItemRepository>()
                 .AddSingleton<IProductItemRepository, ProductItemAWSRepository>()
 #elif GCP
-                .AddSingleton<IProductItemRepository, ProductItemGCPRepository>()            
+                .AddScoped<IProductItemRepository, GCPProductItemRepository>()            
 #endif
                 .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
