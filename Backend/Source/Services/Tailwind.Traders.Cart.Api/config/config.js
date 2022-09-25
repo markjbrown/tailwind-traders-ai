@@ -1,11 +1,11 @@
 require("dotenv").config();
 
 const config = {};
-
+config.cartDaoFile="./models/"+process.env.CLOUD_PLATFORM+"/shoppingCartDao";
+config.recommendationDaoFile ="./models/"+process.env.CLOUD_PLATFORM+"/recommendedDao"
+config.orderDaoFile="./models/"+process.env.CLOUD_PLATFORM+"/orderDao"
 if(process.env.CLOUD_PLATFORM=="AZURE")
 {
-  config.cartDaoFile="./models/shoppingCartDao_azure";
-  config.recommendationDaoFile ="./models/recommendedDao_azure"
 config.host = process.env.HOST || "https://localhost:8081";
 config.authKey = process.env.AUTHKEY;
 config.databaseId = "ShoppingCart";
@@ -36,8 +36,6 @@ if(process.env.CLOUD_PLATFORM=="GCP")
     process.exit(1)
   }
 
-config.cartDaoFile="./models/shoppingCartDao_gcp";
-config.recommendationDaoFile ="./models/recommendedDao_gcp"
 config.serviceAccount=serviceAccount;
 config.collectionId = "Products";
 config.databaseURL=process.env.DATABASEURL
@@ -46,10 +44,6 @@ config.databaseURL=process.env.DATABASEURL
 
 if(process.env.CLOUD_PLATFORM=="AWS")
 {
-  
-  var serviceAccount = require("../serviceKey.json");
-config.cartDaoFile="./models/shoppingCartDao_aws";
-config.recommendationDaoFile ="./models/recommendedDao_aws"
 config.serviceAccount=serviceAccount;
 config.tableName = "Products";
 config.databaseURL=process.env.DATABASEURL
