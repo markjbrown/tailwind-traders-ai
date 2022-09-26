@@ -27,27 +27,5 @@ namespace Tailwind.Traders.Product.Api.Extensions
                 }
             }
         }
-
-        public static void Joins(this IEnumerable<PrdItem> productItems,
-            IEnumerable<PrdBrand> productBrands,
-            IEnumerable<PrdType> productTypes,
-            IEnumerable<PrdFeature> productFeatures,
-            IEnumerable<PrdTag> tags)
-        {
-            foreach (var productItem in productItems)
-            {
-                productItem.Brand = productBrands.FirstOrDefault(brand => brand.Id == productItem.BrandId);
-                productItem.Type = productTypes.FirstOrDefault(type => type.Id == productItem.TypeId);
-                productItem.Features = productFeatures.Where(feature => feature.ProductItemId == productItem.Id).ToList();
-                if (productItem.TagId != null)
-                {
-                    productItem.Tag = tags.SingleOrDefault(t => t.Id == productItem.TagId);
-                }
-                else
-                {
-                    productItem.TagId = null;
-                }
-            }
-        }
     }
 }

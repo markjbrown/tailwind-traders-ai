@@ -16,6 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Mappers\MapperGCPModels.cs" />
+    <Compile Remove="Models\PrdBrand.cs" />
+    <Compile Remove="Models\PrdFeature.cs" />
+    <Compile Remove="Models\PrdItem.cs" />
+    <Compile Remove="Models\PrdTag.cs" />
+    <Compile Remove="Models\PrdType.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Setup\ProductTags.csv" />
   </ItemGroup>
 

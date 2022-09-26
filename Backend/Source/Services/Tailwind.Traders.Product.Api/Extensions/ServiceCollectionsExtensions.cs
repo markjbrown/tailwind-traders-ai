@@ -35,7 +35,6 @@ namespace Tailwind.Traders.Product.Api.Extensions
                 .AddTransient<ClassMap, ProductTypeMap>()
                 .AddTransient<ClassMap, ProductTagMap>()
                 .AddTransient<MapperDtos>()
-                .AddTransient<MapperGCPModels>()
 #if AZURE
                 .AddScoped<IProductItemRepository, AzureProductItemRepository>()
 #elif AWS
