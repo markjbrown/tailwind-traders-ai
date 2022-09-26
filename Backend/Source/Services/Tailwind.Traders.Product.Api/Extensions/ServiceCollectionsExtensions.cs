@@ -40,7 +40,6 @@ namespace Tailwind.Traders.Product.Api.Extensions
                 .AddScoped<IProductItemRepository, AzureProductItemRepository>()
 #elif AWS
                 .AddScoped<IProductItemRepository, AWSProductItemRepository>()
-                .AddSingleton<IProductItemRepository, ProductItemAWSRepository>()
 #elif GCP
                 .AddScoped<IProductItemRepository, GCPProductItemRepository>()            
 #endif
