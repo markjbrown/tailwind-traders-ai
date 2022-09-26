@@ -23,13 +23,12 @@ namespace Tailwind.Traders.Product.Api.Repos
         private readonly CollectionReference _typeCollection;
         private readonly CollectionReference _tagCollection;
         private readonly CollectionReference _featureCollection;
-        private readonly MapperGCPModels _mapperGCPModels;
         #endregion
 
-        public GCPProductItemRepository(IHostEnvironment env, MapperGCPModels mapperGCPModels)
+        public GCPProductItemRepository(IHostEnvironment env)
         {
             _env = env;
-            _mapperGCPModels = mapperGCPModels;
+
             // DB Authentication with serviceJson and initialization
             string keyPath = Path.Combine(_env.ContentRootPath, "Key\\serviceKey.json");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
