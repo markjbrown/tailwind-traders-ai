@@ -55,7 +55,7 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<Models.ProductItem>> GetAllProductsAsync()
         {
-            var items = await _productContext.ProductItems.ToListAsync();
+            var items = await _productContext.ProductItems.AsQueryable().ToListAsync();
 
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
@@ -83,7 +83,7 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<Models.ProductItem>> RecommendedProductsAsync()
         {
-            var items = await _productContext.ProductItems.ToListAsync();
+            var items = await _productContext.ProductItems.AsQueryable().ToListAsync();
 
             items = items.OrderBy(product => new Random().Next()).Take(_take).ToList();
 
@@ -98,13 +98,13 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<Models.ProductBrand>> GetAllBrandsAsync()
         {
-            var brands = await _productContext.ProductBrands.ToListAsync();
+            var brands = await _productContext.ProductBrands.AsQueryable().ToListAsync();
             return brands;
         }
 
         public async Task<List<Models.ProductType>> GetAllTypesAsync()
         {
-            var types = await _productContext.ProductTypes.ToListAsync();
+            var types = await _productContext.ProductTypes.AsQueryable().ToListAsync();
             return types;
         }
     }
