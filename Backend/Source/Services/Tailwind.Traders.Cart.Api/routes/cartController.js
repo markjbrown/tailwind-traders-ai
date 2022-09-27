@@ -71,6 +71,6 @@ class CartController {
             res.status(200).send({ message: "No items in cart",order: [] })
         }
     }
-
 }
+
 module.exports = CartController;

@@ -248,6 +248,13 @@ app.get("/shoppingcart/relatedproducts", (req, res, next) =>
     next(e);
   })
 );
+app.post("/shoppingcart/checkout", (req, res, next) =>
+  cartController.checkout(req, res).catch(e => {
+    console.log(e);
+    next(e);
+  })
+);
+
 
 app.post("/shoppingcart/checkout", (req, res, next) =>
   cartController.checkout(req, res).catch(e => {

@@ -8,15 +8,14 @@ import ShoppingCartCard from "./shoppingCartCard";
 import {  CartService } from '../../services';
 
 class ShoppingCart extends Component {
-    constructor() {
-        super();
+    constructor(props) {        
+        super(props);
         this.state = {
             shoppingCart: [],
             loading: true,
             quantity: null,
             isPulling: true
         }
-
         this.updateQty = this.updateQty.bind(this);
         this.assignShoppingCartInterval = null;
         this.email = null;
@@ -31,13 +30,18 @@ class ShoppingCart extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.assignShoppingCartInterval);
+        if (this.assignShoppingCartInterval) {
+            clearInterval(this.assignShoppingCartInterval);
+        }
     }
 
     async assignShoppingCart() {
         return setInterval(async () => {
             const shoppingCart = await CartService.getShoppingCart(this.props.userInfo.token);
             this.setState({ shoppingCart, loading: false });
+            if (this.assignShoppingCartInterval) {
+                clearInterval(this.assignShoppingCartInterval);
+            }
         }, 1000);
     }
 
@@ -82,6 +86,11 @@ class ShoppingCart extends Component {
         this.setState({ shoppingCart });
     }
 
+    checkout = async () => {
+        const response = await CartService.checkout(this.props.userInfo.user.email, this.props.userInfo.token);
+        this.assignShoppingCartInterval = await this.assignShoppingCart();
+    }
+
     async setQuantityState() {
         const quantity = this.state.shoppingCart.reduce((oldQty, { qty }) => oldQty + qty, 0);
         this.setState({ quantity })
@@ -99,6 +108,14 @@ class ShoppingCart extends Component {
                                 {shoppingCart && shoppingCart.map((shoppingCart, index) => (
                                     <ShoppingCartCard {...shoppingCart} updateQty={this.updateQty} key={index} />
                                 ))}
+                            </div>
+                            <div>
+                            <button
+                                className={`btn btn--primary btn--cart`}
+                                onClick={this.checkout}
+                                >
+                                {t("shoppingCart.checkout")}
+                                </button>
                             </div>
                         </Fragment>}
                     </Fragment>
