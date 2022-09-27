@@ -47,7 +47,8 @@ namespace Tailwind.Traders.Product.Api.Extensions
             }
             else if(env == AWS_CLOUD)
             {
-                service.AddScoped<IProductItemRepository, AWSProductItemRepository>();
+                //service.AddScoped<IProductItemRepository, AWSProductItemRepository>();
+                service.AddScoped<IProductItemRepository, AWSDynamoProductItemRepository>();
             }
             else if(env == GCP_CLOUD)
             {
