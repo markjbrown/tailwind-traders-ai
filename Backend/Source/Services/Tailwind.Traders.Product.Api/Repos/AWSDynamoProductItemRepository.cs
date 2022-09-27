@@ -34,10 +34,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             };
             var awsCredentials = new AwsCredentials(_appConfig);
             _amazonDynamoDBClient = new AmazonDynamoDBClient(awsCredentials, dynamoDbConfig);
-            _productContext = new DynamoDBContext(_amazonDynamoDBClient, new DynamoDBContextConfig
-            {
-                ConsistentRead = true
-            });
+           
         }
 
         public async Task<List<ProductItem>> FindProductsAsync(int[] brand, int[] type)
