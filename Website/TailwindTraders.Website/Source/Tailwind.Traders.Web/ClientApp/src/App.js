@@ -14,6 +14,7 @@ import {
   SuggestedProductsList,
   Profile,
   ShoppingCart,
+  ThankYou
 } from "./pages";
 
 import "./i18n";
@@ -115,6 +116,7 @@ class App extends Component {
               ShoppingCart={this.ShoppingCart}
               quantity={this.state.quantity}
             />
+            <PrivateRoute path="/thank-you" component={ThankYou} />
             <Footer />
           </Fragment>
         </Router>

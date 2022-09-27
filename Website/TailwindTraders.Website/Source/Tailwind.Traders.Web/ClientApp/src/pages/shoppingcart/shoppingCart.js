@@ -5,7 +5,7 @@ import { LoadingSpinner } from "../../shared/index";
 import { NamespacesConsumer } from "react-i18next";
 
 import ShoppingCartCard from "./shoppingCartCard";
-import {  CartService } from '../../services';
+import { CartService } from '../../services';
 
 class ShoppingCart extends Component {
     constructor(props) {        
@@ -87,8 +87,8 @@ class ShoppingCart extends Component {
     }
 
     checkout = async () => {
-        const response = await CartService.checkout(this.props.userInfo.user.email, this.props.userInfo.token);
-        this.assignShoppingCartInterval = await this.assignShoppingCart();
+        await CartService.checkout(this.props.userInfo.user.email, this.props.userInfo.token);
+        this.props.history.push('/thank-you');
     }
 
     async setQuantityState() {
@@ -109,12 +109,12 @@ class ShoppingCart extends Component {
                                     <ShoppingCartCard {...shoppingCart} updateQty={this.updateQty} key={index} />
                                 ))}
                             </div>
-                            <div>
-                            <button
-                                className={`btn btn--primary btn--cart`}
-                                onClick={this.checkout}
-                                >
-                                {t("shoppingCart.checkout")}
+                            <div className="shopping__checkout">
+                                <button
+                                    className={`btn btn--primary btn--checkout my-3`}
+                                    onClick={this.checkout}
+                                    >
+                                    {t("shoppingCart.checkout")}
                                 </button>
                             </div>
                         </Fragment>}
