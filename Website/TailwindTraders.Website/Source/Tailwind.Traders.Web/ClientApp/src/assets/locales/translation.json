@@ -84,7 +84,10 @@
         "profile.favorite.title": "Favorite Categories",
 
         "shoppingCart.title": "Your shopping cart",
-        "shoppingCart.checkout": "Checkout"
+        "shoppingCart.checkout": "Checkout",
+
+        "thankYou.title": "Thank you for placing an order",
+        "thankYou.continue": "Continue Shopping"
       }
     }
 }
