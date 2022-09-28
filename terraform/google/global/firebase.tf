@@ -1,3 +1,4 @@
-resource "google_firebase_project" "datastore" {
-  provider = google-beta
+resource "google_app_engine_application" "datastore" {
+  database_type = "CLOUD_FIRESTORE"
+  location_id = "us-central"
 }
