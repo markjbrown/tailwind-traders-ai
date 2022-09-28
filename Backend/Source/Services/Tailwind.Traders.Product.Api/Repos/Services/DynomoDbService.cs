@@ -20,7 +20,7 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             var items = new List<ProductItem>();
             var request = new ScanRequest
             {
-                TableName = "ProductItem",
+                TableName = typeof(ProductItem).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      {":id", new AttributeValue {N =  "1"}}
@@ -55,7 +55,7 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             var items = new List<ProductItem>();
             var request = new ScanRequest
             {
-                TableName = "ProductItem",
+                TableName = typeof(ProductItem).Name,
                 FilterExpression = "Id = :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      {":id", new AttributeValue {N =  "1"}}
@@ -90,7 +90,7 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             var brands = new List<ProductBrand>();
             var request = new ScanRequest
             {
-                TableName = "ProductBrand",
+                TableName = typeof(ProductBrand).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      {":id", new AttributeValue {N =  "1"}}
@@ -115,7 +115,7 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             var types = new List<ProductType>();
             var request = new ScanRequest
             {
-                TableName = "ProductType",
+                TableName = typeof(ProductType).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      {":id", new AttributeValue {N =  "1"}}
@@ -142,7 +142,7 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             var tag = new List<ProductTag>();
             var request = new ScanRequest
             {
-                TableName = "ProductTag",
+                TableName = typeof(ProductTag).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      {":id", new AttributeValue {N =  "1"}}
@@ -167,7 +167,7 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             var features = new List<ProductFeature>();
             var request = new ScanRequest
             {
-                TableName = "ProductFeature",
+                TableName = typeof(ProductFeature).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      {":id", new AttributeValue {N =  "1"}}
