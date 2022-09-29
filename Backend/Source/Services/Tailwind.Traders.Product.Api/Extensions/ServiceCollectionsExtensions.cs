@@ -8,18 +8,22 @@ using System;
 using Tailwind.Traders.Product.Api.HealthCheck;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
+using Tailwind.Traders.Product.Api.Repos;
 
 namespace Tailwind.Traders.Product.Api.Extensions
 {
     public static class ServiceCollectionsExtensions
     {
+        const string AZURE_CLOUD = "AZURE";
+        const string AWS_CLOUD = "AWS";
+        const string GCP_CLOUD = "GCP";
         public static IServiceCollection AddProductsContext(this IServiceCollection service, IConfiguration configuration)
         {
             service.AddDbContext<ProductContext>(options =>
             {
                 options.UseCosmos(configuration["CosmosDb:Host"], configuration["CosmosDb:Key"], configuration["CosmosDb:Database"])
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-                });
+            });
 
             return service;
         }
@@ -33,8 +37,25 @@ namespace Tailwind.Traders.Product.Api.Extensions
                 .AddTransient<ClassMap, ProductItemMap>()
                 .AddTransient<ClassMap, ProductTypeMap>()
                 .AddTransient<ClassMap, ProductTagMap>()
-                .AddTransient<MapperDtos>()
-                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+                .AddTransient<MapperDtos>();
+
+            string env = configuration["CLOUD_PLATFORM"];
+
+            if (env == AZURE_CLOUD)
+            {
+                service.AddScoped<IProductItemRepository, AzureProductItemRepository>();
+            }
+            else if (env == AWS_CLOUD)
+            {
+                //service.AddScoped<IProductItemRepository, AWSProductItemRepository>();
+                service.AddScoped<IProductItemRepository, AwsDynamoProductItemRepository>();
+            }
+            else if (env == GCP_CLOUD)
+            {
+                service.AddScoped<IProductItemRepository, GCPProductItemRepository>();
+            }
+
+            service.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             service.Configure<AppSettings>(configuration);
 
