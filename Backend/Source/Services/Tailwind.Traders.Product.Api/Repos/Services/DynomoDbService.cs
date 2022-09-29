@@ -12,7 +12,6 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
     {
         public DynomoDbService()
         {
-
         }
 
         public async static Task<List<ProductItem>> GetProductItemsAsync(AmazonDynamoDBClient _amazonDynamoDBClient)
@@ -23,8 +22,8 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
                 TableName = typeof(ProductItem).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     {":id", new AttributeValue {N =  "1"}}
-                    }
+                     { ":id", new AttributeValue { N = "1" } }
+                }
             };
             var result = await _amazonDynamoDBClient.ScanAsync(request);
             foreach (var item in result.Items)
@@ -44,7 +43,7 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
                     ImageName = imageName?.S ?? string.Empty,
                     BrandId = Convert.ToInt32(brandId?.N ?? "0"),
                     TypeId = Convert.ToInt32(typeId?.N ?? "0"),
-                    TagId = Convert.ToInt32(tagId?.N ?? "0")                    
+                    TagId = Convert.ToInt32(tagId?.N ?? "0")
                 });
             }
             return items.ToList();
@@ -58,8 +57,8 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
                 TableName = typeof(ProductItem).Name,
                 FilterExpression = "Id = :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     {":id", new AttributeValue {N =  "1"}}
-                    }
+                     { ":id", new AttributeValue { N = "1"} }
+                }
             };
             var result = await _amazonDynamoDBClient.ScanAsync(request);
             foreach (var item in result.Items)
@@ -93,8 +92,8 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
                 TableName = typeof(ProductBrand).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     {":id", new AttributeValue {N =  "1"}}
-                    }
+                     { ":id", new AttributeValue { N = "1" } }
+                }
             };
             var result = await _amazonDynamoDBClient.ScanAsync(request);
             foreach (var item in result.Items)
@@ -118,8 +117,8 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
                 TableName = typeof(ProductType).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     {":id", new AttributeValue {N =  "1"}}
-                    }
+                     { ":id", new AttributeValue { N = "1" } }
+                }
             };
             var result = await _amazonDynamoDBClient.ScanAsync(request);
             foreach (var item in result.Items)
@@ -145,8 +144,8 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
                 TableName = typeof(ProductTag).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     {":id", new AttributeValue {N =  "1"}}
-                    }
+                     { ":id", new AttributeValue { N = "1" } }
+                }
             };
             var result = await _amazonDynamoDBClient.ScanAsync(request);
             foreach (var item in result.Items)
@@ -170,8 +169,8 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
                 TableName = typeof(ProductFeature).Name,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     {":id", new AttributeValue {N =  "1"}}
-                    }
+                     { ":id", new AttributeValue { N = "1" } }
+                }
             };
             var result = await _amazonDynamoDBClient.ScanAsync(request);
             foreach (var item in result.Items)
@@ -184,7 +183,7 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
                 features.Add(new ProductFeature
                 {
                     Id = Convert.ToInt32(id?.N ?? "0"),
-                    Title= title?.S ?? string.Empty,
+                    Title = title?.S ?? string.Empty,
                     Description = description?.S ?? string.Empty,
                     ProductItemId = Convert.ToInt32(productItemId?.N ?? "0")
                 });

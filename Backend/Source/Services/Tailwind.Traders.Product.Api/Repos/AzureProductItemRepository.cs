@@ -36,7 +36,6 @@ namespace Tailwind.Traders.Product.Api.Repos
         public async Task<List<Models.ProductItem>> FindProductsByTag(string tag)
         {
             var productTag = _productContext.Tags.SingleOrDefault(t => t.Value == tag);
-
             if (productTag == null)
             {
                 return null;

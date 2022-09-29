@@ -16,18 +16,17 @@ namespace Tailwind.Traders.Product.Api
         const string GCP_CLOUD = "GCP";
         public static void Main(string[] args)
         {
-            var webshotbuilder = CreateWebHostBuilder(args).Build();
+            var webHostBuilder = CreateWebHostBuilder(args).Build();
 
-            
             var config = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
             var CLOUD_PLATFORM = config.GetSection("CLOUD_PLATFORM");
 
-            if(CLOUD_PLATFORM.Value == AZURE_CLOUD)
+            if (CLOUD_PLATFORM.Value == AZURE_CLOUD)
             {
-                webshotbuilder.MigrateDbContext<ProductContext, ProductContextSeed>();
+                webHostBuilder.MigrateDbContext<ProductContext, ProductContextSeed>();
             }
-            
-            webshotbuilder.Run();
+
+            webHostBuilder.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -35,7 +34,6 @@ namespace Tailwind.Traders.Product.Api
                 .UseStartup<Startup>();
     }
 
-    
     public static class LinqFilterExtension
     {
         public static IAsyncEnumerable<TEntity> AsAsyncEnumerable<TEntity>(this Microsoft.EntityFrameworkCore.DbSet<TEntity> obj) where TEntity : class
@@ -46,8 +44,5 @@ namespace Tailwind.Traders.Product.Api
         {
             return System.Linq.Queryable.Where(obj, predicate);
         }
-
-
-
     }
 }

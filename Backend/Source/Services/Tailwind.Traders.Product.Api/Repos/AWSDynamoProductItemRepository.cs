@@ -16,7 +16,7 @@ using Tailwind.Traders.Product.Api.Extensions;
 
 namespace Tailwind.Traders.Product.Api.Repos
 {
-    public class AWSDynamoProductItemRepository : IProductItemRepository
+    public class AwsDynamoProductItemRepository : IProductItemRepository
     {
         #region DataMember
         private readonly AppSettings _appConfig;
@@ -25,7 +25,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         private const int _take = 3;
         #endregion
 
-        public AWSDynamoProductItemRepository(IOptions<AppSettings> options)
+        public AwsDynamoProductItemRepository(IOptions<AppSettings> options)
         {
             _appConfig = options.Value;
             var dynamoDbConfig = new AmazonDynamoDBConfig
@@ -34,7 +34,6 @@ namespace Tailwind.Traders.Product.Api.Repos
             };
             var awsCredentials = new AwsCredentials(_appConfig);
             _amazonDynamoDBClient = new AmazonDynamoDBClient(awsCredentials, dynamoDbConfig);
-           
         }
 
         public async Task<List<ProductItem>> FindProductsAsync(int[] brand, int[] type)
@@ -48,11 +47,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             items = items.Where(item => brand.Contains(item.BrandId) || type.Contains(item.TypeId)).ToList();
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
-                .Join(
-                    brands,
-                    types,
-                    features,
-                    tags);
+                .Join(brands, types, features, tags);
             return items;
         }
 
@@ -65,21 +60,14 @@ namespace Tailwind.Traders.Product.Api.Repos
             var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient);
 
             var productTag = tags.Where(t => t.Value == tag).SingleOrDefault();
-
             if (productTag == null)
             {
                 return null;
             }
 
-            items =  items.Where(p => p.TagId == productTag.Id).ToList();
+            items = items.Where(p => p.TagId == productTag.Id).ToList();
             items = items.Take(_take).ToList();
-            items
-                .Join(
-                    brands,
-                    types,
-                    features,
-                    tags);
-
+            items.Join(brands, types, features, tags);
             return items;
         }
 
@@ -97,16 +85,9 @@ namespace Tailwind.Traders.Product.Api.Repos
             var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient);
             var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient);
 
-
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
-                .Join
-                (
-                    brands,
-                    types,
-                    features,
-                    tags
-                );
+                .Join(brands, types, features, tags);
 
             return items;
         }
@@ -125,11 +106,8 @@ namespace Tailwind.Traders.Product.Api.Repos
             var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient);
             var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient);
 
-            items.Join(
-                    brands,
-                    types,
-                    features,
-                    tags);
+            items.Join(brands, types, features, tags);
+
 
             var item = items.FirstOrDefault();
             return item;
@@ -144,11 +122,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient);
             var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient);
 
-            items.Join(
-                     brands,
-                    types,
-                    features,
-                    tags);
+            items.Join(brands, types, features, tags);
 
             return items;
         }

@@ -68,8 +68,6 @@ namespace Tailwind.Traders.Product.Api.Repos
         {
             var tagSnapshot = await _tagCollection.WhereEqualTo("Value", tag).GetSnapshotAsync();
             var productTag = tagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).SingleOrDefault();
-
-
             if (productTag == null)
             {
                 return null;

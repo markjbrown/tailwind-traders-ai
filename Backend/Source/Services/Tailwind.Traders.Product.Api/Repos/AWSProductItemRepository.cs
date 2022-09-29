@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Tailwind.Traders.Product.Api.Repos
 {
-    public class AWSProductItemRepository : IProductItemRepository
+    public class AwsProductItemRepository : IProductItemRepository
     {
         #region DataMember
         private readonly string _productCollection = "ProductItem";
@@ -26,7 +26,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         private const int _take = 3;
         #endregion
 
-        public AWSProductItemRepository(IConfiguration configuration)
+        public AwsProductItemRepository(IConfiguration configuration)
         {
             var client = new MongoClient(configuration["DocumentDb:Host"]);
             var db = client.GetDatabase(configuration["DocumentDb:Database"]);
