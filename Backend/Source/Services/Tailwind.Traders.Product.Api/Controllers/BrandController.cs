@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
+using Tailwind.Traders.Product.Api.Repos;
 
 namespace Tailwind.Traders.Product.Api.Controllers
 {
@@ -14,13 +15,13 @@ namespace Tailwind.Traders.Product.Api.Controllers
     [ApiVersion("1.0")]
     public class BrandController : ControllerBase
     {
-        private readonly ProductContext _productContext;
+        private readonly IProductItemRepository _productItemRepository;
         private readonly ILogger<BrandController> _logger;
         private readonly MapperDtos _mapperDtos;
 
-        public BrandController(ProductContext productContext, ILogger<BrandController> logger, MapperDtos mapperDtos)
+        public BrandController(IProductItemRepository productItemRepository, ILogger<BrandController> logger, MapperDtos mapperDtos)
         {
-            _productContext = productContext;
+            _productItemRepository = productItemRepository;
             _logger = logger;
             _mapperDtos = mapperDtos;
         }
@@ -30,7 +31,7 @@ namespace Tailwind.Traders.Product.Api.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> AllBrandsAsync()
         {
-            var brands = await _productContext.ProductBrands.ToListAsync();
+            var brands = await _productItemRepository.GetAllBrandsAsync();
 
             if (!brands.Any())
             {

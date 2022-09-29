@@ -5,6 +5,7 @@
     <DockerDefaultTargetOS>$(DockerDefaultTargetOS)</DockerDefaultTargetOS>
     <UserSecretsId>f2fcf537-652a-4a9e-840e-ab5f0651520f</UserSecretsId>
     <AssemblyName>Tailwind.Traders.Product.Api</AssemblyName>
+    <Configurations>Debug;Release;AWS;AZURE;GCP</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,15 @@
     <Content Remove="Migrations\**" />
     <EmbeddedResource Remove="Migrations\**" />
     <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Mappers\MapperGCPModels.cs" />
+    <Compile Remove="Models\PrdBrand.cs" />
+    <Compile Remove="Models\PrdFeature.cs" />
+    <Compile Remove="Models\PrdItem.cs" />
+    <Compile Remove="Models\PrdTag.cs" />
+    <Compile Remove="Models\PrdType.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.5.7" />
     <PackageReference Include="CsvHelper" Version="$(CsvHelper)" />
+    <PackageReference Include="Google.Cloud.Firestore" Version="2.5.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="$(MicrosoftApplicationInsightsAspNetCore)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="$(MicrosoftAspNetCoreMvcVersioning)" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="$(MicrosoftEntityFrameworkCore)" />
@@ -40,6 +52,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="$(MicrosoftVisualStudioAzureContainersToolsTargets)" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(MicrosoftVisualStudioWebCodeGenerationDesign)" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="$(MicrosoftAspNetCoreMvcNewtonsoftJson)" />
+    <PackageReference Include="MongoDB.Driver" Version="2.17.1" />
     <PackageReference Include="prometheus-net" Version="3.6.0" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="3.6.0" />
   </ItemGroup>

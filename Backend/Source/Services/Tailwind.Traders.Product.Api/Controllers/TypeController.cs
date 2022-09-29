@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
+using Tailwind.Traders.Product.Api.Repos;
 
 namespace Tailwind.Traders.Product.Api.Controllers
 {
@@ -14,13 +15,13 @@ namespace Tailwind.Traders.Product.Api.Controllers
     [ApiVersion("1.0")]
     public class TypeController : ControllerBase
     {
-        private readonly ProductContext _productContext;
+        private readonly IProductItemRepository _productItemRepository;
         private readonly ILogger<TypeController> _logger;
         private readonly MapperDtos _mapperDtos;
 
-        public TypeController(ProductContext productContext, ILogger<TypeController> logger, MapperDtos mapperDtos)
+        public TypeController(IProductItemRepository productItemRepository, ILogger<TypeController> logger, MapperDtos mapperDtos)
         {
-            _productContext = productContext;
+            _productItemRepository = productItemRepository;
             _logger = logger;
             _mapperDtos = mapperDtos;
         }
@@ -30,7 +31,7 @@ namespace Tailwind.Traders.Product.Api.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> AllTypesAsync()
         {
-            var types = await _productContext.ProductTypes.ToListAsync();
+            var types = await _productItemRepository.GetAllTypesAsync();
 
             if (!types.Any())
             {

@@ -2,7 +2,7 @@ class CartController {
     constructor(shoppingCartDao, recommendedDao, orderDao) {
         this.shoppingCartDao = shoppingCartDao;
         this.recommendedDao = recommendedDao;
-        this.orderDao = orderDao;
+        this.orderDao = orderDao
     }
 
     retrieveUser(req) {
@@ -13,10 +13,10 @@ class CartController {
         const item = req.body;
         const doc = await this.shoppingCartDao.addItem(item);
         res.status(201).send({ message: `${doc.detailProduct.name} added to shopping cart`, id: doc.id });
-        console.log(`Succsessfully added product ${doc.detailProduct.name} to shopping cart`)
     }
 
     async getProductsByUser(req, res) {
+
         const user = this.retrieveUser(req);
         const items = await this.shoppingCartDao.find(user);
         res.json(items);
@@ -47,7 +47,7 @@ class CartController {
 
     async getRelatedProducts(req, res) {
         const user = this.retrieveUser(req);
-        
+
         const typeid = req.query.type;
         if (!typeid && !user) {
             res.status(400).send({ message: "'user' or 'productType' missing" });
@@ -60,11 +60,16 @@ class CartController {
     async checkout(req, res) {
         const data = req.body;
         const items = await this.shoppingCartDao.find(data.email);
-        const order = await this.orderDao.createOrder(data.email, items);
-        for (const item of items) {
-            await this.shoppingCartDao.deleteItem(item._cdbid);
+        if (items.length > 0) {
+            const order = await this.orderDao.createOrder(data.email, items);
+            for (const item of items) {
+                await this.shoppingCartDao.deleteItem(item._cdbid);
+            }
+            res.status(200).send({ message: `checkout for ${data.email} successful`, order: order });
         }
-        res.status(200).send({ message: `checkout for ${data.email} successful`, order: order});
+        else {
+            res.status(200).send({ message: "No items in cart",order: [] })
+        }
     }
 }
 
