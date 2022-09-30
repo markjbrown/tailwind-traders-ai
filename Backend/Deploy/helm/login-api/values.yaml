@@ -33,7 +33,8 @@ env:
   values:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
-
+    - name: CLOUD_PLATFORM
+      value: AZURE
 probes:
   liveness:
     path: /liveness

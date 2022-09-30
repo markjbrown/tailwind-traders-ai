@@ -47,7 +47,8 @@ env:
       value: "true"
     - name: gwPath
       value: webbff
-
+    - name: CLOUD_PLATFORM
+      value: AZURE
 probes:
   liveness:
     path: /liveness
