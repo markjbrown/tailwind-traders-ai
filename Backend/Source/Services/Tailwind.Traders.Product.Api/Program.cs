@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,12 @@ namespace Tailwind.Traders.Product.Api
             {
                 webHostBuilder.MigrateDbContext<ProductContext, ProductContextSeed>();
             }
-
+            else
+            {
+                var seedData = webHostBuilder.Services.GetRequiredService<IContextNonEFSeed>();
+                seedData.SeedItemsAsync();
+            }
+                       
             webHostBuilder.Run();
         }
 

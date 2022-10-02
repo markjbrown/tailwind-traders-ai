@@ -48,10 +48,12 @@ namespace Tailwind.Traders.Product.Api.Extensions
             else if (env == AWS_CLOUD)
             {
                 //service.AddScoped<IProductItemRepository, AWSProductItemRepository>();
+                service.AddTransient<IContextNonEFSeed, AWSProductContextSeed>();
                 service.AddScoped<IProductItemRepository, AwsDynamoProductItemRepository>();
             }
             else if (env == GCP_CLOUD)
             {
+                service.AddTransient<IContextNonEFSeed, GCPProductContextSeed>();
                 service.AddScoped<IProductItemRepository, GCPProductItemRepository>();
             }
 

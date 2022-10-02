@@ -11,7 +11,8 @@ namespace Tailwind.Traders.Product.Api.Mappers
     {
         public ProductTagMap()
         {
-            AutoMap();
+            Map(p => p.Id);
+            Map(p => p.Value);
         }
     }
 }

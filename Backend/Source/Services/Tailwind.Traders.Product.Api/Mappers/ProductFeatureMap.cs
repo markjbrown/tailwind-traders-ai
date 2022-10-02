@@ -7,7 +7,10 @@ namespace Tailwind.Traders.Product.Api.Mappers
     {
         public ProductFeatureMap()
         {
-            AutoMap();
+            Map(p => p.Id);
+            Map(p => p.ProductItemId);
+            Map(p => p.Title);
+            Map(p => p.Description);
         }
     }
 }
