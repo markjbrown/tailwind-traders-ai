@@ -39,6 +39,8 @@ env:
   values:
     - name: DISABLE_SSL
       value: "false"
+    - name: CLOUD_PLATFORM
+      value: AZURE
 
 probes:
   liveness:

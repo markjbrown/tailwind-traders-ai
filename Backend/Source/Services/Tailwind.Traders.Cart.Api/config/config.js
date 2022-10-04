@@ -4,7 +4,7 @@ const config = {};
 config.cartDaoFile="./models/"+process.env.CLOUD_PLATFORM+"/shoppingCartDao";
 config.recommendationDaoFile ="./models/"+process.env.CLOUD_PLATFORM+"/recommendedDao"
 config.orderDaoFile="./models/"+process.env.CLOUD_PLATFORM+"/orderDao"
-if(process.env.CLOUD_PLATFORM=="AZURE")
+if(process.env.CLOUD_PLATFORM==="AZURE")
 {
 config.host = process.env.HOST || "https://localhost:8081";
 config.authKey = process.env.AUTHKEY;
@@ -25,13 +25,13 @@ if (config.host.includes("https://localhost:")) {
 
 }
 
-if(process.env.CLOUD_PLATFORM=="GCP")
+if(process.env.CLOUD_PLATFORM==="GCP")
 {
   
   try{
     var serviceAccount = require("../serviceKey.json");
   }
-  catch{
+  catch(err) {
     console.error("Error While reading serviceKey.json file")
     process.exit(1)
   }
@@ -42,7 +42,7 @@ config.databaseURL=process.env.DATABASEURL
 
 }
 
-if(process.env.CLOUD_PLATFORM=="AWS")
+if(process.env.CLOUD_PLATFORM==="AWS")
 {
 config.serviceAccount=serviceAccount;
 config.tableName = "Products";
