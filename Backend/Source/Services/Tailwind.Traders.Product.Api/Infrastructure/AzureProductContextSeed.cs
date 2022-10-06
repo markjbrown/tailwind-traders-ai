@@ -43,8 +43,6 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
                                
 
-                //ProductItemExtensions.Join(products, brands, types, features, tags);
-
                 await _productContext.ProductItems.AddRangeAsync(products);
                 await _productContext.ProductBrands.AddRangeAsync(brands);
                 await _productContext.ProductTypes.AddRangeAsync(types);

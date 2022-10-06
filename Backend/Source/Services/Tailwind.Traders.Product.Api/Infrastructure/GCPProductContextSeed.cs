@@ -27,7 +27,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _env = env;
             _processFile = processFile;
             // DB Authentication with serviceJson and initialization
-            string keyPath = Path.Combine(_env.ContentRootPath, "Key\\serviceKey.json");
+            string keyPath = Path.GetFullPath(appSettings.Value.FireStoreServiceKeyPath ?? "");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
             db = FirestoreDb.Create(appSettings.Value.FireStoreProjectId);
 
@@ -45,8 +45,6 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             var features = _processFile.Process<ProductFeature>(_env.ContentRootPath, "ProductFeatures");
             var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
             var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
-
-            //ProductItemExtensions.Join(products, brands, types, features, tags);
 
             foreach (var prodBrand in brands)
             {
