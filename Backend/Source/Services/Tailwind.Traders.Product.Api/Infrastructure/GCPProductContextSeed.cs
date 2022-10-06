@@ -46,7 +46,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
             var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
 
-            ProductItemExtensions.Join(products, brands, types, features, tags);
+            //ProductItemExtensions.Join(products, brands, types, features, tags);
 
             foreach (var prodBrand in brands)
             {

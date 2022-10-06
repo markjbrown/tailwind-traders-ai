@@ -42,7 +42,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
             var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
 
-            products.Join(brands, types, features, tags);
+            //products.Join(brands, types, features, tags);
 
             Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, typeof(ProductItem).Name);
 

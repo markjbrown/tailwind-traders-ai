@@ -41,12 +41,15 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 var features = _processFile.Process<ProductFeature>(_env.ContentRootPath, "ProductFeatures");
                 var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
                 var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
+                               
 
-                await _productContext.Tags.AddRangeAsync(tags);
-
-                ProductItemExtensions.Join(products, brands, types, features, tags);
+                //ProductItemExtensions.Join(products, brands, types, features, tags);
 
                 await _productContext.ProductItems.AddRangeAsync(products);
+                await _productContext.ProductBrands.AddRangeAsync(brands);
+                await _productContext.ProductTypes.AddRangeAsync(types);
+                await _productContext.Tags.AddRangeAsync(tags);
+                await _productContext.ProductFeatures.AddRangeAsync(features);
 
                 await _productContext.SaveChangesAsync();
             }
