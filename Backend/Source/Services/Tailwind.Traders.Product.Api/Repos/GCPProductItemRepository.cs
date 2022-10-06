@@ -26,12 +26,10 @@ namespace Tailwind.Traders.Product.Api.Repos
         private readonly CollectionReference _featureCollection;
         #endregion
 
-        public GCPProductItemRepository(IHostEnvironment env, IOptions<AppSettings> appSettings)
+        public GCPProductItemRepository(IOptions<AppSettings> appSettings)
         {
-            _env = env;
-
             // DB Authentication with serviceJson and initialization
-            string keyPath = Path.Combine(_env.ContentRootPath, "Key\\serviceKey.json");
+            string keyPath = Path.GetFullPath(appSettings.Value.FireStoreServiceKeyPath ?? "");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
             db = FirestoreDb.Create(appSettings.Value.FireStoreProjectId);
             
