@@ -12,26 +12,21 @@ namespace Tailwind.Traders.Product.Api
 {
     public class Program
     {
-        const string AZURE_CLOUD = "AZURE";
-        const string AWS_CLOUD = "AWS";
-        const string GCP_CLOUD = "GCP";
+        
         public static void Main(string[] args)
         {
-            var webHostBuilder = CreateWebHostBuilder(args).Build();
+            var webHostBuilder = WebHost.CreateDefaultBuilder(args)
+                                .UseStartup<Startup>()
+                                .UseDefaultServiceProvider(options =>
+                                options.ValidateScopes = false)
+                               .Build();
 
+       
             var config = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
-            var CLOUD_PLATFORM = config.GetSection("CLOUD_PLATFORM");
 
-            if (CLOUD_PLATFORM.Value == AZURE_CLOUD)
-            {
-                webHostBuilder.MigrateDbContext<ProductContext, ProductContextSeed>();
-            }
-            else
-            {
-                var seedData = webHostBuilder.Services.GetRequiredService<IContextNonEFSeed>();
-                seedData.SeedItemsAsync();
-            }
-                       
+            var seedData = webHostBuilder.Services.GetRequiredService<IContextSeed>();
+            seedData.SeedAsync();
+
             webHostBuilder.Run();
         }
 

@@ -8,7 +8,7 @@ using Tailwind.Traders.Product.Api.Extensions;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
 {
-    public class ProductContextSeed : IContextSeed<ProductContext>
+    public class ProductContextSeed 
     {
         private readonly ILogger<ProductContextSeed> _logger;
         private readonly IProcessFile _processFile;

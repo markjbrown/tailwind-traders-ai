@@ -8,23 +8,23 @@ namespace Tailwind.Traders.Product.Api.Extensions
 {
     public static class WebHostExtensions
     {
-        public static IWebHost MigrateDbContext<TContext, TContextSeed>(this IWebHost webHost)
-            where TContext : DbContext
-            where TContextSeed : IContextSeed<TContext>
-        {
-            using (var scope = webHost.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
+        //public static IWebHost MigrateDbContext<TContext, TContextSeed>(this IWebHost webHost)
+        //    where TContext : DbContext
+        //    where TContextSeed : IContextSeed<TContext>
+        //{
+        //    using (var scope = webHost.Services.CreateScope())
+        //    {
+        //        var services = scope.ServiceProvider;
 
-                var logger = services.GetRequiredService<ILogger<TContext>>();
-                var context = services.GetRequiredService<TContext>();
-                var env = services.GetRequiredService<IWebHostEnvironment>();
-                var seed = services.GetRequiredService<IContextSeed<TContext>>();
+        //        var logger = services.GetRequiredService<ILogger<TContext>>();
+        //        var context = services.GetRequiredService<TContext>();
+        //        var env = services.GetRequiredService<IWebHostEnvironment>();
+        //        var seed = services.GetRequiredService<IContextSeed<TContext>>();
                 
-                seed.SeedAsync(context, env).Wait();
-            }
+        //        seed.SeedAsync(context, env).Wait();
+        //    }
 
-            return webHost;
-        }
+        //    return webHost;
+        //}
     }
 }

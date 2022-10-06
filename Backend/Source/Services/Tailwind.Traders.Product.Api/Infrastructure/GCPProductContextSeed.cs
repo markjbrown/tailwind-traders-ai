@@ -10,7 +10,7 @@ using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
 {
-    public class GCPProductContextSeed : IContextNonEFSeed
+    public class GCPProductContextSeed : IContextSeed
     {
 
         private readonly IHostEnvironment _env;
@@ -38,7 +38,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _tagCollection = db.Collection(typeof(ProductTag).Name);
             _featureCollection = db.Collection(typeof(ProductFeature).Name);
         }
-        public async Task SeedItemsAsync()
+        public async Task SeedAsync()
         {
             var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
             var types = _processFile.Process<ProductType>(_env.ContentRootPath, "ProductTypes");

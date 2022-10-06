@@ -13,14 +13,13 @@ using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
 {
-    public class AWSProductContextSeed : IContextNonEFSeed
+    public class AWSProductContextSeed : IContextSeed
     {
 
         //private readonly ILogger<ProductContextSeed> _logger;
         private readonly IProcessFile _processFile;
         private readonly AppSettings _appConfig;
         private readonly AmazonDynamoDBClient _amazonDynamoDBClient;
-        private readonly DynamoDBContext _productContext;
         private readonly IWebHostEnvironment _env;
         public AWSProductContextSeed(IProcessFile processFile, IOptions<AppSettings> options, IWebHostEnvironment env)
         {
@@ -35,7 +34,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _amazonDynamoDBClient = new AmazonDynamoDBClient(awsCredentials, dynamoDbConfig);
         }
 
-        public async Task SeedItemsAsync()
+        public async Task SeedAsync()
         {
             var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
             var types = _processFile.Process<ProductType>(_env.ContentRootPath, "ProductTypes");
