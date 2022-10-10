@@ -8,5 +8,6 @@
         public string AwsSecretKey { get; set; }
         public string FireStoreProjectId { get; set; }
         public string FireStoreServiceKeyPath { get; set; }
+        public FireStoreKeys FireStoreServiceKey { get; set; }
     }
 }

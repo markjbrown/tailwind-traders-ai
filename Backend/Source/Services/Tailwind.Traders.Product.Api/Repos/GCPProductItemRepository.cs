@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Mappers;
@@ -29,10 +30,20 @@ namespace Tailwind.Traders.Product.Api.Repos
         public GCPProductItemRepository(IOptions<AppSettings> appSettings)
         {
             // DB Authentication with serviceJson and initialization
+            var firestoreServiceKey = appSettings.Value.FireStoreServiceKey;
+
+            string firestoreServiceKeyJson = JsonConvert.SerializeObject(firestoreServiceKey);
+
+            byte[] byteArray = Encoding.ASCII.GetBytes(firestoreServiceKeyJson);
+
+            using (FileStream file = new FileStream(appSettings.Value.FireStoreServiceKeyPath, FileMode.Open, FileAccess.ReadWrite))
+                file.Write(byteArray, 0, byteArray.Length);
+
             string keyPath = Path.GetFullPath(appSettings.Value.FireStoreServiceKeyPath ?? "");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
+
             db = FirestoreDb.Create(appSettings.Value.FireStoreProjectId);
-            
+
             // getting collections
             _productItemCollection = db.Collection(typeof(ProductItem).Name);
             _brandCollection = db.Collection(typeof(ProductBrand).Name);

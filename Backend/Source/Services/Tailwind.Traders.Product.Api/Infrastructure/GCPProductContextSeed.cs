@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Models;
 
@@ -25,6 +27,16 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _env = env;
             _processFile = processFile;
             // DB Authentication with serviceJson and initialization
+
+            var firestoreServiceKey = appSettings.Value.FireStoreServiceKey;
+
+            string firestoreServiceKeyJson = JsonConvert.SerializeObject(firestoreServiceKey);
+
+            byte[] byteArray = Encoding.ASCII.GetBytes(firestoreServiceKeyJson);
+
+            using (FileStream file = new FileStream(appSettings.Value.FireStoreServiceKeyPath, FileMode.Open, FileAccess.ReadWrite))
+                file.Write(byteArray, 0, byteArray.Length);
+
             string keyPath = Path.GetFullPath(appSettings.Value.FireStoreServiceKeyPath ?? "");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
             db = FirestoreDb.Create(appSettings.Value.FireStoreProjectId);
