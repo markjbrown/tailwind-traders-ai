@@ -42,7 +42,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             string keyPath = Path.GetFullPath(appSettings.Value.FireStoreServiceKeyPath ?? "");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
 
-            db = FirestoreDb.Create(appSettings.Value.FireStoreProjectId);
+            db = FirestoreDb.Create(firestoreServiceKey.ProjectId);
 
             // getting collections
             _productItemCollection = db.Collection(typeof(ProductItem).Name);
