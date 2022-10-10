@@ -7,7 +7,8 @@ namespace Tailwind.Traders.Product.Api.Mappers
     {
         public ProductBrandMap()
         {
-            AutoMap();
+            Map(p => p.Id);
+            Map(p => p.Name);
         }
     }
 }

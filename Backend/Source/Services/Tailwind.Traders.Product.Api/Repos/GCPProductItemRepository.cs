@@ -1,5 +1,6 @@
 ﻿using Google.Cloud.Firestore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -25,14 +26,12 @@ namespace Tailwind.Traders.Product.Api.Repos
         private readonly CollectionReference _featureCollection;
         #endregion
 
-        public GCPProductItemRepository(IHostEnvironment env)
+        public GCPProductItemRepository(IOptions<AppSettings> appSettings)
         {
-            _env = env;
-
             // DB Authentication with serviceJson and initialization
-            string keyPath = Path.Combine(_env.ContentRootPath, "Key\\serviceKey.json");
+            string keyPath = Path.GetFullPath(appSettings.Value.FireStoreServiceKeyPath ?? "");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
-            db = FirestoreDb.Create("taliwind");
+            db = FirestoreDb.Create(appSettings.Value.FireStoreProjectId);
             
             // getting collections
             _productItemCollection = db.Collection(typeof(ProductItem).Name);

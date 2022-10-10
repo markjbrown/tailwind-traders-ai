@@ -10,7 +10,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace Tailwind.Traders.Product.Api.Models
 {
     [FirestoreData]
-    public class ProductTag
+    public class ProductTag : IHaveId
     {
         [BsonId]
         public ObjectId? _id { get; set; }

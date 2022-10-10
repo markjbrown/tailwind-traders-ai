@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System;
 using Tailwind.Traders.Product.Api.HealthCheck;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
@@ -30,8 +29,7 @@ namespace Tailwind.Traders.Product.Api.Extensions
 
         public static IServiceCollection AddModulesProducts(this IServiceCollection service, IConfiguration configuration)
         {
-            service.AddTransient<IContextSeed<ProductContext>, ProductContextSeed>()
-                .AddTransient<IProcessFile, ProccessCsv>()
+            service.AddTransient<IProcessFile, ProccessCsv>()
                 .AddTransient<ClassMap, ProductBrandMap>()
                 .AddTransient<ClassMap, ProductFeatureMap>()
                 .AddTransient<ClassMap, ProductItemMap>()
@@ -43,15 +41,17 @@ namespace Tailwind.Traders.Product.Api.Extensions
 
             if (env == AZURE_CLOUD)
             {
+                service.AddTransient<IContextSeed, AzureProductContextSeed>();
                 service.AddScoped<IProductItemRepository, AzureProductItemRepository>();
             }
             else if (env == AWS_CLOUD)
             {
-                //service.AddScoped<IProductItemRepository, AWSProductItemRepository>();
+                service.AddTransient<IContextSeed, AWSProductContextSeed>();
                 service.AddScoped<IProductItemRepository, AwsDynamoProductItemRepository>();
             }
             else if (env == GCP_CLOUD)
             {
+                service.AddTransient<IContextSeed, GCPProductContextSeed>();
                 service.AddScoped<IProductItemRepository, GCPProductItemRepository>();
             }
 

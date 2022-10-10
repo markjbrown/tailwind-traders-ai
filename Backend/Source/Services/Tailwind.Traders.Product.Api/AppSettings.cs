@@ -6,5 +6,7 @@
         public string AwsRegion { get; set; }
         public string AwsAccessKey { get; set; }
         public string AwsSecretKey { get; set; }
+        public string FireStoreProjectId { get; set; }
+        public string FireStoreServiceKeyPath { get; set; }
     }
 }

@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
 {
-    public interface IContextSeed<TContext>
-        where TContext : DbContext
+    public interface IContextSeed
     {
-        Task SeedAsync(TContext context, IWebHostEnvironment env);
+        Task SeedAsync();
     }
 }
