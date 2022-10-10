@@ -5,23 +5,21 @@ using Microsoft.Extensions.Options;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
 {
     public class GCPProductContextSeed : IContextSeed
     {
-
         private readonly IHostEnvironment _env;
         private readonly IProcessFile _processFile;
-        FirestoreDb db;
-
+        private readonly FirestoreDb db;
         private readonly CollectionReference _productItemCollection;
         private readonly CollectionReference _brandCollection;
         private readonly CollectionReference _typeCollection;
         private readonly CollectionReference _tagCollection;
         private readonly CollectionReference _featureCollection;
+
         public GCPProductContextSeed(IProcessFile processFile, IWebHostEnvironment env, IOptions<AppSettings> appSettings)
         {
             _env = env;

@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System;
 using Tailwind.Traders.Product.Api.HealthCheck;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
@@ -30,8 +29,7 @@ namespace Tailwind.Traders.Product.Api.Extensions
 
         public static IServiceCollection AddModulesProducts(this IServiceCollection service, IConfiguration configuration)
         {
-            //service.AddTransient<IContextSeed<ProductContext>, ProductContextSeed>()
-                service.AddTransient<IProcessFile, ProccessCsv>()
+            service.AddTransient<IProcessFile, ProccessCsv>()
                 .AddTransient<ClassMap, ProductBrandMap>()
                 .AddTransient<ClassMap, ProductFeatureMap>()
                 .AddTransient<ClassMap, ProductItemMap>()
