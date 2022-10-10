@@ -46,74 +46,43 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 
             foreach (var prodBrand in brands)
             {
-                var docResult = await _brandCollection.Select("Id").WhereEqualTo("Id", prodBrand.Id).GetSnapshotAsync();
-                if (docResult.Count == 0)
-                {
-                    var doc = await _brandCollection.AddAsync(prodBrand);
-                    var snpShot = await doc.GetSnapshotAsync();
-                    if (snpShot != null && !snpShot.Exists)
-                    {
-                        await doc.SetAsync(prodBrand);
-                    }
-                }
+                await AddDocumentIfNeeded(_brandCollection, prodBrand);
             }
 
             foreach (var prodType in types)
             {
-                var docResult = await _typeCollection.Select("Id").WhereEqualTo("Id", prodType.Id).GetSnapshotAsync();
-                if (docResult.Count == 0)
-                {
-                    var doc = await _typeCollection.AddAsync(prodType);
-                    var snpShot = await doc.GetSnapshotAsync();
-                    if (snpShot != null && !snpShot.Exists)
-                    {
-                        await doc.SetAsync(prodType);
-                    }
-                }
+                await AddDocumentIfNeeded(_typeCollection, prodType);
             }
 
             foreach (var prodFeature in features)
             {
-                var docResult = await _featureCollection.Select("Id").WhereEqualTo("Id", prodFeature.Id).GetSnapshotAsync();
-                if (docResult.Count == 0)
-                {
-                    var doc = await _featureCollection.AddAsync(prodFeature);
-                    var snpShot = await doc.GetSnapshotAsync();
-                    if (snpShot != null && !snpShot.Exists)
-                    {
-                        await doc.SetAsync(prodFeature);
-                    }
-                }
+                await AddDocumentIfNeeded(_featureCollection, prodFeature);
             }
 
             foreach (var prodTag in tags)
             {
-                var docResult = await _tagCollection.Select("Id").WhereEqualTo("Id", prodTag.Id).GetSnapshotAsync();
-                if (docResult.Count == 0)
-                {
-                    var doc = await _tagCollection.AddAsync(prodTag);
-                    var snpShot = await doc.GetSnapshotAsync();
-                    if (snpShot != null && !snpShot.Exists)
-                    {
-                        await doc.SetAsync(prodTag);
-                    }
-                }
+                await AddDocumentIfNeeded(_tagCollection, prodTag);
             }
 
             foreach (var prodItem in products)
             {
-                var docResult = await _productItemCollection.Select("Id").WhereEqualTo("Id", prodItem.Id).GetSnapshotAsync();
-                if (docResult.Count == 0)
-                {
-                    var doc = await _productItemCollection.AddAsync(prodItem);
-                    var snpShot = await doc.GetSnapshotAsync();
-                    if (snpShot != null && !snpShot.Exists)
-                    {
-                        await doc.SetAsync(prodItem);
-                    }
-                }
+                await AddDocumentIfNeeded(_productItemCollection, prodItem);
             }
 
+        }
+
+        private static async Task AddDocumentIfNeeded(CollectionReference collection, IHaveId item)
+        {
+            var docResult = await collection.Select("Id").WhereEqualTo("Id", item.Id).GetSnapshotAsync();
+            if (docResult.Count == 0)
+            {
+                var doc = await collection.AddAsync(item);
+                var snpShot = await doc.GetSnapshotAsync();
+                if (snpShot != null && !snpShot.Exists)
+                {
+                    await doc.SetAsync(item);
+                }
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using MongoDB.Bson.Serialization.Attributes;
 namespace Tailwind.Traders.Product.Api.Models
 {
     [FirestoreData]
-    public class ProductBrand
+    public class ProductBrand : IHaveId
     {
         [BsonId]
         public ObjectId? _id { get; set; }
