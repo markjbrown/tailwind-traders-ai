@@ -10,12 +10,12 @@ EOF
 }
 
 resource "azurerm_public_ip" "app_aks_ingress_ip" {
-  name = "${local.resource_prefix}-APP-INGRESS-pip"
-  sku = "Standard"
-  allocation_method = "Static"
+  name                = "${local.resource_prefix}-APP-INGRESS-pip"
+  sku                 = "Standard"
+  allocation_method   = "Static"
   resource_group_name = data.azurerm_kubernetes_cluster.app_aks.node_resource_group
-  domain_name_label = lower(data.azurerm_kubernetes_cluster.app_aks.dns_prefix)
-  location = data.azurerm_kubernetes_cluster.app_aks.location
+  domain_name_label   = lower(data.azurerm_kubernetes_cluster.app_aks.dns_prefix)
+  location            = data.azurerm_kubernetes_cluster.app_aks.location
 }
 
 resource "helm_release" "ingress" {
@@ -72,8 +72,8 @@ resource "kubernetes_manifest" "cluster_issuer" {
   manifest = {
     "apiVersion" = "cert-manager.io/v1"
     "kind"       = "ClusterIssuer"
-    "metadata"   = {
-      "name"   = "letsencrypt-prod"
+    "metadata" = {
+      "name" = "letsencrypt-prod"
       "labels" = {
         "name" = "letsencrypt-prod"
       }
