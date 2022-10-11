@@ -1,6 +1,6 @@
 resource "aws_subnet" "app_eks_subnet1" {
   vpc_id     = aws_vpc.app_vpc.id
-  cidr_block = local.app_eks_subnet_cidr[0]
+  cidr_block = local.app_eks_subnet_cidrs[0]
   availability_zone = "us-east-1a"
 
   tags = {
@@ -10,7 +10,7 @@ resource "aws_subnet" "app_eks_subnet1" {
 
 resource "aws_subnet" "app_eks_subnet2" {
   vpc_id     = aws_vpc.app_vpc.id
-  cidr_block = local.app_eks_subnet_cidr[1]
+  cidr_block = local.app_eks_subnet_cidrs[1]
   availability_zone = "us-east-1b"
 
   tags = {
