@@ -65,57 +65,57 @@ resource "aws_iam_role" "app_eks" {
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
-resource "aws_eks_node_group" "app_eks_node_group" {
-    cluster_name    = aws_eks_cluster.app_eks.name
-    node_group_name = "app_eks_node_group"
-    node_role_arn   = aws_iam_role.app_eks_node_role.arn
-    subnet_ids      = [aws_subnet.app_eks_subnet1.id, aws_subnet.app_eks_subnet2.id]
-    scaling_config {
-        desired_size = 1
-        max_size     = 1
-        min_size     = 1
-    }
-
-    tags = {
-        resource_group = aws_resourcegroups_group.app_rg.name
-    }
-
-  depends_on = [
-    aws_iam_role_policy_attachment.app_eks_node_role_policy,
-    aws_iam_role_policy_attachment.app_eks_node_role_cni_policy,
-    aws_iam_role_policy_attachment.app_eks_node_role_ecr_policy,
-  ]
-}
-
-resource "aws_iam_role" "app_eks_node_role" {
-  name               = "app_eks_node_role"
-  assume_role_policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-        "Effect": "Allow",
-        "Principal": {
-            "Service": "ec2.amazonaws.com"
-        },
-        "Action": "sts:AssumeRole"
-        }
-    ]
-}
-EOF
-}
-
-resource "aws_iam_role_policy_attachment" "app_eks_node_role_policy" {
-  role       = aws_iam_role.app_eks_node_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-}
-
-resource "aws_iam_role_policy_attachment" "app_eks_node_role_cni_policy" {
-  role       = aws_iam_role.app_eks_node_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-}
-
-resource "aws_iam_role_policy_attachment" "app_eks_node_role_ecr_policy" {
-  role       = aws_iam_role.app_eks_node_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-}
+#resource "aws_eks_node_group" "app_eks_node_group" {
+#    cluster_name    = aws_eks_cluster.app_eks.name
+#    node_group_name = "app_eks_node_group"
+#    node_role_arn   = aws_iam_role.app_eks_node_role.arn
+#    subnet_ids      = [aws_subnet.app_eks_subnet1.id, aws_subnet.app_eks_subnet2.id]
+#    scaling_config {
+#        desired_size = 1
+#        max_size     = 1
+#        min_size     = 1
+#    }
+#
+#    tags = {
+#        resource_group = aws_resourcegroups_group.app_rg.name
+#    }
+#
+#  depends_on = [
+#    aws_iam_role_policy_attachment.app_eks_node_role_policy,
+#    aws_iam_role_policy_attachment.app_eks_node_role_cni_policy,
+#    aws_iam_role_policy_attachment.app_eks_node_role_ecr_policy,
+#  ]
+#}
+#
+#resource "aws_iam_role" "app_eks_node_role" {
+#  name               = "app_eks_node_role"
+#  assume_role_policy = <<EOF
+#{
+#    "Version": "2012-10-17",
+#    "Statement": [
+#        {
+#        "Effect": "Allow",
+#        "Principal": {
+#            "Service": "ec2.amazonaws.com"
+#        },
+#        "Action": "sts:AssumeRole"
+#        }
+#    ]
+#}
+#EOF
+#}
+#
+#resource "aws_iam_role_policy_attachment" "app_eks_node_role_policy" {
+#  role       = aws_iam_role.app_eks_node_role.name
+#  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+#}
+#
+#resource "aws_iam_role_policy_attachment" "app_eks_node_role_cni_policy" {
+#  role       = aws_iam_role.app_eks_node_role.name
+#  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+#}
+#
+#resource "aws_iam_role_policy_attachment" "app_eks_node_role_ecr_policy" {
+#  role       = aws_iam_role.app_eks_node_role.name
+#  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+#}
