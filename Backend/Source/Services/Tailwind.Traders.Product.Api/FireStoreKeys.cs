@@ -30,6 +30,7 @@ namespace Tailwind.Traders.Product.Api
 
         [JsonProperty(PropertyName = "auth_provider_x509_cert_url")]
         public string AuthProviderX509CertUrl { get; set; }
+
         [JsonProperty(PropertyName = "client_x509_cert_url")]
         public string ClientX509CertUrl { get; set; }
     }
