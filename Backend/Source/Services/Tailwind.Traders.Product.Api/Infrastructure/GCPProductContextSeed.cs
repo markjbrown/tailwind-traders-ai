@@ -1,9 +1,11 @@
-﻿using Google.Cloud.Firestore;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
+using Grpc.Auth;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using System;
-using System.IO;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Models;
 
@@ -13,7 +15,6 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
     {
         private readonly IHostEnvironment _env;
         private readonly IProcessFile _processFile;
-        private readonly FirestoreDb db;
         private readonly CollectionReference _productItemCollection;
         private readonly CollectionReference _brandCollection;
         private readonly CollectionReference _typeCollection;
@@ -22,12 +23,10 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 
         public GCPProductContextSeed(IProcessFile processFile, IWebHostEnvironment env, IOptions<AppSettings> appSettings)
         {
-            _env = env;
             _processFile = processFile;
-            // DB Authentication with serviceJson and initialization
-            string keyPath = Path.GetFullPath(appSettings.Value.FireStoreServiceKeyPath ?? "");
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
-            db = FirestoreDb.Create(appSettings.Value.FireStoreProjectId);
+            _env = env;
+
+            FirestoreDb db = GcpHelper.CreateDb(appSettings.Value.FireStoreServiceKey);
 
             // getting collections
             _productItemCollection = db.Collection(typeof(ProductItem).Name);
@@ -36,6 +35,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _tagCollection = db.Collection(typeof(ProductTag).Name);
             _featureCollection = db.Collection(typeof(ProductFeature).Name);
         }
+
         public async Task SeedAsync()
         {
             var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
