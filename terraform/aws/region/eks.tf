@@ -2,7 +2,7 @@ resource "aws_eks_cluster" "app_eks" {
   name     = "${local.resource_prefix}-APP-eks"
   role_arn = aws_iam_role.eks_cluster_role.arn
   vpc_config {
-    subnet_ids = [aws_subnet.app_eks_subnet.id]
+    subnet_ids = [aws_subnet.app_eks_subnet1.id, aws_subnet.app_eks_subnet2.id]
   }
   tags = {
     resource_group = aws_resourcegroups_group.app_rg.name

@@ -1,6 +1,6 @@
-variable "app_eks_subnet_cidr" {
-  type        = string
-  description = "The CIDR block for the EKS subnets. The EKS subnets are used to run the EKS cluster."
+variable "app_eks_subnet_cidrs" {
+  type        = list(string)
+  description = "The CIDR blocks for the EKS subnets. The EKS subnets are used to run the EKS cluster."
 }
 
 variable "app_vpc_cidr" {
