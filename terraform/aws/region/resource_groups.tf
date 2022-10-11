@@ -1,18 +1,3 @@
-resource "aws_resourcegroups_group" "ecr_rg" {
-  name = "${local.resource_prefix}-ECR-rg"
-  resource_query {
-    query = jsonencode({
-      ResourceTypeFilters = ["AWS::AllSupported"]
-      TagFilters = [
-        {
-          Key    = "resource_group"
-          Values = ["${local.resource_prefix}-ECR-rg"]
-        }
-      ]
-    })
-  }
-}
-
 resource "aws_resourcegroups_group" "app_rg" {
   name = "${local.resource_prefix}-APP-rg"
   resource_query {
@@ -28,17 +13,18 @@ resource "aws_resourcegroups_group" "app_rg" {
   }
 }
 
-resource "aws_resourcegroups_group" "data_rg" {
-  name = "${local.resource_prefix}-DATA-rg"
+resource "aws_resourcegroups_group" "net_rg" {
+  name = "${local.resource_prefix}-NET-rg"
   resource_query {
     query = jsonencode({
       ResourceTypeFilters = ["AWS::AllSupported"]
       TagFilters = [
         {
           Key    = "resource_group"
-          Values = ["${local.resource_prefix}-DATA-rg"]
+          Values = ["${local.resource_prefix}-NET-rg"]
         }
       ]
     })
   }
 }
+
