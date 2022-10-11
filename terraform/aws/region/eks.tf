@@ -12,7 +12,7 @@ resource "aws_eks_cluster" "app_eks" {
 resource "aws_iam_role" "eks_cluster_role" {
   name               = "eks_cluster_role"
   assume_role_policy = <<EOF
-    {
+{
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -23,7 +23,7 @@ resource "aws_iam_role" "eks_cluster_role" {
         "Action": "sts:AssumeRole"
         }
     ]
-    }
+}
 EOF
 }
 
