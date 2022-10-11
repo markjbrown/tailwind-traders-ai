@@ -1,5 +1,4 @@
 resource "aws_eks_cluster" "app_eks" {
-  location = local.location
   name     = "${local.resource_prefix}-APP-eks"
   role_arn = aws_iam_role.eks_cluster_role.arn
   vpc_config {
