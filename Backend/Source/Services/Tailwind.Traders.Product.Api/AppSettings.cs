@@ -3,10 +3,9 @@
     public class AppSettings
     {
         public string ProductImagesUrl { get; set; }
-        public string AwsRegion { get; set; }
-        public string AwsAccessKey { get; set; }
-        public string AwsSecretKey { get; set; }
-        public string FireStoreProjectId { get; set; }
-        public string FireStoreServiceKeyPath { get; set; }
+        public FireStoreKeys FireStoreServiceKey { get; set; }
+        public DynamoDBKeys DynamoDBServiceKey { get; set; }
+       
     }
+   
 }

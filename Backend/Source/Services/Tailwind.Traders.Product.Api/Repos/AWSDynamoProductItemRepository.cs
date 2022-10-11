@@ -30,7 +30,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             _appConfig = options.Value;
             var dynamoDbConfig = new AmazonDynamoDBConfig
             {
-                RegionEndpoint = RegionEndpoint.GetBySystemName(_appConfig.AwsRegion)
+                RegionEndpoint = RegionEndpoint.GetBySystemName(_appConfig.DynamoDBServiceKey.AwsRegion)
             };
             var awsCredentials = new AwsCredentials(_appConfig);
             _amazonDynamoDBClient = new AmazonDynamoDBClient(awsCredentials, dynamoDbConfig);

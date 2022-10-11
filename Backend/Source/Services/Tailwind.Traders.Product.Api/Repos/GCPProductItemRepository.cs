@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Extensions;
+using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
 using Tailwind.Traders.Product.Api.Models;
 
@@ -29,10 +31,8 @@ namespace Tailwind.Traders.Product.Api.Repos
         public GCPProductItemRepository(IOptions<AppSettings> appSettings)
         {
             // DB Authentication with serviceJson and initialization
-            string keyPath = Path.GetFullPath(appSettings.Value.FireStoreServiceKeyPath ?? "");
-            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyPath);
-            db = FirestoreDb.Create(appSettings.Value.FireStoreProjectId);
-            
+            FirestoreDb db = GcpHelper.CreateDb(appSettings.Value.FireStoreServiceKey);
+
             // getting collections
             _productItemCollection = db.Collection(typeof(ProductItem).Name);
             _brandCollection = db.Collection(typeof(ProductBrand).Name);

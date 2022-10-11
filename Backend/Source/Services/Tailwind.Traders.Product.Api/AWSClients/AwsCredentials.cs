@@ -17,8 +17,9 @@ namespace Tailwind.Traders.Product.Api.AWSClients
 
 		public override ImmutableCredentials GetCredentials()
 		{
-			return new ImmutableCredentials(_appConfig.AwsAccessKey,
-							_appConfig.AwsSecretKey, null);
+			
+			return new ImmutableCredentials(_appConfig.DynamoDBServiceKey.AwsAccessKey,
+							_appConfig.DynamoDBServiceKey.AwsSecretKey, null);
 		}
 	}
 }
