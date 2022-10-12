@@ -97,7 +97,7 @@ class OrderDao {
     // grouping by id and resulting with an object using Array.reduce() method
     const groupById = result.reduce((group, item) => {
       const { id } = item;
-      group[id] = group[id] ?? [];
+      group[id] = group[id] || [];
       group[id].push(item.qty);
       return group;
     }, {});
