@@ -68,9 +68,16 @@ class CartController {
             res.status(200).send({ message: `checkout for ${data.email} successful`, order: order });
         }
         else {
-            res.status(200).send({ message: "No items in cart",order: [] })
+            res.status(200).send({ message: "No items in cart", order: [] })
         }
     }
+
+    async getPopulerProducts(req, res) {
+        console.log("popular product")
+        const items = await this.orderDao.getPopularProducts();
+        res.json(items);
+    }
+
 }
 
 module.exports = CartController;

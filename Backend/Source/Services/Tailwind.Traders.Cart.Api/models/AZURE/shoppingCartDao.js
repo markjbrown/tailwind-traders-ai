@@ -10,11 +10,11 @@ class ShoppingCartDao {
 
   async init() {
     const dbResponse = await this.client.databases.createIfNotExists({
-      id: this.databaseId
+      id: this.databaseId,
     });
     this.database = dbResponse.database;
     const coResponse = await this.database.containers.createIfNotExists({
-      id: this.collectionId
+      id: this.collectionId,
     });
     this.container = coResponse.container;
   }
@@ -25,9 +25,9 @@ class ShoppingCartDao {
       parameters: [
         {
           name: "@email",
-          value: email
-        }
-      ]
+          value: email,
+        },
+      ],
     };
 
     if (!this.container) {
@@ -37,20 +37,20 @@ class ShoppingCartDao {
     const { resources: results } = await this.container.items
       .query(querySpec)
       .fetchAll();
-    return results.map(i => ({
+    return results.map((i) => ({
       id: i.detailProduct.id,
       name: i.detailProduct.name,
       price: i.detailProduct.price,
       imageUrl: i.detailProduct.imageUrl,
       email: i.detailProduct.email,
       qty: i.qty,
-      _cdbid: i.id
+      _cdbid: i.id,
     }));
   }
 
   async addItem(item) {
     const { resource: doc } = await this.container.items.create(item);
-   
+
     return doc;
   }
 
