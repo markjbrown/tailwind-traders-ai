@@ -7,6 +7,11 @@ resource "aws_eks_cluster" "app_eks" {
   tags = {
     resource_group = aws_resourcegroups_group.app_rg.name
   }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.eks_cluster_role_policy,
+    aws_iam_role_policy_attachment.eks_service_role_policy
+  ]
 }
 
 resource "aws_iam_role" "eks_cluster_role" {
@@ -31,6 +36,12 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_role_policy" {
   role       = aws_iam_role.eks_cluster_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
+
+resource "aws_iam_role_policy_attachment" "eks_service_role_policy" {
+  role       = aws_iam_role.eks_cluster_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
+}
+
 
 data "tls_certificate" "app_eks" {
   url = aws_eks_cluster.app_eks.identity[0].oidc[0].issuer
@@ -118,6 +129,92 @@ resource "aws_iam_role_policy_attachment" "app_eks_node_role_cni_policy" {
 resource "aws_iam_role_policy_attachment" "app_eks_node_role_ecr_policy" {
   role       = aws_iam_role.app_eks_node_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+}
+
+resource "aws_security_group" "cluster_sg" {
+  name        = "${local.resource_prefix}-APP-csg"
+  description = "Security group for the cluster"
+  vpc_id      = aws_vpc.app_vpc.id
+
+  egress {
+    from_port = 0
+    protocol  = "-1"
+    to_port   = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${local.resource_prefix}-APP-csg"
+      resource_group = aws_resourcegroups_group.app_rg.name
+  }
+}
+
+resource "aws_security_group" "node_sg" {
+  name = "${local.resource_prefix}-APP-nsg"
+  vpc_id = aws_vpc.app_vpc.id
+
+  egress {
+    from_port = 0
+    protocol  = "-1"
+    to_port   = 0
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = map(
+    "Name", "${local.resource_prefix}-APP-nsg",
+    "kubernetes.io/cluster/${aws_eks_cluster.app_eks.name}", "owned"
+    "resource_group", aws_resourcegroups_group.app_rg.name
+  )
+}
+
+resource "aws_security_group_rule" "cluster_ingress" {
+  cidr_blocks = ["0.0.0.0/0"]
+  description = "Allow inbound traffic from anywhere"
+  from_port   = 443
+  protocol    = "tcp"
+  security_group_id = aws_security_group.cluster_sg.id
+  to_port     = 443
+  type        = "ingress"
+}
+
+resource "aws_security_group_rule" "node_ingress_self" {
+    description              = "Allow node to communicate with each other"
+    from_port                = 0
+    protocol                 = "-1"
+    security_group_id        = aws_security_group.node_sg.id
+    source_security_group_id = aws_security_group.node_sg.id
+    to_port                  = 65535
+    type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "node_ingress_cluster_https" {
+    description              = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
+    from_port                = 443
+    protocol                 = "tcp"
+    security_group_id        = aws_security_group.node_sg.id
+    source_security_group_id = aws_security_group.cluster_sg.id
+    to_port                  = 443
+    type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "node_ingress_cluster" {
+    description              = "Allow worker Kubelets and pods to receive communication from the cluster control plane"
+    from_port                = 1025
+    protocol                 = "tcp"
+    security_group_id        = aws_security_group.node_sg.id
+    source_security_group_id = aws_security_group.cluster_sg.id
+    to_port                  = 65535
+    type                     = "ingress"
+}
+
+resource "aws_security_group_rule" "cluster_ingress_node" {
+  description              = "Allow pods to communicate with the worker node"
+  from_port                = 1025
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.cluster_sg.id
+  source_security_group_id = aws_security_group.node_sg.id
+  to_port                  = 65535
+  type                     = "ingress"
 }
 
 data "aws_caller_identity" "current" {}
