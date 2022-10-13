@@ -5,7 +5,7 @@ resource "aws_subnet" "app_eks_subnet1" {
 
   tags = {
     resource_group = aws_resourcegroups_group.net_rg.name
-    "kubernetes.io/cluster/${aws_eks_cluster.app_eks.name}" = "shared"
+    "kubernetes.io/cluster/${local.resource_prefix}-APP-eks" = "shared"
   }
 }
 
@@ -16,6 +16,6 @@ resource "aws_subnet" "app_eks_subnet2" {
 
   tags = {
     resource_group = aws_resourcegroups_group.net_rg.name
-    "kubernetes.io/cluster/${aws_eks_cluster.app_eks.name}" = "shared"
+    "kubernetes.io/cluster/${local.resource_prefix}-APP-eks" = "shared"
   }
 }
