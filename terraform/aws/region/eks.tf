@@ -119,3 +119,20 @@ resource "aws_iam_role_policy_attachment" "app_eks_node_role_ecr_policy" {
   role       = aws_iam_role.app_eks_node_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
+
+resource "kubernetes_config_map" "aws_auth" {
+  metadata {
+    name = "aws-auth"
+    namespace = "kube-system"
+  }
+
+  data = {
+    mapRoles = <<EOT
+    - rolearn: ${aws_iam_role.app_eks.arn}
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+    EOT
+  }
+}
