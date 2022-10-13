@@ -120,6 +120,8 @@ resource "aws_iam_role_policy_attachment" "app_eks_node_role_ecr_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
+data "aws_caller_identity" "current" {}
+
 resource "kubernetes_config_map" "aws_auth" {
   metadata {
     name = "aws-auth"
@@ -134,5 +136,11 @@ resource "kubernetes_config_map" "aws_auth" {
         - system:bootstrappers
         - system:nodes
     EOT
+    mapUsers = <<EOT
+    - userarn: ${data.aws_caller_identity.current.arn}
+      username: ${data.aws_caller_identity.current.user_id}
+      groups:
+        - system:masters
+EOT
   }
 }
