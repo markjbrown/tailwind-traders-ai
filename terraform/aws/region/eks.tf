@@ -138,7 +138,11 @@ resource "kubernetes_config_map" "aws_auth" {
     EOT
     mapUsers = <<EOT
     - userarn: ${data.aws_caller_identity.current.arn}
-      username: ${data.aws_caller_identity.current.user_id}
+      username: ${data.aws_caller_identity.current.id}
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::825357943300:user/mgray@solliance.net
+      username: mgray@solliance.net
       groups:
         - system:masters
 EOT
