@@ -162,7 +162,7 @@ resource "aws_security_group" "node_sg" {
 
   tags = map(
     "Name", "${local.resource_prefix}-APP-nsg",
-    "kubernetes.io/cluster/${aws_eks_cluster.app_eks.name}", "owned"
+    "kubernetes.io/cluster/${aws_eks_cluster.app_eks.name}", "owned",
     "resource_group", aws_resourcegroups_group.app_rg.name
   )
 }
