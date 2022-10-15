@@ -49,7 +49,8 @@ public class StockController {
 		}
 
 		StockProduct response = new StockProduct();
-		response.setId(stock.getProductId());
+		response.setId(stock.getId());
+		response.setProductId(stock.getProductId());
 		response.setProductStock(stock.getStockCount());
 		return new ResponseEntity<StockProduct>(response, HttpStatus.OK);
 	}

@@ -53,9 +53,9 @@ public class StockItemSeeder {
 
 		for (StockProduct stock : allStock) {
 			StockItem item = new StockItem();
-			item.setProductId(stock.getId());
+			item.setProductId(stock.getProductId());
 			item.setStockCount(stock.getProductStock());
-			setted.add(stock.getId());
+			setted.add(stock.getProductId());
 			stockItemRepository.save(item);
 		}
 
