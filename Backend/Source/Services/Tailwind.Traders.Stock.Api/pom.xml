@@ -96,6 +96,17 @@
 			<artifactId>azure-cosmos</artifactId>
 			<version>4.5.0</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-dynamodb</artifactId>
+			<version>1.11.857</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.firebase</groupId>
+			<artifactId>firebase-admin</artifactId>
+			<version>8.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

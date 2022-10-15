@@ -1,11 +1,9 @@
 package Tailwind.Traders.Stock.Api.config;
 
-import org.springframework.context.annotation.Bean;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
 
 import com.azure.cosmos.CosmosClient;
 import com.azure.cosmos.CosmosClientBuilder;
@@ -19,10 +17,8 @@ public class CosmosDbConfig {
     
     @Value("${azure.cosmosdb.host}")
     private String HOST;
-
     
-    @Bean
-    @Scope("singleton")
+    
     public CosmosClient cosmosClient() {
             log.info(String.format("CosmosDb Auth key: %s", MASTER_KEY));
             log.info(String.format("CosmosDb host: %s", HOST));
