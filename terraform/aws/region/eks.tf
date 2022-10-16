@@ -7,6 +7,7 @@ module "eks" {
 
   vpc_id     = module.vpc.vpc_id
   subnet_ids = module.vpc.private_subnets
+  manage_aws_auth_configmap = true
 
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
@@ -53,5 +54,5 @@ resource "aws_iam_group" "eks_admin" {
 
 resource "aws_iam_user_group_membership" "eks_admin" {
   groups = [aws_iam_group.eks_admin.name]
-  user = data.aws_caller_identity.current.user_id
+  user = data.aws_caller_identity.current.arn
 }
