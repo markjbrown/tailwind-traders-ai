@@ -51,7 +51,7 @@ resource "aws_iam_role" "eks-cluster-owner" {
   name = "eks-cluster-owner"
   assume_role_policy = "${data.aws_iam_policy_document.eks-cluster-owner-assume-role.json}"
 
-  tags {
+  tags = {
     Name        = "eks-cluster-owner"
   }
 }
