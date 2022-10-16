@@ -32,10 +32,10 @@ module "eks" {
     }
   }
 
-  aws_auth_roles = [
+  aws_auth_users = [
     {
-      role_arn = aws_iam_role.eks-cluster-owner.arn
-      username = "eks-cluster-owner"
+      user_arn = aws_iam_group.eks_admin.arn
+      username = "${local.resource_prefix}-APP-eks-adminr"
       groups   = ["system:masters"]
     }
   ]
@@ -47,52 +47,11 @@ module "eks" {
 
 data "aws_caller_identity" "current" {}
 
-resource "aws_iam_role" "eks-cluster-owner" {
-  name = "eks-cluster-owner"
-  assume_role_policy = "${data.aws_iam_policy_document.eks-cluster-owner-assume-role.json}"
-
-  tags = {
-    Name        = "eks-cluster-owner"
-  }
+resource "aws_iam_group" "eks_admin" {
+  name = "${local.resource_prefix}-eks-admin"
 }
 
-data "aws_iam_policy_document" "eks-cluster-owner-assume-role" {
-  statement {
-    sid = "AllowAssumeRole"
-    effect = "Allow"
-    actions = [
-      "sts:AssumeRole",
-    ]
-    principals {
-      type = "AWS"
-      identifiers = [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
-      ]
-    }
-  }
+resource "aws_iam_user_group_membership" "eks_admin" {
+  groups = [aws_iam_group.eks_admin.name]
+  user = data.aws_caller_identity.current.user_id
 }
-
-resource "aws_iam_role_policy_attachment" "eks-administration" {
-  role       = "${aws_iam_role.eks-cluster-owner.name}"
-  policy_arn = "${aws_iam_policy.eks-administration.arn}"
-}
-
-resource "aws_iam_policy" "eks-administration" {
-  name   = "eks-administration"
-  path   = "/"
-  policy = "${data.aws_iam_policy_document.eks-administration.json}"
-}
-
-data "aws_iam_policy_document" "eks-administration" {
-  statement {
-    sid = "AllowEKSManagement"
-    effect = "Allow"
-    actions = [
-      "eks:*",
-    ]
-    resources = [
-      "*",
-    ]
-  }
-}
-
