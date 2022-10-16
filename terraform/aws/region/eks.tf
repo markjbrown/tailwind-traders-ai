@@ -38,6 +38,11 @@ module "eks" {
       user_arn = aws_iam_group.eks_admin.arn
       username = "${local.resource_prefix}-APP-eks-admin"
       groups   = ["system:masters"]
+    },
+    {
+      user_arn = "arn:aws:iam::825357943300:user/mgray@solliance.net"
+      username = "mgray@solliance.net"
+      groups = ["system:masters"]
     }
   ]
 
@@ -54,5 +59,5 @@ resource "aws_iam_group" "eks_admin" {
 
 resource "aws_iam_user_group_membership" "eks_admin" {
   groups = [aws_iam_group.eks_admin.name]
-  user = data.aws_caller_identity.current.user_id
+  user = data.aws_caller_identity.current.id
 }
