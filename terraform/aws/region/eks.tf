@@ -54,5 +54,5 @@ resource "aws_iam_group" "eks_admin" {
 
 resource "aws_iam_user_group_membership" "eks_admin" {
   groups = [aws_iam_group.eks_admin.name]
-  user = data.aws_caller_identity.current.arn
+  user = data.aws_caller_identity.current.user_id
 }
