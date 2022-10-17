@@ -35,8 +35,8 @@ module "eks" {
 
   aws_auth_users = [
     {
-      userarn = "arn:aws:iam::825357943300:user/mgray@solliance.net"
-      username = "mgray@solliance.net"
+      userarn = aws_iam_group.eks_admin.arn
+      username = aws_iam_group.eks_admin.name
       groups = ["system:masters"]
     }
   ]
@@ -46,4 +46,6 @@ module "eks" {
   }
 }
 
-
+resource "aws_iam_group" "eks_admin" {
+  name = "eks-admin"
+}
