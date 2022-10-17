@@ -27,7 +27,8 @@ public class AWSStockItemRepository implements StockItemRepository {
 
 	@Override
 	public StockItem findByProductId(Integer id) {
-		return dynamoDBMapper.load(StockItem.class, id);
+		List<StockItem> stocks = dynamoDBMapper.scan(StockItem.class, new DynamoDBScanExpression());
+		return stocks.stream().filter(f->f.getProductId().equals(id)).findFirst().orElse(null);
 	}
 
 	@Override
