@@ -74,7 +74,7 @@ resource "kubernetes_service_account" "service_account" {
       "app.kubernetes.io/component" = "controller"
     }
     annotations = {
-      "eks.amazonaws.com/role-arn" = module.lb_role.role_arn
+      "eks.amazonaws.com/role-arn" = module.lb_role.iam_role_arn
       "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }
