@@ -70,12 +70,12 @@ resource "kubernetes_service_account" "service_account" {
     name = "aws-load-balancer-controller"
     namespace = "kube-system"
     labels = {
-      app.kubernetes.io/name = "aws-load-balancer-controller"
-      app.kubernetes.io/component = "controller"
+      "app.kubernetes.io/name" = "aws-load-balancer-controller"
+      "app.kubernetes.io/component" = "controller"
     }
     annotations = {
-      eks.amazonaws.com/role-arn = module.lb_role.role_arn
-      eks.amazonaws.com/sts-regional-endpoints = "true"
+      "eks.amazonaws.com/role-arn" = module.lb_role.role_arn
+      "eks.amazonaws.com/sts-regional-endpoints" = "true"
     }
   }
 }
