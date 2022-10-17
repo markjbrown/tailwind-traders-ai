@@ -11,7 +11,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 @Entity
-@DynamoDBTable(tableName = "StockItem")
+@DynamoDBTable(tableName = "StockCollection")
 public class StockItem {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
