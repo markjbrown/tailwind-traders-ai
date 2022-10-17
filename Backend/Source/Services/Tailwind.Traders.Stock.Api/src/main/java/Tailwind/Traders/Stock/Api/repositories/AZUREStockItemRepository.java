@@ -42,7 +42,7 @@ public class AZUREStockItemRepository implements StockItemRepository {
 		}
 	}
 
-	public StockItem findByProductId(String pid) {
+	public StockItem findByProductId(Integer pid) {
 		StockItem stockItemDocument = getItemById(pid);
 		return stockItemDocument;
 	}
@@ -51,7 +51,7 @@ public class AZUREStockItemRepository implements StockItemRepository {
 	public boolean update(StockItem stockItem) {
 		CosmosContainer cosmosContainer = cosmosClient.getDatabase(getTodoDatabase().getId())
 				.getContainer(getTodoCollection().getId());
-		StockItem stockItemDocument = getItemById(stockItem.getId());
+		StockItem stockItemDocument = getItemById(stockItem.getProductId());
 		stockItemDocument.setStockCount(stockItem.getStockCount());
 		try {
 			cosmosContainer.replaceItem(stockItemDocument, stockItemDocument.getId(), new PartitionKey(partitonkey),
@@ -96,11 +96,11 @@ public class AZUREStockItemRepository implements StockItemRepository {
 		return count;
 	}
 
-	private StockItem getItemById(String id) {
+	private StockItem getItemById(Integer id) {
 		CosmosContainer cosmosContainer = cosmosClient.getDatabase(getTodoDatabase().getId())
 				.getContainer(getTodoCollection().getId());
 		Iterator<StockItem> documentList = cosmosContainer
-				.queryItems("SELECT * FROM root r WHERE r.id=" + id, null, StockItem.class).iterator();
+				.queryItems("SELECT * FROM root r WHERE r.productId=" + id, null, StockItem.class).iterator();
 
 		if (documentList.hasNext()) {
 			return documentList.next();

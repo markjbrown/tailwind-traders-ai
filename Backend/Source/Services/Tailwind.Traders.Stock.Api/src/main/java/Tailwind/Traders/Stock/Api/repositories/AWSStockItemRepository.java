@@ -26,7 +26,7 @@ public class AWSStockItemRepository implements StockItemRepository {
 	}
 
 	@Override
-	public StockItem findByProductId(String id) {
+	public StockItem findByProductId(Integer id) {
 		return dynamoDBMapper.load(StockItem.class, id);
 	}
 

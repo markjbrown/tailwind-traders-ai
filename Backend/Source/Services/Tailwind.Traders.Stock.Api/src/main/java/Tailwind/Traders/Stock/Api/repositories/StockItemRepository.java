@@ -10,5 +10,5 @@ public interface StockItemRepository {
 
 	boolean save(StockItem stockItem);
 
-	StockItem findByProductId(String id);
+	StockItem findByProductId(Integer prodcuctId);
 }
