@@ -72,10 +72,10 @@ public class StockController {
 
 	}
 
-	@PostMapping("/v1/consumptions/stock")
-	public ResponseEntity<StockItem> add(@RequestBody StockItem stockItem) {
-		stockItemRepository.save(stockItem);
-		return new ResponseEntity<StockItem>(stockItem, HttpStatus.OK);
-	}
+//	@PostMapping("/v1/consumptions/stock")
+//	public ResponseEntity<StockItem> add(@RequestBody StockItem stockItem) {
+//		stockItemRepository.save(stockItem);
+//		return new ResponseEntity<StockItem>(stockItem, HttpStatus.OK);
+//	}
 
 }
