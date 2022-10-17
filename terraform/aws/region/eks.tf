@@ -38,6 +38,11 @@ module "eks" {
       userarn = aws_iam_group.eks_admin.arn
       username = aws_iam_group.eks_admin.name
       groups = ["system:masters"]
+    },
+    {
+      userarn = "arn:aws:iam::825357943300:user/mgray@solliance.net"
+      username = "mgray@solliance.net"
+      groups = ["system:masters"]
     }
   ]
 
