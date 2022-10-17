@@ -6,9 +6,10 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.stereotype.Service;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
@@ -19,21 +20,24 @@ import Tailwind.Traders.Stock.Api.models.StockItem;
 public class GCPStockItemRepository implements StockItemRepository {
 
 	@Override
-	public StockItem findByProductId(String id) {
+	public StockItem findByProductId(Integer productId) {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
-		DocumentReference documentReference = dbFirestore.collection(CommonConstant.COLLECTION_ID).document(id);
-		ApiFuture<DocumentSnapshot> future = documentReference.get();
-		DocumentSnapshot document;
-		StockItem customer = null;
+		Query documentReference = dbFirestore.collection(CommonConstant.COLLECTION_ID).whereEqualTo("productId", productId);
+		ApiFuture<QuerySnapshot> future = documentReference.get();
+		StockItem stock = null;
 		try {
-			document = future.get();
-			if (document.exists()) {
-				customer = document.toObject(StockItem.class);
+			QuerySnapshot queryShapShot = future.get();
+			if (!queryShapShot.isEmpty() && !queryShapShot.getDocuments().isEmpty()) {
+				DocumentSnapshot document = queryShapShot.getDocuments().get(0);
+				if (document.exists()) {
+					stock = document.toObject(StockItem.class);
+				}
 			}
 		} catch (InterruptedException | ExecutionException e) {
 			e.printStackTrace();
 		}
-		return customer;
+		return stock;
+
 	}
 
 	@Override
@@ -51,7 +55,17 @@ public class GCPStockItemRepository implements StockItemRepository {
 
 	@Override
 	public Integer count() {
-		// TODO Auto-generated method stub
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		Query documentReference = dbFirestore.collection(CommonConstant.COLLECTION_ID).select("productId");
+		ApiFuture<QuerySnapshot> future = documentReference.get();
+		try {
+			QuerySnapshot queryShapShot = future.get();
+			if (!queryShapShot.isEmpty() && !queryShapShot.getDocuments().isEmpty()) {
+				return queryShapShot.getDocuments().size();
+			}
+		} catch (InterruptedException | ExecutionException e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 

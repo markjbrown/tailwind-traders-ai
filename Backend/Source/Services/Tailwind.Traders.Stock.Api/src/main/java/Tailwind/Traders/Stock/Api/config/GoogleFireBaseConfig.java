@@ -1,6 +1,6 @@
 package Tailwind.Traders.Stock.Api.config;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 
 import javax.annotation.PostConstruct;
 
@@ -21,10 +21,9 @@ public class GoogleFireBaseConfig {
 	public void initialize() {
 		if (dynaimc.equals("GCP")) {
 			try {
-				FileInputStream serviceAccount = new FileInputStream(
-						"C:\\Users\\faizk\\Downloads\\Backend\\serviceKey.json");
+				InputStream cpResource = this.getClass().getClassLoader().getResourceAsStream("serviceKey.json");
 				FirebaseOptions options = FirebaseOptions.builder()
-						.setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
+						.setCredentials(GoogleCredentials.fromStream(cpResource)).build();
 				FirebaseApp.initializeApp(options);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -32,5 +31,7 @@ public class GoogleFireBaseConfig {
 		}
 
 	}
+	
+	
 
 }

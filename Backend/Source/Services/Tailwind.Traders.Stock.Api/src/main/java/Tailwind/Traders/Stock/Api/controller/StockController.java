@@ -39,7 +39,7 @@ public class StockController {
 	private final Logger log = LogManager.getLogger(StockController.class);
 
 	@GetMapping(value = "/v1/stock/{id}")
-	public ResponseEntity<StockProduct> StockProduct(@PathVariable(value = "id", required = true) String id)
+	public ResponseEntity<StockProduct> StockProduct(@PathVariable(value = "id", required = true) Integer id)
 			throws IOException, Exception {
 		StockItem stock = stockItemRepository.findByProductId(id);
 
@@ -56,21 +56,18 @@ public class StockController {
 	}
 
 	@PostMapping("/v1/consumptions/stock/{id}")
-	public ResponseEntity<StockItem> decreaseStock(@PathVariable String id) {
+	public ResponseEntity<StockItem> decreaseStock(@PathVariable Integer id) {
 		StockItem stock = stockItemRepository.findByProductId(id);
-
 		if (stock == null) {
 			log.debug("Not found stock for product " + id);
 			return new ResponseEntity<StockItem>(HttpStatus.NOT_FOUND);
 		}
-
 		int currentStock = stock.getStockCount();
 		if (currentStock > 0) {
 			stock.setStockCount(currentStock - 1);
 			stockItemRepository.update(stock);
 			return new ResponseEntity<StockItem>(stock, HttpStatus.OK);
 		}
-
 		return new ResponseEntity<StockItem>(HttpStatus.BAD_REQUEST);
 
 	}
