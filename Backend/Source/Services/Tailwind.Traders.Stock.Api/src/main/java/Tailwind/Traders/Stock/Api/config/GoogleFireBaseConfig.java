@@ -22,7 +22,7 @@ public class GoogleFireBaseConfig {
 		if (dynaimc.equals("GCP")) {
 			try {
 				FileInputStream serviceAccount = new FileInputStream(
-						"C:\\Users\\faizk\\Downloads\\Backend\\serviceKey.json");
+						"E:\\taliwind\\Stock API\\tailwind-traders-multicloud\\Backend\\serviceKey.json");
 				FirebaseOptions options = FirebaseOptions.builder()
 						.setCredentials(GoogleCredentials.fromStream(serviceAccount)).build();
 				FirebaseApp.initializeApp(options);
