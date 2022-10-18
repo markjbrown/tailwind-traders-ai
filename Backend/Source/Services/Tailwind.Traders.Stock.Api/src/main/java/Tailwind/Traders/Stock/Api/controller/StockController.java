@@ -71,11 +71,4 @@ public class StockController {
 		return new ResponseEntity<StockItem>(HttpStatus.BAD_REQUEST);
 
 	}
-
-//	@PostMapping("/v1/consumptions/stock")
-//	public ResponseEntity<StockItem> add(@RequestBody StockItem stockItem) {
-//		stockItemRepository.save(stockItem);
-//		return new ResponseEntity<StockItem>(stockItem, HttpStatus.OK);
-//	}
-
 }
