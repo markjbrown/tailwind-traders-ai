@@ -36,8 +36,8 @@ public class AZUREStockItemRepository implements StockItemRepository {
 
 	private CosmosClient cosmosClient;
 	
-	public AZUREStockItemRepository(@Value("${dynamic.db}") String dynaimc, CosmosDbConfig cosmosDbConfig) {
-		if (dynaimc.equals("AZURE")) {
+	public AZUREStockItemRepository(@Value("${dynamic.db}") String dynamic, CosmosDbConfig cosmosDbConfig) {
+		if (dynamic.equals("AZURE")) {
 			this.cosmosClient = cosmosDbConfig.cosmosClient();
 		}
 	}

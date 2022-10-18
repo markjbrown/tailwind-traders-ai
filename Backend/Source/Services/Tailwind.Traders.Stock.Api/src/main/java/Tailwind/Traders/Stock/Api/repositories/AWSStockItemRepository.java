@@ -19,8 +19,8 @@ public class AWSStockItemRepository implements StockItemRepository {
 
 	private DynamoDBMapper dynamoDBMapper;
 
-	public AWSStockItemRepository(@Value("${dynamic.db}") String dynaimc, DynamoDBConfiguration dynamoDBConfiguration) {
-		if (dynaimc.equals("AWS")) {
+	public AWSStockItemRepository(@Value("${dynamic.db}") String dynamic, DynamoDBConfiguration dynamoDBConfiguration) {
+		if (dynamic.equals("AWS")) {
 			this.dynamoDBMapper = dynamoDBConfiguration.buildAmazonDynamoDB();
 		}
 	}

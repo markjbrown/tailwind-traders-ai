@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import Tailwind.Traders.Stock.Api.StockProduct;
@@ -22,13 +21,12 @@ import Tailwind.Traders.Stock.Api.repositories.StockItemRepository;
 public class StockController {
 
 	private StockItemRepository stockItemRepository;
-
-	public StockController(BeanFactory beanFactory, @Value("${dynamic.db}") String dynaimc) {
-		if (dynaimc.equals("AWS"))
+	public StockController(BeanFactory beanFactory, @Value("${dynamic.db}") String dynamic) {
+		if (dynamic.equals("AWS"))
 			this.stockItemRepository = beanFactory.getBean("AWS", StockItemRepository.class);
-		else if (dynaimc.equals("GCP")) {
+		else if (dynamic.equals("GCP")) {
 			this.stockItemRepository = beanFactory.getBean("GCP", StockItemRepository.class);
-		} else if (dynaimc.equals("AZURE")) {
+		} else if (dynamic.equals("AZURE")) {
 			this.stockItemRepository = beanFactory.getBean("AZURE", StockItemRepository.class);
 		} else {
 			System.out.println("No Database Selected");
@@ -71,11 +69,4 @@ public class StockController {
 		return new ResponseEntity<StockItem>(HttpStatus.BAD_REQUEST);
 
 	}
-
-	@PostMapping("/v1/consumptions/stock")
-	public ResponseEntity<StockItem> add(@RequestBody StockItem stockItem) {
-		stockItemRepository.save(stockItem);
-		return new ResponseEntity<StockItem>(stockItem, HttpStatus.OK);
-	}
-
 }
