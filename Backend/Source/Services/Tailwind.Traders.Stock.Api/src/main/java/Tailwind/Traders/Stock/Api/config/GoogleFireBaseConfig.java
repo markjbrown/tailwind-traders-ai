@@ -15,11 +15,11 @@ import com.google.firebase.FirebaseOptions;
 public class GoogleFireBaseConfig {
 
 	@Value("${dynamic.db}")
-	private String dynaimc;
+	private String dynamic;
 
 	@PostConstruct
 	public void initialize() {
-		if (dynaimc.equals("GCP")) {
+		if (dynamic.equals("GCP")) {
 			try {
 				InputStream cpResource = this.getClass().getClassLoader().getResourceAsStream("serviceKey.json");
 				FirebaseOptions options = FirebaseOptions.builder()

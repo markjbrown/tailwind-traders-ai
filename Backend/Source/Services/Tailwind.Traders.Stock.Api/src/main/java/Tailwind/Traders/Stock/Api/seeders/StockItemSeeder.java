@@ -25,12 +25,12 @@ public class StockItemSeeder {
 
 	private StockItemRepository stockItemRepository;
 
-	public StockItemSeeder(BeanFactory beanFactory, @Value("${dynamic.db}") String dynaimc) {
-		if (dynaimc.equals("AWS"))
+	public StockItemSeeder(BeanFactory beanFactory, @Value("${dynamic.db}") String dynamic) {
+		if (dynamic.equals("AWS"))
 			this.stockItemRepository = beanFactory.getBean("AWS", StockItemRepository.class);
-		else if (dynaimc.equals("GCP")) {
+		else if (dynamic.equals("GCP")) {
 			this.stockItemRepository = beanFactory.getBean("GCP", StockItemRepository.class);
-		} else if (dynaimc.equals("AZURE")) {
+		} else if (dynamic.equals("AZURE")) {
 			this.stockItemRepository = beanFactory.getBean("AZURE", StockItemRepository.class);
 		} else {
 			System.out.println("No Database Selected");
