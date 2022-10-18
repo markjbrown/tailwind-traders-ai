@@ -2,18 +2,22 @@ package Tailwind.Traders.Stock.Api.seeders;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import Tailwind.Traders.Stock.Api.StockProduct;
@@ -36,6 +40,10 @@ public class StockItemSeeder {
 			System.out.println("No Database Selected");
 			System.exit(1);
 		}
+	}
+	
+	@PostConstruct
+	public void initialize() {
 		seed();
 	}
 
@@ -65,13 +73,17 @@ public class StockItemSeeder {
 		// For all other products up to MAX_PRODUCT_ID set a 100 stock units
 
 		//String mpid = System.getenv("MAX_PRODUCT_ID");
+
 		String mpid = "15";
+
 		int defaultStock = 60;
 		int maxpid = 0;
 		try {
 			maxpid = Integer.parseInt(mpid);
 		} catch (NumberFormatException ex) {
+
 			maxpid = 15;
+
 		}
 
 		for (int idx = 1; idx <= maxpid; idx++) {

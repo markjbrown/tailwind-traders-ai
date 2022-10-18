@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import org.json.JSONObject;
+
 
 @Configuration
 public class GoogleFireBaseConfig {
@@ -21,6 +23,10 @@ public class GoogleFireBaseConfig {
 	public void initialize() {
 		if (dynaimc.equals("GCP")) {
 			try {
+				JSONObject cpResource=new JSONObject();
+				cpResource.put("type", @Value("${gcp.type}")); 
+				
+				
 				InputStream cpResource = this.getClass().getClassLoader().getResourceAsStream("serviceKey.json");
 				FirebaseOptions options = FirebaseOptions.builder()
 						.setCredentials(GoogleCredentials.fromStream(cpResource)).build();
