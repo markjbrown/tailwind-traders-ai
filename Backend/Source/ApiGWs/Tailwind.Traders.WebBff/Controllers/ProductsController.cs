@@ -1,37 +1,46 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Tailwind.Traders.WebBff.Infrastructure;
 using Tailwind.Traders.WebBff.Models;
 
 namespace Tailwind.Traders.WebBff.Controllers
 {
+
     [Route("v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
     public class ProductsController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AppSettings _settings;
         private readonly ILogger _logger;
         private const string VERSION_API = "v1";
+        private const string BearerScheme = "Bearer";
 
         public ProductsController(
             ILogger<ProductsController> logger,
             IHttpClientFactory httpClientFactory,
-            IOptions<AppSettings> options)
+            IOptions<AppSettings> options,
+            IHttpContextAccessor httpContextAccessor)
         {
             _httpClientFactory = httpClientFactory;
+            _httpContextAccessor = httpContextAccessor;
             _settings = options.Value;
             _logger = logger;
         }
@@ -41,15 +50,63 @@ namespace Tailwind.Traders.WebBff.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {
-            var client = _httpClientFactory.CreateClient(HttpClients.ApiGW);
-            var result = await client.GetStringAsync(API.PopularProducts.GetProducts(_settings.PopularProductsApiUrl, VERSION_API));
-            var popularProducts = JsonConvert.DeserializeObject<IEnumerable<PopularProduct>>(result);
+            string username = null;
+            if (_httpContextAccessor.HttpContext.Request.Headers.TryGetValue("Authorization", out var authValue))
+            {
+                var token = authValue.First().Substring(BearerScheme.Length + 1);
+                username = RetrieveUserFromToken(token);
+            }
 
+            var recommendedProducts = await GetRecommendedProductsAsync(username);
             var aggresponse = new
             {
-                PopularProducts = popularProducts
+                PopularProducts = recommendedProducts
             };
             return Ok(aggresponse);
+        }
+
+        private async Task<IEnumerable<PopularProduct>> GetRecommendedProductsAsync(string username)
+        {
+            var mlClient = _httpClientFactory.CreateClient();
+            string apiKey = _settings.RecommenderService.ApiKey; // Replace this with the API key for the web service
+            mlClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+            mlClient.BaseAddress = new Uri(_settings.RecommenderService.Url);
+
+            string jsonBody = $"{{\"data\": {{\"user_id\": \"${username}\", \"product_type\": 2}} }}";
+            var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+            // This header will force the request to go to a specific deployment.
+            // Remove this line to have the request observe the endpoint traffic rules
+            //content.Headers.Add("azureml-model-deployment", "default");
+            var response = await mlClient.PostAsync("", content);
+            response.EnsureSuccessStatusCode();
+            string responseContent = await response.Content.ReadAsStringAsync();
+            var recommendation = JsonConvert.DeserializeObject<Recommendation>(responseContent);
+
+            var productClient = _httpClientFactory.CreateClient(HttpClients.ApiGW);
+            var result = await productClient.GetStringAsync(API.Products.GetByIds(_settings.ProductsApiUrl, VERSION_API, recommendation.Products));
+            var products = JsonConvert.DeserializeObject<Product[]>(result);
+            return products.Select(p => new PopularProduct
+            {
+                Id = p.Id,
+                Name = p.Name,
+                ImageUrl = p.ImageUrl,
+                Price = (decimal)p.Price,
+            });
+        }
+
+        private async Task<IEnumerable<PopularProduct>> GetPopularProductsAsync(string token)
+        {
+            var client = _httpClientFactory.CreateClient(HttpClients.ApiGW);
+            string requestUri = API.PopularProducts.GetProducts(_settings.PopularProductsApiUrl, VERSION_API);
+            var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+            if (token != null)
+            {
+                request.Headers.Authorization = new AuthenticationHeaderValue(BearerScheme, token);
+            }
+            var response = await client.SendAsync(request);
+            var result = await response.Content.ReadAsStringAsync();
+            var popularProducts = JsonConvert.DeserializeObject<IEnumerable<PopularProduct>>(result);
+            return popularProducts;
         }
 
         // GET: v1/products/1
@@ -102,7 +159,7 @@ namespace Tailwind.Traders.WebBff.Controllers
             var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(result);
 
             result = await client.GetStringAsync(API.Products.GetBrands(_settings.ProductsApiUrl, VERSION_API));
-            var brands = JsonConvert.DeserializeObject<IEnumerable<ProductBrand>>(result);            
+            var brands = JsonConvert.DeserializeObject<IEnumerable<ProductBrand>>(result);
 
             var aggresponse = new
             {
@@ -187,6 +244,19 @@ namespace Tailwind.Traders.WebBff.Controllers
             var suggestedProducts = JsonConvert.DeserializeObject<IEnumerable<ClassifiedProductItem>>(suggestedProductsJson);
 
             return Ok(suggestedProducts);
+        }
+
+        private string RetrieveUserFromToken(string token)
+        {
+            var jwtHandler = new JwtSecurityTokenHandler();
+            var isReadableToken = jwtHandler.CanReadToken(token);
+            if (!isReadableToken)
+            {
+                return null;
+            }
+
+            var claims = jwtHandler.ReadJwtToken(token).Claims;
+            return claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
         }
     }
 }

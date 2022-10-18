@@ -71,6 +71,19 @@ namespace Tailwind.Traders.Product.Api.Repos
             return items;
         }
 
+
+        public async Task<List<ProductItem>> FindProductsByIdsAsync(int[] ids)
+        {
+            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient);
+            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient);
+            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient);
+            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient);
+            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient);
+            items = items.Where(p => ids.Contains(p.Id)).ToList();
+            items = items.Take(_take).ToList();
+            items.Join(brands, types, features, tags);
+            return items;
+        }
         public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
             var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient);

@@ -15,5 +15,6 @@ namespace Tailwind.Traders.WebBff
         public string Authority { get; set; }
         public bool RegisterUsers { get; set; }
         public string RegistrationUsersEndpoint { get; set; }
-    }    
+        public RecommenderServiceSettings RecommenderService { get; set; }
+    }
 }
