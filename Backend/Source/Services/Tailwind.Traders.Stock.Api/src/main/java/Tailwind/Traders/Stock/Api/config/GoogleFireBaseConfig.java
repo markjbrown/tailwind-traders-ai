@@ -48,12 +48,14 @@ public class GoogleFireBaseConfig {
 	public void initialize() {
 		if (dynamic.equals("GCP")) {
 			try {
+
 				Collection<String> scopes = Collections.singleton("https://www.googleapis.com/auth/cloud-language");
 				GoogleCredentials sac = ServiceAccountCredentials.newBuilder()
 						.setPrivateKey(getPrivateKey(gcpPrivate_key)).setPrivateKeyId(gcpPrivate_key_id)
 						.setProjectId(gcpProject_id).setClientEmail(gcpClient_email).setScopes(scopes)
 						.setTokenServerUri(new URI(gcpToken_uri)).setClientId(gcpClient_id).build();
 				FirebaseOptions options = FirebaseOptions.builder().setCredentials(sac).build();
+
 				FirebaseApp.initializeApp(options);
 			} catch (Exception e) {
 				e.printStackTrace();
