@@ -18,3 +18,4 @@ data:
   ConnectionString: Server={{ $sqlsrv }},{{ $sqlport }};Initial Catalog={{ $sqldb }};Persist Security Info=False;User ID={{ $sqluser }};Password={{ $sqlpwd }};MultipleActiveResultSets=False;Connection Timeout=30;
   Issuer: {{ .Values.sec.issuer }}
   SecurityKey: {{ .Values.sec.securityKey }}
+  CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"

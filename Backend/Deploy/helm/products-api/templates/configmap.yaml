@@ -17,3 +17,4 @@ data:
   ApplicationInsights__InstrumentationKey:  "{{ .Values.inf.appinsights.id }}"  
   ISSUER: {{ .Values.sec.issuer }}
   SECURITYKEY: {{ .Values.sec.securityKey }}
+  CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"

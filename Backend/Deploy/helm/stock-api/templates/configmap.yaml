@@ -16,4 +16,5 @@ data:
   COSMOSDB_HOST: {{ .Values.inf.db.stock.host }}
   ISSUER: {{ .Values.sec.issuer }}
   SECURITYKEY: {{ .Values.sec.securityKey }}
+  CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"
   

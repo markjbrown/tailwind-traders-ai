@@ -40,6 +40,7 @@ env:
     - name: Authority
     - name: RegisterUsers
     - name: RegistrationUsersEndpoint
+    - name: CLOUD_PLATFORM
   values:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
@@ -47,8 +48,7 @@ env:
       value: mobilebff
     - name: UseMlNetClassifier
       value: "true"
-    - name: CLOUD_PLATFORM
-      value: AZURE
+
 probes:
   liveness:
     path: /liveness

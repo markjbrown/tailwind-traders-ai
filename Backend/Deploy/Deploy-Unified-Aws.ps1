@@ -14,7 +14,7 @@ Param(
     [parameter(Mandatory=$false)][bool]$stepDeployPics=$false,
     [parameter(Mandatory=$false)][bool]$stepLoginAzure=$false
 )
-$gValuesFile="configFile.yaml"
+$gValuesFile="aws-configFile.yaml"
 
 Push-Location $($MyInvocation.InvocationName | Split-Path)
 
@@ -50,7 +50,7 @@ az aks get-credentials -n $aksName -g $resourceGroup
 
 # Generate Config
 $gValuesLocation=$(./Join-Path-Recursively.ps1 -pathParts ..,helm,__values,$gValuesFile)
-& ./Generate-Config.ps1 -resourceGroup $resourceGroup -outputFile $gValuesLocation
+& ./Generate-Config-Eks.ps1 -outputFile $gValuesLocation
 
 # Create Secrets
 $acrName = $(az acr list --resource-group $resourceGroup --subscription $subscription -o json | ConvertFrom-Json).name

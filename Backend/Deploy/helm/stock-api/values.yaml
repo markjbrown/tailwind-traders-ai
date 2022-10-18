@@ -30,9 +30,8 @@ env:
     - name: SECURITYKEY
     - name: COSMOSDB_AUTHKEY
     - name: COSMOSDB_HOST
-  values:
     - name: CLOUD_PLATFORM
-      value: AZURE
+  values: {}
 
 probes:
   liveness:

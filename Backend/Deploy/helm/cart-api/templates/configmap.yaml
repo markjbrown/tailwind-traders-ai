@@ -22,5 +22,6 @@ data:
   identityMetadata: {{ .Values.B2C.identityMetadata | quote }}
   issuer: {{ .Values.B2C.issuer | quote }}
   APPLICATIONINSIGHTSIK:  "{{ .Values.inf.appinsights.id }}"
+  CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"
 
 

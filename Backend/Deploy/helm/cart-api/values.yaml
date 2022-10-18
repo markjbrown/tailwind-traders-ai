@@ -36,11 +36,10 @@ env:
     - name: policyName
     - name: identityMetadata
     - name: issuer
+    - name: CLOUD_PLATFORM
   values:
     - name: DISABLE_SSL
       value: "false"
-    - name: CLOUD_PLATFORM
-      value: AZURE
 
 probes:
   liveness:

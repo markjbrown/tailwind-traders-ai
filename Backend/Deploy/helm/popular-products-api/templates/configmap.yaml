@@ -16,3 +16,4 @@ data:
   AzureStorageUrl: {{ .Values.inf.storage.productimages }}
   ISSUER: {{ .Values.sec.issuer }}
   SECURITYKEY: {{ .Values.sec.securityKey }}
+  CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"
