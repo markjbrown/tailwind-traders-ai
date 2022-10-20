@@ -68,26 +68,13 @@ public class StockItemSeeder {
 
 		// For all other products up to MAX_PRODUCT_ID set a 100 stock units
 
-<<<<<<< HEAD
-		//String mpid = System.getenv("MAX_PRODUCT_ID");
-
-		String mpid = "15";
-
-=======
 		String mpid = System.getenv("MAX_PRODUCT_ID");
->>>>>>> 9b56cf934f5fd021981e53a09ffbb4b7f310c578
 		int defaultStock = 60;
 		int maxpid = 0;
 		try {
 			maxpid = Integer.parseInt(mpid);
 		} catch (NumberFormatException ex) {
-<<<<<<< HEAD
-
-			maxpid = 15;
-
-=======
 			maxpid = 250;
->>>>>>> 9b56cf934f5fd021981e53a09ffbb4b7f310c578
 		}
 
 		for (int idx = 1; idx <= maxpid; idx++) {

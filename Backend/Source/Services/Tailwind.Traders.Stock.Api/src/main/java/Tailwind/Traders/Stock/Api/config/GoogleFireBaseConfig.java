@@ -28,9 +28,7 @@ public class GoogleFireBaseConfig {
 
 	@Value("${dynamic.db}")
 	private String dynamic;
-	@Value("${dynamic.db}")
-	private String dynaimc;
-	
+
 	@Value("${gcp.project_id}")
 	private String gcpProject_id;
 	@Value("${gcp.private_key_id}")
