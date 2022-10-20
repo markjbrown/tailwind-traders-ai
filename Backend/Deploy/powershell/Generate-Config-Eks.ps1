@@ -71,6 +71,12 @@ $tokens=@{}
 Write-Host "===========================================================" -ForegroundColor Yellow
 Write-Host "gvalues file will be generated with values:"
 
+$tokens.awsRegion="us-east-1"
+
+$tokens.productsTable="GLB-TT-DEMO-CartProducts-db"
+$tokens.recommendationsTable="GLB-TT-DEMO-CartRecommendations-db"
+$tokens.ordersTable="GLB-TT-DEMO-CartOrders-db"
+
 $tokens.shoppinghost="TEMPVALUE"
 $tokens.shoppingauth="TEMPVALUE"
 

@@ -2,6 +2,7 @@
 
 inf:
   cloudPlatform: AWS
+  awsRegion: {{awsRegion}}
   sa: null
   db:
     products:
@@ -19,6 +20,9 @@ inf:
     cart:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
+      productsTable: {{productsTable}}
+      recommendationsTable: {{recommendationsTable}}
+      ordersTable: {{ordersTable}}
     rewards:
       host: {{rewardshost}}
       port: "1433"

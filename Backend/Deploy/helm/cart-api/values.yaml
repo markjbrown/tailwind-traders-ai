@@ -28,6 +28,10 @@ env:
     - name: APPLICATIONINSIGHTSIK
     - name: AUTHKEY
     - name: HOST
+    - name: AWS_CART_PRODUCTS_TABLE
+    - name: AWS_CART_RECOMMENDATIONS_TABLE
+    - name: AWS_CART_ORDERS_TABLE
+    - name: AWS_REGION
     - name: ISSUER
     - name: UseB2C
     - name: SECURITYKEY
