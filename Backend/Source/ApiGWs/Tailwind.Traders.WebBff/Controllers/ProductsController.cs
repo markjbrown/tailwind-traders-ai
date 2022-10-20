@@ -72,7 +72,7 @@ namespace Tailwind.Traders.WebBff.Controllers
             mlClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
             mlClient.BaseAddress = new Uri(_settings.RecommenderService.Url);
 
-            string jsonBody = $"{{\"data\": {{\"user_id\": \"${username}\", \"product_type\": 2}} }}";
+            string jsonBody = $"{{\"data\": {{\"user_id\": \"{username}\", \"product_type\": -1}} }}";
             var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
             // This header will force the request to go to a specific deployment.
             // Remove this line to have the request observe the endpoint traffic rules
