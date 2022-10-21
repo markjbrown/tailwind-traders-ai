@@ -7,7 +7,7 @@ resource "aws_dynamodb_table" "product_context" {
 
   attribute {
     name = "id"
-    type = "S"
+    type = "N"
   }
 }
 
@@ -20,7 +20,7 @@ resource "aws_dynamodb_table" "profile_context" {
 
   attribute {
     name = "id"
-    type = "S"
+    type = "N"
   }
 }
 
@@ -33,7 +33,7 @@ resource "aws_dynamodb_table" "cart_orders" {
 
   attribute {
     name = "id"
-    type = "S"
+    type = "N"
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_dynamodb_table" "cart_products" {
 
   attribute {
     name = "id"
-    type = "S"
+    type = "N"
   }
 }
 
@@ -59,7 +59,7 @@ resource "aws_dynamodb_table" "cart_reccomendations" {
 
   attribute {
     name = "id"
-    type = "S"
+    type = "N"
   }
 }
 
@@ -72,6 +72,58 @@ resource "aws_dynamodb_table" "stock_collection" {
 
   attribute {
     name = "id"
-    type = "S"
+    type = "N"
+  }
+}
+
+resource "aws_dynamodb_table" "product_brand" {
+  name           = "${local.resource_prefix}-ProductBrand-db"
+  billing_mode   = "PROVISIONED"
+  hash_key       = "id"
+  read_capacity  = 20
+  write_capacity = 20
+
+  attribute {
+    name = "id"
+    type = "N"
+  }
+}
+
+resource "aws_dynamodb_table" "product_tag" {
+  name           = "${local.resource_prefix}-ProductTag-db"
+  billing_mode   = "PROVISIONED"
+  hash_key       = "id"
+  read_capacity  = 20
+  write_capacity = 20
+
+  attribute {
+    name = "id"
+    type = "N"
+  }
+}
+
+resource "aws_dynamodb_table" "product_type" {
+  name           = "${local.resource_prefix}-ProductType-db"
+  billing_mode   = "PROVISIONED"
+  hash_key       = "id"
+  read_capacity  = 20
+  write_capacity = 20
+
+  attribute {
+    name = "id"
+    type = "N"
+  }
+}
+
+resource "aws_dynamodb_table" "product_feature" {
+  name           = "${local.resource_prefix}-ProductFeature-db"
+  billing_mode   = "PROVISIONED"
+  hash_key       = "id"
+  read_capacity  = 20
+  write_capacity = 20
+
+  attribute {
+    name = "id"
+    type = "N"
   }
 }
