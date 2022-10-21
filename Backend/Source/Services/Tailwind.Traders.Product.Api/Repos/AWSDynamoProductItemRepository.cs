@@ -38,11 +38,11 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<ProductItem>> FindProductsAsync(int[] brand, int[] type)
         {
-            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_PRODUCTITEM_TABLE);
-            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_BRAND_TABLE);
-            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TYPE_TABLE);
-            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_FEATURE_TABLE);
-            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TAG_TABLE);
+            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_PRODUCTITEM_TABLE);
+            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_BRAND_TABLE);
+            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TYPE_TABLE);
+            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_FEATURE_TABLE);
+            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TAG_TABLE);
 
             items = items.Where(item => brand.Contains(item.BrandId) || type.Contains(item.TypeId)).ToList();
             items
@@ -53,11 +53,11 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<ProductItem>> FindProductsByTag(string tag)
         {
-            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_PRODUCTITEM_TABLE);
-            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_BRAND_TABLE);
-            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TYPE_TABLE);
-            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_FEATURE_TABLE);
-            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TAG_TABLE);
+            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_PRODUCTITEM_TABLE);
+            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_BRAND_TABLE);
+            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TYPE_TABLE);
+            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_FEATURE_TABLE);
+            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TAG_TABLE);
 
             var productTag = tags.Where(t => t.Value == tag).SingleOrDefault();
             if (productTag == null)
@@ -73,17 +73,17 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
-            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_BRAND_TABLE);
+            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_BRAND_TABLE);
             return brands;
         }
 
         public async Task<List<ProductItem>> GetAllProductsAsync()
         {
-            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_PRODUCTITEM_TABLE);
-            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_BRAND_TABLE);
-            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TYPE_TABLE);
-            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_FEATURE_TABLE);
-            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TAG_TABLE);
+            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_PRODUCTITEM_TABLE);
+            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_BRAND_TABLE);
+            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TYPE_TABLE);
+            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_FEATURE_TABLE);
+            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TAG_TABLE);
 
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
@@ -94,17 +94,17 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<ProductType>> GetAllTypesAsync()
         {
-            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TYPE_TABLE);
+            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TYPE_TABLE);
             return types;
         }
 
         public async Task<ProductItem> GetProductById(int productId)
         {
-            var items = await DynomoDbService.GetProductItemByIdAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_PRODUCTITEM_TABLE);
-            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_BRAND_TABLE);
-            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TYPE_TABLE);
-            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_FEATURE_TABLE);
-            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TAG_TABLE);
+            var items = await DynomoDbService.GetProductItemByIdAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_PRODUCTITEM_TABLE);
+            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_BRAND_TABLE);
+            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TYPE_TABLE);
+            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_FEATURE_TABLE);
+            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TAG_TABLE);
 
             items.Join(brands, types, features, tags);
 
@@ -115,12 +115,12 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<ProductItem>> RecommendedProductsAsync()
         {
-            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_PRODUCTITEM_TABLE);
+            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_PRODUCTITEM_TABLE);
             items = items.OrderBy(product => new Random().Next()).Take(_take).ToList();
-            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_BRAND_TABLE);
-            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TYPE_TABLE);
-            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_FEATURE_TABLE);
-            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.PRODUCT_TAG_TABLE);
+            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_BRAND_TABLE);
+            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TYPE_TABLE);
+            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_FEATURE_TABLE);
+            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TAG_TABLE);
 
             items.Join(brands, types, features, tags);
 

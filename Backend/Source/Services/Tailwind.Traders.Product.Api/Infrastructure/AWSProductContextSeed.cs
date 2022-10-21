@@ -40,7 +40,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 
 
             
-            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_PRODUCTITEM_TABLE);
+            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_PRODUCTITEM_TABLE);
             foreach (var item in products)
             {
                 var productItem = new Document();
@@ -57,7 +57,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 
 
             
-            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_BRAND_TABLE);
+            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_BRAND_TABLE);
             foreach (var item in brands)
             {
                 var brandItem = new Document();
@@ -66,7 +66,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await brandTable.PutItemAsync(brandItem);
             }
 
-            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_FEATURE_TABLE);
+            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_FEATURE_TABLE);
             foreach (var item in features)
             {
                 var featureItem = new Document();
@@ -77,7 +77,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await featureTable.PutItemAsync(featureItem);
             }
 
-            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_TYPE_TABLE);
+            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TYPE_TABLE);
             foreach (var item in types)
             {
                 var prodcutTypeItem = new Document();
@@ -87,7 +87,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await productTypeTable.PutItemAsync(prodcutTypeItem);
             }
 
-            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_TAG_TABLE);
+            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TAG_TABLE);
             foreach (var item in tags)
             {
                 var prodcutTagItem = new Document();
