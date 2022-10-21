@@ -5,10 +5,10 @@
         public string ProductImagesUrl { get; set; }
         public FireStoreKeys FireStoreServiceKey { get; set; }
         public DynamoDBKeys DynamoDBServiceKey { get; set; }
-        public string ProductItemCollectionName { get; set; }
-        public string ProductBrandCollectionName { get; set; }
-        public string ProductFeatureCollectionName { get; set; }
-        public string ProductTagCollectionName { get; set; }
-        public string ProductTypeCollectionName { get; set; }       
+        public string PRODUCT_PRODUCTITEM_TABLE { get; set; }
+        public string PRODUCT_BRAND_TABLE { get; set; }
+        public string PRODUCT_FEATURE_TABLE { get; set; }
+        public string PRODUCT_TAG_TABLE { get; set; }
+        public string PRODUCT_TYPE_TABLE { get; set; }       
     }
 }

@@ -15,6 +15,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
         private readonly AppSettings _appConfig;
         private readonly AmazonDynamoDBClient _amazonDynamoDBClient;
         private readonly IWebHostEnvironment _env;
+       
 
         public AWSProductContextSeed(IProcessFile processFile, IOptions<AppSettings> options, IWebHostEnvironment env)
         {
@@ -37,7 +38,9 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
             var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
 
-            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.ProductItemCollectionName);
+
+            
+            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_PRODUCTITEM_TABLE);
             foreach (var item in products)
             {
                 var productItem = new Document();
@@ -49,9 +52,12 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 productItem["Price"] = item.Price;
                 productItem["ImageName"] = item.ImageName;
                 await productItemTable.PutItemAsync(productItem);
+                                
             }
 
-            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.ProductBrandCollectionName);
+
+            
+            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_BRAND_TABLE);
             foreach (var item in brands)
             {
                 var brandItem = new Document();
@@ -60,7 +66,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await brandTable.PutItemAsync(brandItem);
             }
 
-            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.ProductFeatureCollectionName);
+            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_FEATURE_TABLE);
             foreach (var item in features)
             {
                 var featureItem = new Document();
@@ -71,7 +77,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await featureTable.PutItemAsync(featureItem);
             }
 
-            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.ProductTypeCollectionName);
+            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_TYPE_TABLE);
             foreach (var item in types)
             {
                 var prodcutTypeItem = new Document();
@@ -81,7 +87,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await productTypeTable.PutItemAsync(prodcutTypeItem);
             }
 
-            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.ProductTagCollectionName);
+            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.PRODUCT_TAG_TABLE);
             foreach (var item in tags)
             {
                 var prodcutTagItem = new Document();

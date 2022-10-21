@@ -32,11 +32,11 @@ namespace Tailwind.Traders.Product.Api.Repos
             FirestoreDb db = GcpHelper.CreateDb(appSettings.Value.FireStoreServiceKey);
 
             // getting collections
-            _productItemCollection = db.Collection(appSettings.Value.ProductItemCollectionName);
-            _brandCollection = db.Collection(appSettings.Value.ProductBrandCollectionName);
-            _typeCollection = db.Collection(appSettings.Value.ProductTypeCollectionName);
-            _tagCollection = db.Collection(appSettings.Value.ProductTagCollectionName);
-            _featureCollection = db.Collection(appSettings.Value.ProductFeatureCollectionName);
+            _productItemCollection = db.Collection(appSettings.Value.PRODUCT_PRODUCTITEM_TABLE);
+            _brandCollection = db.Collection(appSettings.Value.PRODUCT_PRODUCTITEM_TABLE);
+            _typeCollection = db.Collection(appSettings.Value.PRODUCT_TYPE_TABLE);
+            _tagCollection = db.Collection(appSettings.Value.PRODUCT_TAG_TABLE);
+            _featureCollection = db.Collection(appSettings.Value.PRODUCT_FEATURE_TABLE);
         }
 
         public async Task<List<ProductItem>> FindProductsAsync(int[] brand, int[] type)
