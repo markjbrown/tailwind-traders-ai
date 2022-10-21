@@ -29,11 +29,11 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             FirestoreDb db = GcpHelper.CreateDb(appSettings.Value.FireStoreServiceKey);
 
             // getting collections
-            _productItemCollection = db.Collection(typeof(ProductItem).Name);
-            _brandCollection = db.Collection(typeof(ProductBrand).Name);
-            _typeCollection = db.Collection(typeof(ProductType).Name);
-            _tagCollection = db.Collection(typeof(ProductTag).Name);
-            _featureCollection = db.Collection(typeof(ProductFeature).Name);
+            _productItemCollection = db.Collection(appSettings.Value.ProductItemCollectionName);
+            _brandCollection = db.Collection(appSettings.Value.ProductBrandCollectionName);
+            _typeCollection = db.Collection(appSettings.Value.ProductTypeCollectionName);
+            _tagCollection = db.Collection(appSettings.Value.ProductTagCollectionName);
+            _featureCollection = db.Collection(appSettings.Value.ProductFeatureCollectionName);
         }
 
         public async Task SeedAsync()
