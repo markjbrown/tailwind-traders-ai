@@ -27,6 +27,10 @@ module "eks" {
       max_size     = 1
       desired_size = 1
 
+      iam_role_additional_policies = [
+        "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+      ]
+
       pre_bootstrap_user_data = <<-EOT
       echo 'foo bar'
       EOT
@@ -123,3 +127,4 @@ resource "helm_release" "lb" {
 resource "aws_iam_group" "eks_admin" {
   name = "eks-admin"
 }
+
