@@ -14,12 +14,12 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
         {
         }
 
-        public async static Task<List<ProductItem>> GetProductItemsAsync(AmazonDynamoDBClient _amazonDynamoDBClient)
+        public async static Task<List<ProductItem>> GetProductItemsAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
         {
             var items = new List<ProductItem>();
             var request = new ScanRequest
             {
-                TableName = typeof(ProductItem).Name,
+                TableName = _tableName,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      { ":id", new AttributeValue { N = "1" } }
@@ -49,12 +49,12 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             return items.ToList();
         }
 
-        public async static Task<List<ProductItem>> GetProductItemByIdAsync(AmazonDynamoDBClient _amazonDynamoDBClient)
+        public async static Task<List<ProductItem>> GetProductItemByIdAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
         {
             var items = new List<ProductItem>();
             var request = new ScanRequest
             {
-                TableName = typeof(ProductItem).Name,
+                TableName = _tableName,
                 FilterExpression = "Id = :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      { ":id", new AttributeValue { N = "1"} }
@@ -84,12 +84,12 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             return items.ToList();
         }
 
-        public async static Task<List<ProductBrand>> GetProductBrandsAsync(AmazonDynamoDBClient _amazonDynamoDBClient)
+        public async static Task<List<ProductBrand>> GetProductBrandsAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
         {
             var brands = new List<ProductBrand>();
             var request = new ScanRequest
             {
-                TableName = typeof(ProductBrand).Name,
+                TableName = _tableName,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      { ":id", new AttributeValue { N = "1" } }
@@ -109,12 +109,12 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             return brands.ToList();
         }
 
-        public async static Task<List<ProductType>> GetProductTypesAsync(AmazonDynamoDBClient _amazonDynamoDBClient)
+        public async static Task<List<ProductType>> GetProductTypesAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
         {
             var types = new List<ProductType>();
             var request = new ScanRequest
             {
-                TableName = typeof(ProductType).Name,
+                TableName = _tableName,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      { ":id", new AttributeValue { N = "1" } }
@@ -136,12 +136,12 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             return types.ToList();
         }
 
-        public async static Task<List<ProductTag>> GetProductTagsAsync(AmazonDynamoDBClient _amazonDynamoDBClient)
+        public async static Task<List<ProductTag>> GetProductTagsAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
         {
             var tag = new List<ProductTag>();
             var request = new ScanRequest
             {
-                TableName = typeof(ProductTag).Name,
+                TableName = _tableName,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      { ":id", new AttributeValue { N = "1" } }
@@ -161,12 +161,12 @@ namespace Tailwind.Traders.Product.Api.Repos.Services
             return tag.ToList();
         }
 
-        public async static Task<List<ProductFeature>> GetProductFeaturesAsync(AmazonDynamoDBClient _amazonDynamoDBClient)
+        public async static Task<List<ProductFeature>> GetProductFeaturesAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
         {
             var features = new List<ProductFeature>();
             var request = new ScanRequest
             {
-                TableName = typeof(ProductFeature).Name,
+                TableName = _tableName,
                 FilterExpression = "Id >= :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
                      { ":id", new AttributeValue { N = "1" } }

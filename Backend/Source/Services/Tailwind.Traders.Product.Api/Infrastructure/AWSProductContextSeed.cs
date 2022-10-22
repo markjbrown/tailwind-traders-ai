@@ -15,18 +15,14 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
         private readonly AppSettings _appConfig;
         private readonly AmazonDynamoDBClient _amazonDynamoDBClient;
         private readonly IWebHostEnvironment _env;
+       
 
         public AWSProductContextSeed(IProcessFile processFile, IOptions<AppSettings> options, IWebHostEnvironment env)
         {
             _processFile = processFile;
             _appConfig = options.Value;
             _env = env;
-            var dynamoDbConfig = new AmazonDynamoDBConfig
-            {
-                RegionEndpoint = RegionEndpoint.GetBySystemName(_appConfig.DynamoDBServiceKey.AwsRegion)
-            };
-            var awsCredentials = new AwsCredentials(_appConfig);
-            _amazonDynamoDBClient = new AmazonDynamoDBClient(awsCredentials, dynamoDbConfig);
+            _amazonDynamoDBClient = new AmazonDynamoDBClient();
         }
 
         public async Task SeedAsync()
@@ -37,7 +33,9 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
             var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
 
-            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, typeof(ProductItem).Name);
+
+            
+            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_PRODUCTITEM_TABLE);
             foreach (var item in products)
             {
                 var productItem = new Document();
@@ -49,9 +47,12 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 productItem["Price"] = item.Price;
                 productItem["ImageName"] = item.ImageName;
                 await productItemTable.PutItemAsync(productItem);
+                                
             }
 
-            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, typeof(ProductBrand).Name);
+
+            
+            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_BRAND_TABLE);
             foreach (var item in brands)
             {
                 var brandItem = new Document();
@@ -60,7 +61,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await brandTable.PutItemAsync(brandItem);
             }
 
-            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, typeof(ProductFeature).Name);
+            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_FEATURE_TABLE);
             foreach (var item in features)
             {
                 var featureItem = new Document();
@@ -71,7 +72,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await featureTable.PutItemAsync(featureItem);
             }
 
-            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, typeof(ProductType).Name);
+            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TYPE_TABLE);
             foreach (var item in types)
             {
                 var prodcutTypeItem = new Document();
@@ -81,13 +82,13 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 await productTypeTable.PutItemAsync(prodcutTypeItem);
             }
 
-            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, typeof(ProductTag).Name);
+            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.AWS_PRODUCT_TAG_TABLE);
             foreach (var item in tags)
             {
                 var prodcutTagItem = new Document();
                 prodcutTagItem["Id"] = item.Id;
                 prodcutTagItem["Value"] = item.Value;
-                await productTypeTable.PutItemAsync(prodcutTagItem);
+                await productTagTable.PutItemAsync(prodcutTagItem);
             }
         }
     }

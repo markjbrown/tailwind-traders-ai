@@ -8,6 +8,11 @@ inf:
     products:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
+      productItemTable: {{productItemTable}}
+      brandTable: {{brandTable}}
+      featureTable: {{featureTable}}
+      tagTable: {{tagTable}}
+      typeTable: {{typeTable}}
     profile:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
@@ -20,7 +25,7 @@ inf:
     cart:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
-      productsTable: {{productsTable}}
+      productsTable: {{cartProductsTable}}
       recommendationsTable: {{recommendationsTable}}
       ordersTable: {{ordersTable}}
     rewards:

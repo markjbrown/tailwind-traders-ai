@@ -109,7 +109,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             var prdTypeSnapshot = await _typeCollection.GetSnapshotAsync();
             var prdFeatureSnapshot = await _featureCollection.GetSnapshotAsync();
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
-            
+
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
                 .Join(

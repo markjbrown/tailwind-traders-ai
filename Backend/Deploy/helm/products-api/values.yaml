@@ -28,6 +28,11 @@ env:
     - name: ApplicationInsights__InstrumentationKey
     - name: CosmosDb__Host
     - name: CosmosDb__Key
+    - name: AWS_PRODUCT_PRODUCTITEM_TABLE
+    - name: AWS_PRODUCT_BRAND_TABLE
+    - name: AWS_PRODUCT_FEATURE_TABLE
+    - name: AWS_PRODUCT_TAG_TABLE
+    - name: AWS_PRODUCT_TYPE_TABLE
     - name: ProductImagesUrl
     - name: ProductDetailImagesUrl
     - name: ISSUER
