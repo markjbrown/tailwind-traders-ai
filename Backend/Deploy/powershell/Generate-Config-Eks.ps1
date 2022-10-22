@@ -73,9 +73,15 @@ Write-Host "gvalues file will be generated with values:"
 
 $tokens.awsRegion="us-east-1"
 
-$tokens.productsTable="GLB-TT-DEMO-CartProducts-db"
+$tokens.cartProductsTable="GLB-TT-DEMO-CartProducts-db"
 $tokens.recommendationsTable="GLB-TT-DEMO-CartRecommendations-db"
 $tokens.ordersTable="GLB-TT-DEMO-CartOrders-db"
+
+$tokens.productItemTable="GLB-TT-DEMO-ProductContext-db"
+$tokens.brandTable="GLB-TT-DEMO-ProductBrand-db"
+$tokens.featureTable="GLB-TT-DEMO-ProductFeature-db"
+$tokens.tagTable="GLB-TT-DEMO-ProductTag-db"
+$tokens.typeTable="GLB-TT-DEMO-ProductType-db"
 
 $tokens.shoppinghost="TEMPVALUE"
 $tokens.shoppingauth="TEMPVALUE"

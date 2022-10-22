@@ -68,14 +68,14 @@ namespace Tailwind.Traders.Product.Api.Extensions
 
             hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
 
-            hcBuilder.Add(new HealthCheckRegistration(
-                "ProductsDB-check",
-                sp => new CosmosDbHealthCheck(
-                    $"AccountEndpoint={configuration["CosmosDb:Host"]};AccountKey={configuration["CosmosDb:Key"]}",
-                    configuration["CosmosDb:Database"]),
-                HealthStatus.Unhealthy,
-                new string[] { "productdb" }
-            ));
+            // hcBuilder.Add(new HealthCheckRegistration(
+            //     "ProductsDB-check",
+            //     sp => new CosmosDbHealthCheck(
+            //         $"AccountEndpoint={configuration["CosmosDb:Host"]};AccountKey={configuration["CosmosDb:Key"]}",
+            //         configuration["CosmosDb:Database"]),
+            //     HealthStatus.Unhealthy,
+            //     new string[] { "productdb" }
+            // ));
 
             return services;
         }

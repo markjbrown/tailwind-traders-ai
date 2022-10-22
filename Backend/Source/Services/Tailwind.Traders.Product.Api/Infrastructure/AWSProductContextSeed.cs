@@ -22,12 +22,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _processFile = processFile;
             _appConfig = options.Value;
             _env = env;
-            var dynamoDbConfig = new AmazonDynamoDBConfig
-            {
-                RegionEndpoint = RegionEndpoint.GetBySystemName(_appConfig.DynamoDBServiceKey.AwsRegion)
-            };
-            var awsCredentials = new AwsCredentials(_appConfig);
-            _amazonDynamoDBClient = new AmazonDynamoDBClient(awsCredentials, dynamoDbConfig);
+            _amazonDynamoDBClient = new AmazonDynamoDBClient();
         }
 
         public async Task SeedAsync()
