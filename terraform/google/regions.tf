@@ -1,5 +1,5 @@
 module "region" {
   source = "./region"
-  location = "East US 2"
+  location = "us-east1"
   resource_prefix = "EU2-${local.resource_prefix}"
 }
