@@ -14,7 +14,7 @@ locals {
 }
 
 resource "aws_ecr_repository" "ecr" {
-  count = length(local.images)
+  count                = length(local.images)
   name                 = local.images[count.index]
   image_tag_mutability = "MUTABLE"
   tags = {
