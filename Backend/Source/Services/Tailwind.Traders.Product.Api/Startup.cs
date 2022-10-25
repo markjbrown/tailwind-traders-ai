@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
+using System;
 using Tailwind.Traders.Product.Api.Extensions;
 
 namespace Tailwind.Traders.Product.Api
@@ -29,7 +30,6 @@ namespace Tailwind.Traders.Product.Api
                 .Services     
                 .AddHealthChecks(Configuration)
                 .AddApplicationInsightsTelemetry(Configuration)
-                .AddProductsContext(Configuration)
                 .AddModulesProducts(Configuration);
 
             var appInsightsIK = Configuration["ApplicationInsights:InstrumentationKey"];
@@ -47,7 +47,7 @@ namespace Tailwind.Traders.Product.Api
             });
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
