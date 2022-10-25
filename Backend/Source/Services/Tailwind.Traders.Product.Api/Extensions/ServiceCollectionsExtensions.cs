@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Tailwind.Traders.Product.Api.AWSClients;
 using Tailwind.Traders.Product.Api.HealthCheck;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
@@ -43,9 +44,11 @@ namespace Tailwind.Traders.Product.Api.Extensions
             {
                 service.AddTransient<IContextSeed, AzureProductContextSeed>();
                 service.AddScoped<IProductItemRepository, AzureProductItemRepository>();
+                service.AddProductsContext(configuration);
             }
             else if (env == AWS_CLOUD)
             {
+                service.AddTransient<AmazonDynamoDbClientFactory>();
                 service.AddTransient<IContextSeed, AWSProductContextSeed>();
                 service.AddScoped<IProductItemRepository, AwsDynamoProductItemRepository>();
             }
