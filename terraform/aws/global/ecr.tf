@@ -9,7 +9,8 @@ locals {
     "stock.api",
     "image-classifier.api",
     "mobileapigw",
-    "webapigw"
+    "webapigw",
+    "web"
   ]
 }
 
