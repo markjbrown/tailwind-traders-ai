@@ -40,12 +40,14 @@ namespace Tailwind.Traders.Web.Controllers
                 new { childproof = false },
                 new { location = "indoors" }
             };
+
             IList<object> plumbingFeatures = new List<object>()
             {
                 new { avgPrice = 30 },
                 new { categorySize = 150 },
                 new { location = "indoors" }
             };
+
             IList<object> electricalFeatures = new List<object>()
             {
                 new { avgPrice = 40 },
@@ -66,8 +68,21 @@ namespace Tailwind.Traders.Web.Controllers
             RankResponse response;
             try
             {
-                response = personalizerClient?.Rank(request);
-                return Ok(response);
+                if (personalizerClient != null)
+                {
+                    response = personalizerClient?.Rank(request);
+                    return Ok(response);
+                }
+                else
+                {
+                    return Ok(new RankResponse(new List<RankedAction>
+                    {
+                        new RankedAction(powerTools, 0.4),
+                        new RankedAction(electrical, 0.3),
+                        new RankedAction(plumbing, 0.2),
+                        new RankedAction(gardenCenter, 0.1),
+                    }));
+                }
             }
             catch (Exception e)
             {
@@ -118,9 +133,9 @@ namespace Tailwind.Traders.Web.Controllers
             };
 
             IList<RankableAction> actions = rankCategories.Categories.Select(category =>
-             {
-                 return new RankableAction(category, featureMap.GetValueOrDefault(category, new List<object>()));
-             }).ToList();
+            {
+                return new RankableAction(category, featureMap.GetValueOrDefault(category, new List<object>()));
+            }).ToList();
 
             return new RankRequest(actions, currentContext);
         }

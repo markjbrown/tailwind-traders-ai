@@ -12,6 +12,11 @@ namespace Tailwind.Traders.WebBff.Infrastructure
             public static string GetProduct(string baseUri, string version, int id) => $"{baseUri}/{version}/product/{id}";
             public static string GetTypes(string baseUri, string version) => $"{baseUri}/{version}/type";
             public static string GetByTag(string baseUri, string version, string tag) => $"{baseUri}/{version}/product/tag/{tag}";
+            public static string GetByIds(string baseUri, string version, int[] ids)
+            {
+                var idsFormatted = string.Join("&", ids.Select(b => "id=" + b));
+                return $"{baseUri}/{version}/product/ids?" + idsFormatted;
+            }
             public static string GetProductsByFilter(string baseUri, string version, int[] brands, int[] types)
             {
                 var productBrandsFormatted = string.Join("&", brands.Select(b => "brand=" + b));
@@ -40,7 +45,7 @@ namespace Tailwind.Traders.WebBff.Infrastructure
         {
             public static string GetCoupons(string baseUri, string version) => $"{baseUri}/{version}/coupon";
         }
-        
+
         public static class Login
         {
             public static string PostLogin(string baseUri, string version) => $"{baseUri}/{version}/oauth2/token";
