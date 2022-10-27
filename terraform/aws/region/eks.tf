@@ -111,12 +111,18 @@ SNIPPET
   ]
 }
 
+resource "kubernetes_namespace" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+  }
+}
+
 resource "helm_release" "cert_manager" {
   name       = "cert-manager"
   repository = "https://charts.jetstack.io"
   chart      = "cert-manager"
   version    = "1.10.0"
-  namespace  = "cert-manager"
+  namespace  = kubernetes_namespace.cert_manager.metadata[0].name
 
 
   set {
@@ -130,34 +136,36 @@ resource "helm_release" "cert_manager" {
   ]
 }
 
-#resource "kubernetes_manifest" "clusterissuer_le_prod" {
-#  manifest = {
-#    "apiVersion" = "cert-manager.io/v1"
-#    "kind"       = "ClusterIssuer"
-#    "metadata" = {
-#      "name" = "letsencrypt-prod"
-#    }
-#    "spec" = {
-#      "acme" = {
-#        "email" = "myemail@email.com"
-#        "privateKeySecretRef" = {
-#          "name" = "letsencrypt-prod"
-#        }
-#        "server" = "https://acme-v02.api.letsencrypt.org/directory"
-#        "solvers" = [
-#          {
-#            "http01" = {
-#              "ingress" = {
-#                "class" = "nginx"
-#              }
-#            }
-#          }
-#        ]
-#      }
-#    }
-#  }
-#}
-#
+resource "kubectl_manifest" "clusterissuer_le_prod" {
+  yaml_body = yamlencode({
+    "apiVersion" = "cert-manager.io/v1"
+    "kind"       = "ClusterIssuer"
+    "metadata" = {
+      "name" = "letsencrypt-prod"
+    }
+    "spec" = {
+      "acme" = {
+        "email" = "myemail@email.com"
+        "privateKeySecretRef" = {
+          "name" = "letsencrypt-prod"
+        }
+        "server" = "https://acme-v02.api.letsencrypt.org/directory"
+        "solvers" = [
+          {
+            "http01" = {
+              "ingress" = {
+                "class" = "nginx"
+              }
+            }
+          }
+        ]
+      }
+    }
+  })
+
+  depends_on = [helm_release.cert_manager]
+}
+
 data "kubernetes_service" "ingress_nginx" {
   metadata {
     name      = "ingress-nginx-controller"
@@ -165,6 +173,10 @@ data "kubernetes_service" "ingress_nginx" {
   }
 
   depends_on = [helm_release.ingress-nginx]
+}
+
+data "aws_eks_cluster_auth" "eks" {
+  name = module.eks.cluster_id
 }
 
 data "aws_lb" "ingress_lb" {
