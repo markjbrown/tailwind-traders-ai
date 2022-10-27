@@ -111,6 +111,69 @@ SNIPPET
   ]
 }
 
+resource "helm_release" "cert_manager" {
+  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  version    = "1.10.0"
+  namespace  = "cert-manager"
+
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+
+  depends_on = [
+    module.eks,
+    helm_release.ingress-nginx
+  ]
+}
+
+#resource "kubernetes_manifest" "clusterissuer_le_prod" {
+#  manifest = {
+#    "apiVersion" = "cert-manager.io/v1"
+#    "kind"       = "ClusterIssuer"
+#    "metadata" = {
+#      "name" = "letsencrypt-prod"
+#    }
+#    "spec" = {
+#      "acme" = {
+#        "email" = "myemail@email.com"
+#        "privateKeySecretRef" = {
+#          "name" = "letsencrypt-prod"
+#        }
+#        "server" = "https://acme-v02.api.letsencrypt.org/directory"
+#        "solvers" = [
+#          {
+#            "http01" = {
+#              "ingress" = {
+#                "class" = "nginx"
+#              }
+#            }
+#          }
+#        ]
+#      }
+#    }
+#  }
+#}
+#
+data "kubernetes_service" "ingress_nginx" {
+  metadata {
+    name      = "ingress-nginx-controller"
+    namespace = "kube-system"
+  }
+
+  depends_on = [helm_release.ingress-nginx]
+}
+
+data "aws_lb" "ingress_lb" {
+  name = regex(
+    "(^[^-]+)",
+    data.kubernetes_service.ingress_nginx.status[0].load_balancer[0].ingress[0].hostname
+  )[0]
+}
+
 resource "aws_iam_group" "eks_admin" {
   name = "eks-admin"
 }
