@@ -59,7 +59,7 @@ resource "helm_release" "ingress-nginx" {
   name       = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
   chart      = "ingress-nginx"
-  version    = "4.0.14"
+  version    = "4.3.0"
   namespace  = "kube-system"
 
   values = [yamlencode({
