@@ -4,7 +4,6 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,16 +16,11 @@ namespace Tailwind.Traders.Product.Api.Repos
 {
     public class GCPProductItemRepository : IProductItemRepository
     {
-        #region DataMembers
-        private readonly IHostEnvironment _env;
-        FirestoreDb db;
-
         private readonly CollectionReference _productItemCollection;
         private readonly CollectionReference _brandCollection;
         private readonly CollectionReference _typeCollection;
         private readonly CollectionReference _tagCollection;
         private readonly CollectionReference _featureCollection;
-        #endregion
 
         public GCPProductItemRepository(IOptions<AppSettings> appSettings)
         {
@@ -60,6 +54,29 @@ namespace Tailwind.Traders.Product.Api.Repos
                     prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<ProductFeature>()).AsQueryable(),
                     prdTagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).AsQueryable()
                     );
+            return items;
+        }
+
+        public async Task<List<ProductItem>> FindProductsByIdsAsync(int[] ids)
+        {
+            var productItemSnapshot = await _productItemCollection.WhereIn("Id", ids).GetSnapshotAsync();
+            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
+
+            items = items.Take(3).ToList();
+
+            var prdBrandSnapshot = await _brandCollection.GetSnapshotAsync();
+            var prdTypeSnapshot = await _typeCollection.GetSnapshotAsync();
+            var prdFeatureSnapshot = await _featureCollection.GetSnapshotAsync();
+            var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
+
+            items
+                .Join(
+                    prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
+                    prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
+                    prdFeatureSnapshot.Documents.Select(x => x.ConvertTo<ProductFeature>()).AsQueryable(),
+                    prdTagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).AsQueryable()
+                    );
+
             return items;
         }
 
@@ -109,7 +126,7 @@ namespace Tailwind.Traders.Product.Api.Repos
             var prdTypeSnapshot = await _typeCollection.GetSnapshotAsync();
             var prdFeatureSnapshot = await _featureCollection.GetSnapshotAsync();
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
-            
+
             items
                 .OrderByDescending(inc => inc.Name.Contains("gnome"))
                 .Join(

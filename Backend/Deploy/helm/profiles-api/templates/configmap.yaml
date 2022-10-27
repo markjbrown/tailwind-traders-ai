@@ -16,3 +16,4 @@ data:
   ProfilesImageUrl: {{ .Values.inf.storage.profileimages }}
   ISSUER: {{ .Values.sec.issuer }}
   SECURITYKEY: {{ .Values.sec.securityKey }}
+  CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"

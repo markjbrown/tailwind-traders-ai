@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Linq;
 using Tailwind.Traders.Product.Api.Dtos;
@@ -8,11 +9,11 @@ namespace Tailwind.Traders.Product.Api.Mappers
 {
     public class MapperDtos
     {
-        private IConfiguration _configuration;
+        private AppSettings _appSettings;
 
-        public MapperDtos(IConfiguration configuration)
+        public MapperDtos(IOptions<AppSettings> appSettings)
         {
-            _configuration = configuration;
+            _appSettings = appSettings.Value;
         }
 
         public IEnumerable<ProductDto> MapperToProductDto(IEnumerable<ProductItem> productItems)
@@ -38,8 +39,8 @@ namespace Tailwind.Traders.Product.Api.Mappers
                 Price = productItem.Price,
                 Type = MapperToProductTypeDto(productItem.Type),
                 ImageUrl = isDetail ? 
-                    $"{_configuration.GetValue<string>("ProductDetailImagesUrl")}/{productItem.ImageName}" :
-                    $"{_configuration.GetValue<string>("ProductImagesUrl")}/{productItem.ImageName}"
+                    $"{_appSettings.ProductDetailImagesUrl}/{productItem.ImageName}" :
+                    $"{_appSettings.ProductImagesUrl}/{productItem.ImageName}"
             };
         }
 

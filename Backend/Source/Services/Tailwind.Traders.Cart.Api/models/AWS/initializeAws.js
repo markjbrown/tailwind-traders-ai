@@ -1,7 +1,7 @@
 const config = require("../../config/config");
 const CartController = require("../../routes/cartController");
 const ShoppingCartDao = require("./shoppingCartDao");
-const RecommededDao = require("./recommendedDao");
+const RecommendedDao = require("./recommendedDao");
 const OrderDao = require("./orderDao");
 
 function initializeAws() {
@@ -14,22 +14,27 @@ function initializeAws() {
 
   const client = new AWS.DynamoDB();
   const documentClient = new AWS.DynamoDB.DocumentClient();
-  const recommendedDao = new RecommededDao(
+
+  const recommendedDao = new RecommendedDao(
     client,
-    config.tableName,
+    config.cartRecommendationsTable,
     documentClient
   );
+
   const shoppingCartDao = new ShoppingCartDao(
     client,
-    config.tableName,
+    config.cartProductsTable,
     documentClient
   );
-  const orderDao = new OrderDao(client, "orders", documentClient);
+
+  const orderDao = new OrderDao(client, config.cartOrdersTable, documentClient);
+
   const cartController = new CartController(
     shoppingCartDao,
     recommendedDao,
     orderDao
   );
+
   recommendedDao.init();
   shoppingCartDao.init();
   orderDao.init();

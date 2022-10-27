@@ -28,8 +28,7 @@ env:
     - name: ConnectionString
     - name: SecurityKey
     - name: Issuer
+    - name: CLOUD_PLATFORM
   values:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
-    - name: CLOUD_PLATFORM
-      value: AZURE

@@ -1,6 +1,8 @@
 # Template for generating a gvalues file
 
 inf:
+  cloudPlatform: AZURE
+  awsRegion: {{awsRegion}}
   sa: ttsa
   db:
     products:
@@ -18,6 +20,9 @@ inf:
     cart:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
+      productsTable: {{productsTable}}
+      recommendationsTable: {{recommendationsTable}}
+      ordersTable: {{ordersTable}}
     rewards:
       host: {{rewardshost}}
       port: "1433"

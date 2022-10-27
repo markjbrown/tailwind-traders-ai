@@ -13,6 +13,12 @@ metadata:
 data:
   AUTHKEY: {{ .Values.inf.db.cart.auth }}
   HOST: {{ .Values.inf.db.cart.host }}
+
+  AWS_CART_PRODUCTS_TABLE: {{ .Values.inf.db.cart.productsTable }}
+  AWS_CART_RECOMMENDATIONS_TABLE: {{ .Values.inf.db.cart.recommendationsTable }}
+  AWS_CART_ORDERS_TABLE: {{ .Values.inf.db.cart.ordersTable }}
+  AWS_REGION: {{ .Values.inf.awsRegion }}
+
   ISSUER: {{ .Values.sec.issuer }}
   SECURITYKEY: {{ .Values.sec.securityKey }}
   UseB2C: {{ .Values.B2C.UseB2C | quote }}
@@ -22,5 +28,6 @@ data:
   identityMetadata: {{ .Values.B2C.identityMetadata | quote }}
   issuer: {{ .Values.B2C.issuer | quote }}
   APPLICATIONINSIGHTSIK:  "{{ .Values.inf.appinsights.id }}"
+  CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"
 
 

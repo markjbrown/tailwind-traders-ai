@@ -67,6 +67,24 @@ namespace Tailwind.Traders.Product.Api.Controllers
             return Ok(_mapperDtos.MapperToProductDto(item, isDetail: true));
         }
 
+        [HttpGet("ids")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> FindProductAsync([FromQuery] int[] id)
+        {
+            var items = await _productItemRepository.FindProductsByIdsAsync(id);
+
+            if (!items.Any())
+            {
+                _logger.LogDebug("No Products with these IDs");
+
+                return NoContent();
+            }
+
+            return Ok(_mapperDtos.MapperToProductDto(items));
+        }
+
+
         [HttpGet("filter")]
         [ProducesResponseType(200)]
         [ProducesResponseType(204)]
@@ -76,7 +94,7 @@ namespace Tailwind.Traders.Product.Api.Controllers
 
             if (!items.Any())
             {
-                _logger.LogDebug("Not Products for this criteria");
+                _logger.LogDebug("No Products for this criteria");
 
                 return NoContent();
             }

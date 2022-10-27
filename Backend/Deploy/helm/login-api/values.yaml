@@ -30,11 +30,11 @@ env:
     - name: ProfilesImageUrl
     - name: SecurityKey
     - name: Issuer
+    - name: CLOUD_PLATFORM
   values:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
-    - name: CLOUD_PLATFORM
-      value: AZURE
+
 probes:
   liveness:
     path: /liveness

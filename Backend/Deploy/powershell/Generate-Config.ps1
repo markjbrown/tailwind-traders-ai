@@ -85,6 +85,12 @@ Write-Host "gvalues file will be generated with values:"
 $tokens.shoppinghost=$docdb.documentEndpoint
 $tokens.shoppingauth=$docdbKey
 
+$tokens.awsRegion="us-east-1"
+
+$tokens.productsTable="GLB-TT-DEMO-CartProducts-db"
+$tokens.recommendationsTable="GLB-TT-DEMO-CartRecommendations-db"
+$tokens.ordersTable="GLB-TT-DEMO-CartOrders-db"
+
 $tokens.couponsuser=$mongodb.name
 $tokens.couponshost="$($mongodb.name).documents.azure.com"
 $tokens.couponspwd=$mongodbKey

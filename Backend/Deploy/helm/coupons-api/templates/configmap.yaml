@@ -19,3 +19,4 @@ data:
   ISSUER: {{ .Values.sec.issuer }}
   SECURITYKEY: {{ .Values.sec.securityKey }}
   APPLICATIONINSIGHTSIK:  "{{ .Values.inf.appinsights.id }}" 
+  CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"

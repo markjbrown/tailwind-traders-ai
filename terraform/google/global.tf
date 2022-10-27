@@ -1,6 +1,6 @@
 module "global" {
   source          = "./global"
-  location        = "East US 2"
+  location        = "us-east1"
   resource_prefix = "GLB-${local.resource_prefix}"
   collection      = local.collection
 }

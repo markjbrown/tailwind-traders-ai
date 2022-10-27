@@ -1,25 +1,19 @@
 ﻿using Amazon.Runtime;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Tailwind.Traders.Product.Api.AWSClients
 {
 	public class AwsCredentials : AWSCredentials
 	{
-		private readonly AppSettings _appConfig;
+		private readonly DynamoDBKeys _dynamoDbKeys;
 
-		public AwsCredentials(AppSettings appConfig)
+		public AwsCredentials(DynamoDBKeys dynamoDbKeys)
 		{
-			_appConfig = appConfig;
+			_dynamoDbKeys = dynamoDbKeys;
 		}
 
 		public override ImmutableCredentials GetCredentials()
 		{
-			
-			return new ImmutableCredentials(_appConfig.DynamoDBServiceKey.AwsAccessKey,
-							_appConfig.DynamoDBServiceKey.AwsSecretKey, null);
+			return new ImmutableCredentials(_dynamoDbKeys.AwsAccessKey, _dynamoDbKeys.AwsSecretKey, null);
 		}
 	}
 }
