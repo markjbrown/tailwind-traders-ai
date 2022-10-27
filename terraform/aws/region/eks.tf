@@ -55,73 +55,56 @@ module "eks" {
   }
 }
 
-module "lb_role" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-
-  role_name                              = "${local.resource_prefix}-APP-lb-role"
-  attach_load_balancer_controller_policy = true
-
-  oidc_providers = {
-    main = {
-      provider_arn               = module.eks.oidc_provider_arn
-      namespace_service_accounts = ["kube-system:aws-load-balancer-controller"]
-    }
-  }
-}
-
-resource "kubernetes_service_account" "service_account" {
-  metadata {
-    name      = "aws-load-balancer-controller"
-    namespace = "kube-system"
-    labels = {
-      "app.kubernetes.io/name"      = "aws-load-balancer-controller"
-      "app.kubernetes.io/component" = "controller"
-    }
-    annotations = {
-      "eks.amazonaws.com/role-arn"               = module.lb_role.iam_role_arn
-      "eks.amazonaws.com/sts-regional-endpoints" = "true"
-    }
-  }
-}
-
-resource "helm_release" "lb" {
-  name       = "aws-load-balancer-controller"
+resource "helm_release" "ingress-nginx" {
+  name       = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  version    = "4.0.14"
   namespace  = "kube-system"
-  chart      = "aws-load-balancer-controller"
-  repository = "https://aws.github.io/eks-charts"
+
+  values = [yamlencode({
+    rbac = {
+      create = true
+    }
+
+    controller = {
+      metrics = {
+        enabled = true
+      }
+      service = {
+        targetPorts = {
+          http  = "http"
+          https = "http"
+        }
+        annotations = {
+          "service.beta.kubernetes.io/aws-load-balancer-type"                    = "nlb"
+          "service.beta.kubernetes.io/aws-load-balancer-ssl-cert"                = ""
+          "service.beta.kubernetes.io/aws-load-balancer-backend-protocol"        = "https"
+          "service.beta.kubernetes.io/aws-load-balancer-ssl-ports"               = "https"
+          "service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout" = "3600"
+          "nginx.ingress.kubernetes.io/configuration-snippet"                    = <<SNIPPET
+if ($http_x_forwarded_proto != 'https') {
+  return 301 https://$host$request_uri;
+}
+SNIPPET
+        }
+      }
+    }
+  })]
+
+  set {
+    name  = "cluster.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "metrics.enabled"
+    value = "true"
+  }
+
   depends_on = [
-    kubernetes_service_account.service_account
+    module.eks
   ]
-
-  set {
-    name  = "region"
-    value = "us-east-1"
-  }
-
-  set {
-    name  = "vpcId"
-    value = module.vpc.vpc_id
-  }
-
-  set {
-    name  = "image.repository"
-    value = "602401143452.dkr.ecr.us-east-1.amazonaws.com/amazon/aws-load-balancer-controller"
-  }
-
-  set {
-    name  = "serviceAccount.create"
-    value = "false"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = "aws-load-balancer-controller"
-  }
-
-  set {
-    name  = "clusterName"
-    value = module.eks.cluster_id
-  }
 }
 
 resource "aws_iam_group" "eks_admin" {
