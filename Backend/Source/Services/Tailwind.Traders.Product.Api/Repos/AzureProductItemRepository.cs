@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Extensions;
+using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Repos
 {
@@ -105,6 +106,19 @@ namespace Tailwind.Traders.Product.Api.Repos
         {
             var types = await _productContext.ProductTypes.AsQueryable().ToListAsync();
             return types;
+        }
+
+        public async Task<List<ProductItem>> FindProductsByIdsAsync(int[] ids)
+        {
+            var items = await _productContext.ProductItems.Where(p => ids.Contains(p.Id)).Take(_take).ToListAsync();
+
+            items.Join(
+                _productContext.ProductBrands,
+                _productContext.ProductTypes,
+                _productContext.ProductFeatures,
+                _productContext.Tags);
+
+            return items;
         }
     }
 }

@@ -51,6 +51,20 @@ namespace Tailwind.Traders.Product.Api.Repos
             return items;
         }
 
+        public async Task<List<ProductItem>> FindProductsByIdsAsync(int[] ids)
+        {
+            var items = await _productItem.FindAsync(p => ids.Contains(p.Id))?.Result?.ToListAsync();
+            items = items.Take(_take).ToList();
+            items
+                .Join(
+                    _productBrand.AsQueryable(),
+                    _productType.AsQueryable(),
+                    _productFeature.AsQueryable(),
+                    _productTag.AsQueryable());
+
+            return items;
+        }
+
         public async Task<List<ProductItem>> FindProductsByTag(string tag)
         {
             var productTag = _productTag.FindAsync(t => t.Value == tag)?.Result?.SingleOrDefault();
