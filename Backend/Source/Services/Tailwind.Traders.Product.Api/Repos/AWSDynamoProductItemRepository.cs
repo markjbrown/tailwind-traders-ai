@@ -62,11 +62,11 @@ namespace Tailwind.Traders.Product.Api.Repos
 
         public async Task<List<ProductItem>> FindProductsByIdsAsync(int[] ids)
         {
-            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient);
-            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient);
-            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient);
-            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient);
-            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient);
+            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductItemTable);
+            var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductBrandTable);
+            var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductTypeTable);
+            var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductFeatureTable);
+            var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductTagTable);
             items = items.Where(p => ids.Contains(p.Id)).ToList();
             items = items.Take(_take).ToList();
             items.Join(brands, types, features, tags);

@@ -1,5 +1,6 @@
 package Tailwind.Traders.Stock.Api.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,8 +19,8 @@ import Tailwind.Traders.Stock.Api.models.StockItem;
 @Configuration
 public class DynamoDBConfiguration {
 
-	@Value("${aws.dynamodb.endpoint}")
-	private String dynamodbEndpoint;
+	/// @Value("${aws.dynamodb.endpoint}")
+	/// private String dynamodbEndpoint;
 
 	@Value("${aws.region}")
 	private String awsRegion;
@@ -30,12 +31,24 @@ public class DynamoDBConfiguration {
 	@Value("${aws.dynamodb.secretKey}")
 	private String dynamodbSecretKey;
 
+	@Value("${aws.dynamodb.stockItemTableName}")
+	private String stockItemTable;
+
 	public DynamoDBMapper buildAmazonDynamoDB() {
-		AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
+		AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder
+				.standard();
+		if (!StringUtils.isEmpty(dynamodbAccessKey)) {
+			builder = builder
 				.withCredentials(
-						new AWSStaticCredentialsProvider(new BasicAWSCredentials(dynamodbAccessKey, dynamodbSecretKey)))
-				.withRegion(awsRegion).build();
-		DynamoDBMapper dynamoDBMapper = new DynamoDBMapper(client, DynamoDBMapperConfig.DEFAULT);
+					new AWSStaticCredentialsProvider(new BasicAWSCredentials(dynamodbAccessKey, dynamodbSecretKey)))
+				.withRegion(awsRegion);
+		}
+		AmazonDynamoDB client = builder.build();
+		DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
+				.withTableNameOverride(DynamoDBMapperConfig.TableNameOverride.withTableNameReplacement(stockItemTable))
+				.build();
+
+		DynamoDBMapper dynamoDBMapper = new DynamoDBMapper(client, mapperConfig);
 		init(dynamoDBMapper, client);
 		return dynamoDBMapper;
 	}
@@ -47,6 +60,8 @@ public class DynamoDBConfiguration {
 
 		if (TableUtils.createTableIfNotExists(client, tableRequest)) {
 			System.out.println("Table created");
+		} else {
+			System.out.println("Table found");
 		}
 
 	}

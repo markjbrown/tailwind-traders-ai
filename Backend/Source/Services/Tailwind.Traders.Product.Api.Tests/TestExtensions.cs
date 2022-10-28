@@ -11,7 +11,7 @@ namespace Tailwind.Traders.Product.Api.Tests
         public static async Task<T> VerifyResponseModelAsync<T>(this HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
+            Assert.IsTrue(response.IsSuccessStatusCode);
             var model = JsonSerializer.Deserialize<T>(content);
             Assert.IsNotNull(model);
             return model;
