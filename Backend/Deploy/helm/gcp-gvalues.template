@@ -1,7 +1,7 @@
 # Template for generating a gvalues file
 
 inf:
-  cloudPlatform: AWS
+  cloudPlatform: GCP
   awsRegion: {{awsRegion}}
   sa: null
   db:
@@ -87,9 +87,8 @@ inf:
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: {{ingressclass}}
-    ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
     ingress.kubernetes.io/rewrite-target: /{{ingressrewritetarget}}
     nginx.ingress.kubernetes.io/rewrite-target: /{{ingressrewritetarget}}
 #  hosts:
