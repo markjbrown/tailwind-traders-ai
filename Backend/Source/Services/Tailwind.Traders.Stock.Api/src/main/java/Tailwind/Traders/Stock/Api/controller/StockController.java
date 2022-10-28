@@ -2,25 +2,43 @@ package Tailwind.Traders.Stock.Api.controller;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import Tailwind.Traders.Stock.Api.StockProduct;
 import Tailwind.Traders.Stock.Api.models.StockItem;
 import Tailwind.Traders.Stock.Api.repositories.StockItemRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StockController {
-	@Autowired
+
 	private StockItemRepository stockItemRepository;
+	public StockController(BeanFactory beanFactory, @Value("${dynamic.db}") String dynamic) {
+		if (dynamic.equals("AWS"))
+			this.stockItemRepository = beanFactory.getBean("AWS", StockItemRepository.class);
+		else if (dynamic.equals("GCP")) {
+			this.stockItemRepository = beanFactory.getBean("GCP", StockItemRepository.class);
+		} else if (dynamic.equals("AZURE")) {
+			this.stockItemRepository = beanFactory.getBean("AZURE", StockItemRepository.class);
+		} else {
+			System.out.println("No Database Selected");
+			System.exit(1);
+		}
+	}
 
 	private final Logger log = LogManager.getLogger(StockController.class);
 
 	@GetMapping(value = "/v1/stock/{id}")
-	public ResponseEntity<StockProduct> StockProduct(@PathVariable(value="id", required= true) int id) throws IOException, Exception {
+	public ResponseEntity<StockProduct> StockProduct(@PathVariable(value = "id", required = true) Integer id)
+			throws IOException, Exception {
 		StockItem stock = stockItemRepository.findByProductId(id);
 
 		if (stock == null) {
@@ -29,27 +47,25 @@ public class StockController {
 		}
 
 		StockProduct response = new StockProduct();
-		response.setId(stock.getProductId());
+		response.setId(stock.getId());
+		response.setProductId(stock.getProductId());
 		response.setProductStock(stock.getStockCount());
 		return new ResponseEntity<StockProduct>(response, HttpStatus.OK);
 	}
 
 	@PostMapping("/v1/consumptions/stock/{id}")
-	public ResponseEntity<StockItem> decreaseStock (@PathVariable int id) {
+	public ResponseEntity<StockItem> decreaseStock(@PathVariable Integer id) {
 		StockItem stock = stockItemRepository.findByProductId(id);
-
 		if (stock == null) {
 			log.debug("Not found stock for product " + id);
 			return new ResponseEntity<StockItem>(HttpStatus.NOT_FOUND);
 		}
-
 		int currentStock = stock.getStockCount();
 		if (currentStock > 0) {
 			stock.setStockCount(currentStock - 1);
 			stockItemRepository.update(stock);
 			return new ResponseEntity<StockItem>(stock, HttpStatus.OK);
 		}
-
 		return new ResponseEntity<StockItem>(HttpStatus.BAD_REQUEST);
 
 	}

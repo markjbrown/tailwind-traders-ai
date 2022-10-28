@@ -3,8 +3,11 @@ package Tailwind.Traders.Stock.Api;
 import com.opencsv.bean.CsvBindByName;
 
 public class StockProduct {
+	
+	private String id;
+	
 	@CsvBindByName
-	private int id;
+	private int productId;
 
 	@CsvBindByName
 	private int productStock;
@@ -12,17 +15,26 @@ public class StockProduct {
 	public StockProduct() {
 	}
 
-	public StockProduct(int id, int productStock) {
+	public StockProduct(String id, int productId, int productStock) {
 		this.id = id;
+		this.productId = productId;
 		this.productStock = productStock;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
+	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
 	public int getProductStock() {
@@ -32,4 +44,5 @@ public class StockProduct {
 	public void setProductStock(int productStock) {
 		this.productStock = productStock;
 	}
+
 }
