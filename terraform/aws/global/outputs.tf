@@ -3,6 +3,5 @@ output "kubelet_role" {
 }
 
 output "zone_id" {
-#  value = aws_route53_zone.hostname.zone_id
-  value = null
+  value = aws_route53_zone.hostname.zone_id
 }
