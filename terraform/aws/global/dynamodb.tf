@@ -66,7 +66,7 @@ resource "aws_dynamodb_table" "cart_reccomendations" {
 resource "aws_dynamodb_table" "stock_collection" {
   name           = "${local.resource_prefix}-StockCollection-db"
   billing_mode   = "PROVISIONED"
-  hash_key       = "Id"
+  hash_key       = "id"
   read_capacity  = 20
   write_capacity = 20
 

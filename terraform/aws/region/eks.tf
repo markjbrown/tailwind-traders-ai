@@ -78,7 +78,7 @@ resource "helm_release" "ingress-nginx" {
       service = {
         targetPorts = {
           http  = "http"
-          https = "http"
+          https = "https"
         }
         annotations = {
           "service.beta.kubernetes.io/aws-load-balancer-type"                    = "nlb"
