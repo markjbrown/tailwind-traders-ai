@@ -63,18 +63,18 @@ resource "aws_dynamodb_table" "cart_reccomendations" {
   }
 }
 
-resource "aws_dynamodb_table" "stock_collection" {
-  name           = "${local.resource_prefix}-StockCollection-db"
-  billing_mode   = "PROVISIONED"
-  hash_key       = "id"
-  read_capacity  = 20
-  write_capacity = 20
-
-  attribute {
-    name = "Id"
-    type = "N"
-  }
-}
+#resource "aws_dynamodb_table" "stock_collection" {
+#  name           = "${local.resource_prefix}-StockCollection-db"
+#  billing_mode   = "PROVISIONED"
+#  hash_key       = "id"
+#  read_capacity  = 20
+#  write_capacity = 20
+#
+#  attribute {
+#    name = "Id"
+#    type = "N"
+#  }
+#}
 
 resource "aws_dynamodb_table" "product_brand" {
   name           = "${local.resource_prefix}-ProductBrand-db"
