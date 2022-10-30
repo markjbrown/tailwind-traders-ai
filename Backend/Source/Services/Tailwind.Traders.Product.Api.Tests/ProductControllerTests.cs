@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Controllers;
 using Tailwind.Traders.Product.Api.Models;
-using Tailwind.Traders.Product.Api.Repos;
+using Tailwind.Traders.Product.Api.Repositories;
 
 namespace Tailwind.Traders.Product.Api.Tests
 {

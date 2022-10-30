@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
-using Tailwind.Traders.Product.Api.Repos;
+using Tailwind.Traders.Product.Api.Repositories;
 
 namespace Tailwind.Traders.Product.Api.Controllers
 {

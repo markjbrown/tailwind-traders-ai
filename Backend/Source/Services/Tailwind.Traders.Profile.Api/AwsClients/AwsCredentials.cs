@@ -1,6 +1,6 @@
 ﻿using Amazon.Runtime;
 
-namespace Tailwind.Traders.Product.Api.AwsClients
+namespace Tailwind.Traders.Profile.Api.AwsClients
 {
 	public class AwsCredentials : AWSCredentials
 	{

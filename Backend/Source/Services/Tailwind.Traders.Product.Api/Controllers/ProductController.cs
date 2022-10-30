@@ -12,7 +12,7 @@ using Tailwind.Traders.Product.Api.Dtos;
 using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
-using Tailwind.Traders.Product.Api.Repos;
+using Tailwind.Traders.Product.Api.Repositories;
 
 namespace Tailwind.Traders.Product.Api.Controllers
 {

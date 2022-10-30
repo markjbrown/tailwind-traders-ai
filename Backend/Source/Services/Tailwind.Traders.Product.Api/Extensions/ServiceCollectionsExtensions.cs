@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Tailwind.Traders.Product.Api.AWSClients;
+using Microsoft.Extensions.Options;
+using Tailwind.Traders.Product.Api.AwsClients;
 using Tailwind.Traders.Product.Api.HealthCheck;
 using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
-using Tailwind.Traders.Product.Api.Repos;
+using Tailwind.Traders.Product.Api.Repositories;
 
 namespace Tailwind.Traders.Product.Api.Extensions
 {
@@ -17,12 +18,12 @@ namespace Tailwind.Traders.Product.Api.Extensions
         const string AZURE_CLOUD = "AZURE";
         const string AWS_CLOUD = "AWS";
         const string GCP_CLOUD = "GCP";
-        public static IServiceCollection AddProductsContext(this IServiceCollection service, IConfiguration configuration)
+        public static IServiceCollection AddProductsContext(this IServiceCollection service, AzureCosmosDbConfig cosmosDbConfig)
         {
             service.AddDbContext<ProductContext>(options =>
             {
-                options.UseCosmos(configuration["CosmosDb:Host"], configuration["CosmosDb:Key"], configuration["CosmosDb:Database"])
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                options.UseCosmos(cosmosDbConfig.Host, cosmosDbConfig.Key, cosmosDbConfig.Database)
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
 
             return service;
@@ -40,27 +41,29 @@ namespace Tailwind.Traders.Product.Api.Extensions
 
             string env = configuration["CLOUD_PLATFORM"];
 
+            var cosmosDbOptions = new AzureCosmosDbConfig();
+            configuration.GetSection(AzureCosmosDbConfig.ConfigKey).Bind(cosmosDbOptions);
+
             if (env == AZURE_CLOUD)
             {
-                service.AddTransient<IContextSeed, AzureProductContextSeed>();
-                service.AddScoped<IProductItemRepository, AzureProductItemRepository>();
-                service.AddProductsContext(configuration);
+                service.AddTransient<ISeedDatabase, AzureProductDatabaseSeeder>();
+                service.AddScoped<IProductItemRepository, AzureCosmosDbProductItemRepository>();
+                service.AddProductsContext(cosmosDbOptions);
             }
             else if (env == AWS_CLOUD)
             {
                 service.AddTransient<AmazonDynamoDbClientFactory>();
-                service.AddTransient<IContextSeed, AWSProductContextSeed>();
-                service.AddScoped<IProductItemRepository, AwsDynamoProductItemRepository>();
+                service.AddTransient<ISeedDatabase, AwsProductDatabaseSeeder>();
+                service.AddScoped<IProductItemRepository, AwsDynamoDbProductItemRepository>();
             }
             else if (env == GCP_CLOUD)
             {
-                service.AddTransient<IContextSeed, GCPProductContextSeed>();
-                service.AddScoped<IProductItemRepository, GCPProductItemRepository>();
+                service.AddTransient<ISeedDatabase, GcpProductDatabaseSeeder>();
+                service.AddScoped<IProductItemRepository, GcpFirestoreProductItemRepository>();
             }
 
             service.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            service.Configure<AppSettings>(configuration);
 
             return service;
         }
@@ -68,18 +71,7 @@ namespace Tailwind.Traders.Product.Api.Extensions
         public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
         {
             var hcBuilder = services.AddHealthChecks();
-
             hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
-
-            // hcBuilder.Add(new HealthCheckRegistration(
-            //     "ProductsDB-check",
-            //     sp => new CosmosDbHealthCheck(
-            //         $"AccountEndpoint={configuration["CosmosDb:Host"]};AccountKey={configuration["CosmosDb:Key"]}",
-            //         configuration["CosmosDb:Database"]),
-            //     HealthStatus.Unhealthy,
-            //     new string[] { "productdb" }
-            // ));
-
             return services;
         }
     }

@@ -24,7 +24,7 @@ namespace Tailwind.Traders.Product.Api
        
             var config = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
 
-            var seedData = webHostBuilder.Services.GetRequiredService<IContextSeed>();
+            var seedData = webHostBuilder.Services.GetRequiredService<ISeedDatabase>();
             seedData.SeedAsync();
 
             webHostBuilder.Run();

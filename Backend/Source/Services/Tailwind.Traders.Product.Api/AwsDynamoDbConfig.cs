@@ -1,7 +1,9 @@
 ﻿namespace Tailwind.Traders.Product.Api
 {
-    public class DynamoDBKeys
+    public class AwsDynamoDbConfig
     {
+        public static string ConfigKey = "DynamoDBServiceKey";
+
         public string Host { get; set; }
         public string Database { get; set; }
         public string AwsAccessKey { get; set; }

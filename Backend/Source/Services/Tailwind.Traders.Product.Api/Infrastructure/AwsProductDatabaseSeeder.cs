@@ -4,12 +4,12 @@ using Amazon.DynamoDBv2.DocumentModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
-using Tailwind.Traders.Product.Api.AWSClients;
+using Tailwind.Traders.Product.Api.AwsClients;
 using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
 {
-    public class AWSProductContextSeed : IContextSeed
+    public class AwsProductDatabaseSeeder : ISeedDatabase
     {
         private readonly IProcessFile _processFile;
         private readonly AppSettings _appConfig;
@@ -17,7 +17,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
         private readonly IWebHostEnvironment _env;
        
 
-        public AWSProductContextSeed(IProcessFile processFile, 
+        public AwsProductDatabaseSeeder(IProcessFile processFile, 
             IOptions<AppSettings> options, 
             IWebHostEnvironment env,
             AmazonDynamoDbClientFactory factory)

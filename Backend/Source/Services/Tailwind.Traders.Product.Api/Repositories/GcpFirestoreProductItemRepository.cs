@@ -1,20 +1,16 @@
 ﻿using Google.Cloud.Firestore;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Infrastructure;
-using Tailwind.Traders.Product.Api.Mappers;
 using Tailwind.Traders.Product.Api.Models;
 
-namespace Tailwind.Traders.Product.Api.Repos
+namespace Tailwind.Traders.Product.Api.Repositories
 {
-    public class GCPProductItemRepository : IProductItemRepository
+    public class GcpFirestoreProductItemRepository : IProductItemRepository
     {
         private readonly CollectionReference _productItemCollection;
         private readonly CollectionReference _brandCollection;
@@ -22,7 +18,7 @@ namespace Tailwind.Traders.Product.Api.Repos
         private readonly CollectionReference _tagCollection;
         private readonly CollectionReference _featureCollection;
 
-        public GCPProductItemRepository(IOptions<AppSettings> appSettings)
+        public GcpFirestoreProductItemRepository(IOptions<AppSettings> appSettings)
         {
             // DB Authentication with serviceJson and initialization
             FirestoreDb db = GcpHelper.CreateDb(appSettings.Value.FireStoreServiceKey);

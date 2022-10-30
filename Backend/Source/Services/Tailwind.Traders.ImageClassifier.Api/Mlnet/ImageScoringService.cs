@@ -51,23 +51,15 @@ namespace Tailwind.Traders.ImageClassifier.Api.Mlnet
 
         private PredictionEngine<ImageInputData, ImageNetPrediction> CreatePredictionFunction()
         {
-            try
-            {
-   
-               var pipeline = _mlContext.Transforms.ResizeImages(outputColumnName: TensorFlowModelSettings.inputTensorName, imageWidth: ImageSettings.imageWidth, imageHeight: ImageSettings.imageHeight, inputColumnName: nameof(ImageInputData.Image))
-               .Append(_mlContext.Transforms.ExtractPixels(outputColumnName: TensorFlowModelSettings.inputTensorName, interleavePixelColors: ImageSettings.channelsLast, offsetImage: ImageSettings.mean))
-               .Append(_mlContext.Model.LoadTensorFlowModel(_modelLocation).
-               ScoreTensorFlowModel(outputColumnNames: new[] { TensorFlowModelSettings.outputTensorName },
-                                   inputColumnNames: new[] { TensorFlowModelSettings.inputTensorName }, addBatchDimensionInput: false));
+            var pipeline = _mlContext.Transforms.ResizeImages(outputColumnName: TensorFlowModelSettings.inputTensorName, imageWidth: ImageSettings.imageWidth, imageHeight: ImageSettings.imageHeight, inputColumnName: nameof(ImageInputData.Image))
+            .Append(_mlContext.Transforms.ExtractPixels(outputColumnName: TensorFlowModelSettings.inputTensorName, interleavePixelColors: ImageSettings.channelsLast, offsetImage: ImageSettings.mean))
+            .Append(_mlContext.Model.LoadTensorFlowModel(_modelLocation).
+            ScoreTensorFlowModel(outputColumnNames: new[] { TensorFlowModelSettings.outputTensorName },
+                                inputColumnNames: new[] { TensorFlowModelSettings.inputTensorName }, addBatchDimensionInput: false));
 
-                ITransformer model = pipeline.Fit(CreateEmptyDataView());
+            ITransformer model = pipeline.Fit(CreateEmptyDataView());
 
-                return _mlContext.Model.CreatePredictionEngine<ImageInputData, ImageNetPrediction>(model);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return _mlContext.Model.CreatePredictionEngine<ImageInputData, ImageNetPrediction>(model);
         }
 
         private IDataView CreateEmptyDataView()
@@ -85,7 +77,7 @@ namespace Tailwind.Traders.ImageClassifier.Api.Mlnet
             var image1Probabilities = _model.Predict(imageName).PredictedLabels;
 
             var bestLabelPrediction = new ImagePredictedLabelWithProbability();
-   
+
             (bestLabelPrediction.PredictedLabel, bestLabelPrediction.Probability) = ModelHelpers.GetBestLabel(_labels, image1Probabilities);
 
             return bestLabelPrediction;

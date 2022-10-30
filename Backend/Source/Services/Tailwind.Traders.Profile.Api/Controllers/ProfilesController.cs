@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Tailwind.Traders.Profile.Api.DTOs;
 using Tailwind.Traders.Profile.Api.Infrastructure;
 using Tailwind.Traders.Profile.Api.Models;
+using Tailwind.Traders.Profile.Api.Repositories;
 
 namespace Tailwind.Traders.Profile.Api.Controllers
 {
@@ -18,14 +19,15 @@ namespace Tailwind.Traders.Profile.Api.Controllers
     [Authorize]
     public class ProfileController : ControllerBase
     {
-        private readonly ProfileContext _ctx;
         private readonly AppSettings _settings;
+        private readonly IProfileRepository _profileRepository;
 
-        public ProfileController(ProfileContext ctx, IOptions<AppSettings> options)
+        public ProfileController(IProfileRepository profileRepository, IOptions<AppSettings> options)
         {
-            _ctx = ctx;
             _settings = options.Value;
+            _profileRepository = profileRepository;
         }
+
 
         // GET v1/profile
         [HttpGet]
@@ -33,12 +35,9 @@ namespace Tailwind.Traders.Profile.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> GetAllProfiles()
         {
-            var result = await _ctx.Profiles
-                .Select(p => p.ToProfileDto(_settings))
-                .ToListAsync();
+            List<ProfileDto> result = await _profileRepository.GetAll();
 
-
-            if(!result.Any())
+            if (!result.Any())
             {
                 return NoContent();
             }
@@ -53,10 +52,7 @@ namespace Tailwind.Traders.Profile.Api.Controllers
         public async Task<IActionResult> GetProfile()
         {
             var nameFilter = User.Identity.Name ?? string.Empty;
-            var result = await _ctx.Profiles
-                            .Where(p => p.Email == nameFilter)
-                            .Select(p => p.ToProfileDto(_settings))
-                            .SingleOrDefaultAsync();
+            ProfileDto result = await _profileRepository.GetByEmail(nameFilter);
 
             if (result == null)
             {
@@ -79,10 +75,7 @@ namespace Tailwind.Traders.Profile.Api.Controllers
             }
 
             // TODO: Auto generated value for int not implemented with CosmosDb EF yet.
-            var newId = _ctx.Profiles.ToList().Count();
-            var profile = user.MapUserProfile(newId);
-            await _ctx.Profiles.AddAsync(profile);
-            await _ctx.SaveChangesAsync();
+            await _profileRepository.Add(user);
 
             return Ok();
         }

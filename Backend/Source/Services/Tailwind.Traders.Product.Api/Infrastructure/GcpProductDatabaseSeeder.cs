@@ -1,17 +1,13 @@
-﻿using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
-using Grpc.Auth;
+﻿using Google.Cloud.Firestore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
 {
-    public class GCPProductContextSeed : IContextSeed
+    public class GcpProductDatabaseSeeder : ISeedDatabase
     {
         private readonly IHostEnvironment _env;
         private readonly IProcessFile _processFile;
@@ -21,7 +17,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
         private readonly CollectionReference _tagCollection;
         private readonly CollectionReference _featureCollection;
 
-        public GCPProductContextSeed(IProcessFile processFile, IWebHostEnvironment env, IOptions<AppSettings> appSettings)
+        public GcpProductDatabaseSeeder(IProcessFile processFile, IWebHostEnvironment env, IOptions<AppSettings> appSettings)
         {
             _processFile = processFile;
             _env = env;

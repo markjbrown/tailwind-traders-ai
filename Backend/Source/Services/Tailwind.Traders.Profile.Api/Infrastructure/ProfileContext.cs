@@ -15,6 +15,6 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
         {
             modelBuilder.Entity<Profiles>()
                 .HasAlternateKey(c => c.Email);
-        }        
+        }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Models;
 
-namespace Tailwind.Traders.Product.Api.Repos
+namespace Tailwind.Traders.Product.Api.Repositories
 {
     public interface IProductItemRepository
     {

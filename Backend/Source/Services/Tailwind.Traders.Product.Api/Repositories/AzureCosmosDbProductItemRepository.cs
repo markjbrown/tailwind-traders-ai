@@ -7,13 +7,13 @@ using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Models;
 
-namespace Tailwind.Traders.Product.Api.Repos
+namespace Tailwind.Traders.Product.Api.Repositories
 {
-    public class AzureProductItemRepository : IProductItemRepository
+    public class AzureCosmosDbProductItemRepository : IProductItemRepository
     {
         private readonly ProductContext _productContext;
         private const int _take = 3;
-        public AzureProductItemRepository(ProductContext productContext)
+        public AzureCosmosDbProductItemRepository(ProductContext productContext)
         {
             _productContext = productContext;
         }

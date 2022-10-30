@@ -17,10 +17,9 @@ namespace Tailwind.Traders.Profile.Api
                 {
                     var env = services.GetService<IWebHostEnvironment>();
                     var csvReader = services.GetRequiredService<CsvReaderHelper>();
+                    var seeder = services.GetRequiredService<AzureProfileContextSeed>();
 
-                    new ProfileContextSeed(csvReader)
-                        .SeedAsync(context, env)
-                        .Wait();
+                    seeder.SeedAsync().Wait();
                 })
                 .Run();
         }

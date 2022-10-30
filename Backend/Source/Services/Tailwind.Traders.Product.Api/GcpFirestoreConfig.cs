@@ -2,8 +2,10 @@
 
 namespace Tailwind.Traders.Product.Api
 {
-    public class FireStoreKeys
+    public class GcpFirestoreConfig
     {
+        public static string ConfigKey = "FireStoreServiceKey";
+
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 

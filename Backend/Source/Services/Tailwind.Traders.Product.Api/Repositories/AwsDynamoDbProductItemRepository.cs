@@ -4,20 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tailwind.Traders.Product.Api.AWSClients;
+using Tailwind.Traders.Product.Api.AwsClients;
 using Tailwind.Traders.Product.Api.Models;
-using Tailwind.Traders.Product.Api.Repos.Services;
+using Tailwind.Traders.Product.Api.Repositories.Services;
 using Tailwind.Traders.Product.Api.Extensions;
 
-namespace Tailwind.Traders.Product.Api.Repos
+namespace Tailwind.Traders.Product.Api.Repositories
 {
-    public class AwsDynamoProductItemRepository : IProductItemRepository
+    public class AwsDynamoDbProductItemRepository : IProductItemRepository
     {
         private readonly AppSettings _appSettings;
         private readonly AmazonDynamoDBClient _amazonDynamoDBClient;
         private const int _take = 3;
 
-        public AwsDynamoProductItemRepository(IOptions<AppSettings> options,
+        public AwsDynamoDbProductItemRepository(IOptions<AppSettings> options,
             AmazonDynamoDbClientFactory factory)
         {
             _appSettings = options.Value;

@@ -4,7 +4,7 @@ using Google.Cloud.Firestore;
 using Newtonsoft.Json;
 using Grpc.Auth;
 
-namespace Tailwind.Traders.Product.Api.Infrastructure
+namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
     public static class GcpHelper
     {

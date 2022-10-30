@@ -6,14 +6,14 @@ using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
 {
-    public class AzureProductContextSeed : IContextSeed
+    public class AzureProductDatabaseSeeder : ISeedDatabase
     {
         private readonly IProcessFile _processFile;
         private readonly AppSettings _appConfig;
         private readonly ProductContext _productContext;
         private readonly IWebHostEnvironment _env;
 
-        public AzureProductContextSeed(IProcessFile processFile, ProductContext productContext, IOptions<AppSettings> options, IWebHostEnvironment env)
+        public AzureProductDatabaseSeeder(IProcessFile processFile, ProductContext productContext, IOptions<AppSettings> options, IWebHostEnvironment env)
         {
             _processFile = processFile;
             _appConfig = options.Value;

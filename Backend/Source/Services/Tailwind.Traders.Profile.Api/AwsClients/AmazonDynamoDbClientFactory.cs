@@ -2,7 +2,7 @@
 using Amazon.DynamoDBv2;
 using Microsoft.Extensions.Options;
 
-namespace Tailwind.Traders.Product.Api.AwsClients
+namespace Tailwind.Traders.Profile.Api.AwsClients
 {
     public class AmazonDynamoDbClientFactory
     {
@@ -13,7 +13,7 @@ namespace Tailwind.Traders.Product.Api.AwsClients
         }
         public AmazonDynamoDBClient Create()
         {
-            var dynamoSettings = _appSettings.DynamoDBServiceKey;
+            var dynamoSettings = _appSettings.DynamoDb;
             if (!string.IsNullOrEmpty(dynamoSettings.AwsAccessKey)
                 && !string.IsNullOrEmpty(dynamoSettings.AwsSecretKey))
             {

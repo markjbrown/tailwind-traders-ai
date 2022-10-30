@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Models;
 
-namespace Tailwind.Traders.Product.Api.Repos.Services
+namespace Tailwind.Traders.Product.Api.Repositories.Services
 {
     public class DynomoDbService
     {

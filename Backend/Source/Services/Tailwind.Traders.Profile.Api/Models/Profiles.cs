@@ -3,7 +3,7 @@ using Tailwind.Traders.Profile.Api.DTOs;
 
 namespace Tailwind.Traders.Profile.Api.Models
 {
-    public class Profiles
+    public class Profiles : IHaveId
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
