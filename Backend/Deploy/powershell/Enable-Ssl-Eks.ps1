@@ -6,7 +6,7 @@ Param (
     [parameter(Mandatory=$false)][string]$eksName,
     [parameter(Mandatory=$false)][string]$tlsCertFile="",
     [parameter(Mandatory=$false)][string]$tlsKeyFile="",
-    [parameter(Mandatory=$false)][string]$domain="aca9c186e9b4b4918aa0232a62deae61-7055480d6cf0bd74.elb.us-east-1.amazonaws.com",
+    [parameter(Mandatory=$false)][string]$domain="eks.tailwindtraders.click",
     [parameter(Mandatory=$false)][string]$tlsSecretName="tt-tls-custom",
     [parameter(Mandatory=$false)][string]$ingressClass="nginx"
 )

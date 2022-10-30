@@ -17,4 +17,11 @@ data:
   ISSUER: {{ .Values.sec.issuer }}
   SECURITYKEY: {{ .Values.sec.securityKey }}
   CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"
-  
+  stockItemTableName: {{ .Values.inf.db.stock.stockItemTable }}
+  region: {{ .Values.inf.awsRegion }}
+  projectId: {{ .Values.inf.db.stock.projectId }}
+  private_key_id: {{ .Values.inf.db.stock.privateKeyId }}
+  private_key: {{ .Values.inf.db.stock.privateKey }}
+  client_email: {{ .Values.inf.db.stock.clientEmail }}
+  client_id: {{ .Values.inf.db.stock.clientId }}
+  token_uri: {{ .Values.inf.db.stock.tokenUri }}

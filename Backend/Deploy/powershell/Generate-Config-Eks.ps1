@@ -82,6 +82,7 @@ $tokens.brandTable="GLB-TT-DEMO-ProductBrand-db"
 $tokens.featureTable="GLB-TT-DEMO-ProductFeature-db"
 $tokens.tagTable="GLB-TT-DEMO-ProductTag-db"
 $tokens.typeTable="GLB-TT-DEMO-ProductType-db"
+$tokens.stockItemTable="GLB-TT-DEMO-StockCollection-db"
 
 $tokens.shoppinghost="TEMPVALUE"
 $tokens.shoppingauth="TEMPVALUE"
@@ -90,7 +91,7 @@ $tokens.couponsuser="TEMPVALUE"
 $tokens.couponshost="TEMPVALUE"
 $tokens.couponspwd="TEMPVALUE"
 
-$tokens.storage="TEMPVALUE"
+$tokens.storage="https://glb-tt-demo-img-s3.s3.amazonaws.com/"
 $tokens.rewardsregistration=If ($rewardsResourceGroup) { $true } Else { $false }
 $tokens.appinsightsik="TEMPVALUE"
 

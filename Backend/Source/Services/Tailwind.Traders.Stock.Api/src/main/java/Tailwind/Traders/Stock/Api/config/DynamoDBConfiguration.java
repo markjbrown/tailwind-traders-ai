@@ -25,24 +25,25 @@ public class DynamoDBConfiguration {
 	@Value("${aws.region}")
 	private String awsRegion;
 
-	@Value("${aws.dynamodb.accessKey}")
-	private String dynamodbAccessKey;
+	// @Value("${aws.dynamodb.accessKey}")
+	// private String dynamodbAccessKey;
 
-	@Value("${aws.dynamodb.secretKey}")
-	private String dynamodbSecretKey;
+	// @Value("${aws.dynamodb.secretKey}")
+	// private String dynamodbSecretKey;
 
 	@Value("${aws.dynamodb.stockItemTableName}")
 	private String stockItemTable;
 
 	public DynamoDBMapper buildAmazonDynamoDB() {
 		AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder
-				.standard();
-		if (!StringUtils.isEmpty(dynamodbAccessKey)) {
-			builder = builder
-				.withCredentials(
-					new AWSStaticCredentialsProvider(new BasicAWSCredentials(dynamodbAccessKey, dynamodbSecretKey)))
-				.withRegion(awsRegion);
-		}
+				.standard()
+        .withRegion(awsRegion);
+		// if (!StringUtils.isEmpty(dynamodbAccessKey)) {
+		// 	builder = builder
+		// 		.withCredentials(
+		// 			new AWSStaticCredentialsProvider(new BasicAWSCredentials(dynamodbAccessKey, dynamodbSecretKey)))
+		// 		.withRegion(awsRegion);
+		// }
 		AmazonDynamoDB client = builder.build();
 		DynamoDBMapperConfig mapperConfig = DynamoDBMapperConfig.builder()
 				.withTableNameOverride(DynamoDBMapperConfig.TableNameOverride.withTableNameReplacement(stockItemTable))
