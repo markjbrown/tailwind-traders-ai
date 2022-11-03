@@ -3,10 +3,11 @@ using Tailwind.Traders.Profile.Api.DTOs;
 
 namespace Tailwind.Traders.Profile.Api.Models
 {
-    public class Profiles : IHaveId
+    public class Profiles
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public const string AppName = "Tailwind";
+
+        public string App { get; set; } = AppName;
         public string Name { get; set; }
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
@@ -17,7 +18,6 @@ namespace Tailwind.Traders.Profile.Api.Models
         public ProfileDto ToProfileDto(AppSettings settings) =>
             new ProfileDto()
             {
-                Id = this.Id,
                 Name = this.Name,
                 Address = this.Address,
                 Email = this.Email,

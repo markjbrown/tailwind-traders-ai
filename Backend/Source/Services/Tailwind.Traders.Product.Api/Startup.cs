@@ -27,9 +27,8 @@ namespace Tailwind.Traders.Product.Api
                 .AddControllers()
                 .SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .AddNewtonsoftJson()
-                .Services     
+                .Services
                 .AddHealthChecks(Configuration)
-                .AddApplicationInsightsTelemetry(Configuration)
                 .AddModulesProducts(Configuration);
 
             var appInsightsIK = Configuration["ApplicationInsights:InstrumentationKey"];

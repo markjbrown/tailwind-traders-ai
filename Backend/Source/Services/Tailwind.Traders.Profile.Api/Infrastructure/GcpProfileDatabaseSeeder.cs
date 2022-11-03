@@ -10,21 +10,24 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
     public class GcpProfileDatabaseSeeder : ISeedDatabase
     {
         private readonly IHostEnvironment _env;
-        private readonly IProcessFile _processFile;
+        private readonly IFileProcessor _processFile;
         private readonly CollectionReference _profileCollection;
 
-        public GcpProfileDatabaseSeeder(IProcessFile processFile, IWebHostEnvironment env, IOptions<AppSettings> appSettings)
+        public GcpProfileDatabaseSeeder(
+            IFileProcessor processFile,
+            IWebHostEnvironment env,
+            IOptions<AppSettings> options)
         {
             _processFile = processFile;
             _env = env;
-
-            FirestoreDb db = GcpHelper.CreateDb(appSettings.Value.Firestore);
-            _profileCollection = db.Collection(typeof(Profiles).Name);
+            var appSettings = options.Value;
+            FirestoreDb db = GcpHelper.CreateDb(appSettings.Firestore);
+            _profileCollection = db.Collection("Profiles");
         }
 
         public async Task SeedAsync()
         {
-            var profiles = _processFile.Process<Profiles>(_env.ContentRootPath, typeof(Profiles).Name);
+            var profiles = _processFile.Process<Profiles>(_env.ContentRootPath, "Profiles");
 
             foreach (var profile in profiles)
             {
@@ -32,16 +35,16 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
             }
         }
 
-        private static async Task AddDocumentIfNeeded(CollectionReference collection, IHaveId item)
+        private static async Task AddDocumentIfNeeded(CollectionReference collection, Profiles profile)
         {
-            var docResult = await collection.Select("Id").WhereEqualTo("Id", item.Id).GetSnapshotAsync();
+            var docResult = await collection.Select("Email").WhereEqualTo("Email", profile.Email).GetSnapshotAsync();
             if (docResult.Count == 0)
             {
-                var doc = await collection.AddAsync(item);
+                var doc = await collection.AddAsync(profile);
                 var snpShot = await doc.GetSnapshotAsync();
                 if (snpShot != null && !snpShot.Exists)
                 {
-                    await doc.SetAsync(item);
+                    await doc.SetAsync(profile);
                 }
             }
         }

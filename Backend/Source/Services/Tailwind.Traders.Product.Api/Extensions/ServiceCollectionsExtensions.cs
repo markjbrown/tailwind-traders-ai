@@ -41,14 +41,14 @@ namespace Tailwind.Traders.Product.Api.Extensions
 
             string env = configuration["CLOUD_PLATFORM"];
 
-            var cosmosDbOptions = new AzureCosmosDbConfig();
-            configuration.GetSection(AzureCosmosDbConfig.ConfigKey).Bind(cosmosDbOptions);
-
             if (env == AZURE_CLOUD)
             {
+                var options = new AzureCosmosDbConfig();
+                configuration.GetSection(AzureCosmosDbConfig.ConfigKey).Bind(options);
                 service.AddTransient<ISeedDatabase, AzureProductDatabaseSeeder>();
                 service.AddScoped<IProductItemRepository, AzureCosmosDbProductItemRepository>();
-                service.AddProductsContext(cosmosDbOptions);
+                service.AddApplicationInsightsTelemetry(configuration);
+                service.AddProductsContext(options);
             }
             else if (env == AWS_CLOUD)
             {

@@ -18,10 +18,10 @@ namespace Tailwind.Traders.Product.Api.Repositories
         private readonly CollectionReference _tagCollection;
         private readonly CollectionReference _featureCollection;
 
-        public GcpFirestoreProductItemRepository(IOptions<AppSettings> appSettings)
+        public GcpFirestoreProductItemRepository(IOptions<AppSettings> options)
         {
             // DB Authentication with serviceJson and initialization
-            FirestoreDb db = GcpHelper.CreateDb(appSettings.Value.FireStoreServiceKey);
+            FirestoreDb db = GcpHelper.CreateDb(options.Value.FireStoreServiceKey);
 
             // getting collections
             _productItemCollection = db.Collection(typeof(ProductItem).Name);

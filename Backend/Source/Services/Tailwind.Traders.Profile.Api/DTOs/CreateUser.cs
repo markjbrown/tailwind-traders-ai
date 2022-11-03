@@ -11,11 +11,10 @@ namespace Tailwind.Traders.Profile.Api.DTOs
         [Required]
         public string Email { get; set; }
 
-        public Profiles MapUserProfile(int id) =>
+        public Profiles MapUserProfile() =>
             new Profiles()
             {
-                Id = id,
-                Name = this.Name,
+                Name = Name,
                 Address = Address,
                 PhoneNumber = PhoneNumber,
                 Email = Email

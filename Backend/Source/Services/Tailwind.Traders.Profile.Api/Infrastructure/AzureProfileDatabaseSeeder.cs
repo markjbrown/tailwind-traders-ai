@@ -8,14 +8,15 @@ using Tailwind.Traders.Profile.Api.Models;
 
 namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
-    public class AzureProfileContextSeed : ISeedDatabase
+    public class AzureProfileDatabaseSeeder : ISeedDatabase
     {
         private readonly CsvReaderHelper _csvHelper;
-        private readonly IProcessFile _processFile;
+        private readonly IFileProcessor _processFile;
         private readonly ProfileContext _profileContext;
         private readonly IWebHostEnvironment _env;
 
-        public AzureProfileContextSeed(IProcessFile processFile, ProfileContext profileContext, IWebHostEnvironment env)
+        public AzureProfileDatabaseSeeder(
+            IFileProcessor processFile, ProfileContext profileContext, IWebHostEnvironment env)
         {
             _processFile = processFile;
             _profileContext = profileContext;
