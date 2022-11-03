@@ -13,11 +13,11 @@ data:
   CosmosDb__Key: {{ .Values.inf.db.products.auth }}
   CosmosDb__Host: {{ .Values.inf.db.products.host }}
 
-  AWS_PRODUCT_PRODUCTITEM_TABLE: {{ .Values.inf.db.products.productItemTable }}
-  AWS_PRODUCT_BRAND_TABLE: {{ .Values.inf.db.products.brandTable }}
-  AWS_PRODUCT_FEATURE_TABLE: {{ .Values.inf.db.products.featureTable }}
-  AWS_PRODUCT_TAG_TABLE: {{ .Values.inf.db.products.tagTable }}
-  AWS_PRODUCT_TYPE_TABLE: {{ .Values.inf.db.products.typeTable }}
+  DynamoDBServiceKey__ProductItemTable: {{ .Values.inf.db.products.productItemTable }}
+  DynamoDBServiceKey__ProductBrandTable: {{ .Values.inf.db.products.brandTable }}
+  DynamoDBServiceKey__ProductFeatureTable: {{ .Values.inf.db.products.featureTable }}
+  DynamoDBServiceKey__ProductTagTable: {{ .Values.inf.db.products.tagTable }}
+  DynamoDBServiceKey__ProductTypeTable: {{ .Values.inf.db.products.typeTable }}
   AWS_REGION: {{ .Values.inf.awsRegion }}
 
   ProductImagesUrl: {{ .Values.inf.storage.productimages }}

@@ -1,14 +1,14 @@
 Param(
     [parameter(Mandatory = $false)][string]$name = "my-tt-web",
     [parameter(Mandatory = $false)][string]$eksName,
-    [parameter(Mandatory = $false)][string]$eksHost = "aca9c186e9b4b4918aa0232a62deae61-7055480d6cf0bd74.elb.us-east-1.amazonaws.com",
+    [parameter(Mandatory = $false)][string]$eksHost = "eks.tailwindtraders.click",
     [parameter(Mandatory = $false)][string]$ecrName,
     [parameter(Mandatory = $false)][string]$tag = "latest",
     [parameter(Mandatory = $false)][string]$valueSFile = "aws-gvalues.yaml",
     [parameter(Mandatory = $false)][string]$b2cValuesFile = "values.b2c.yaml",
-    [parameter(Mandatory = $false)][string]$afHost = "https://aca9c186e9b4b4918aa0232a62deae61-7055480d6cf0bd74.elb.us-east-1.amazonaws.com/",
+    [parameter(Mandatory = $false)][string]$afHost = "https://eks.tailwindtraders.click/",
     [parameter(Mandatory = $false)][string][ValidateSet('prod', 'staging', 'none', 'custom', IgnoreCase = $false)]$tlsEnv = "custom",
-    [parameter(Mandatory = $false)][string]$tlsHost = "aca9c186e9b4b4918aa0232a62deae61-7055480d6cf0bd74.elb.us-east-1.amazonaws.com",
+    [parameter(Mandatory = $false)][string]$tlsHost = "eks.tailwindtraders.click",
     [parameter(Mandatory = $false)][string]$tlsSecretName = "",
     [parameter(Mandatory = $false)][string]$appInsightsName = "",    
     [parameter(Mandatory = $false)][string]$build = $false,
@@ -85,7 +85,7 @@ function createHelmCommand([string]$command, $chart) {
     $newcmd = $command
 
     if (-not [string]::IsNullOrEmpty($tlsSecretNameToUse)) {
-        $newcmd = "$newcmd --set ingress.protocol=http --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts='{$eksHost}'"
+        $newcmd = "$newcmd --set ingress.protocol=https --set ingress.tls[0].secretName=$tlsSecretNameToUse --set ingress.tls[0].hosts='{$eksHost}'"
     }
     else {
         $newcmd = "$newcmd --set ingress.protocol=http"

@@ -22,6 +22,13 @@ inf:
     stock:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
+      stockItemTable: {{stockItemTable}}
+      projectId: TEMPVALUE
+      privateKeyId: TEMPVALUE
+      privateKey: TEMPVALUE
+      clientEmail: TEMPVALUE
+      clientId: TEMPVALUE
+      tokenUri: TEMPVALUE
     cart:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}

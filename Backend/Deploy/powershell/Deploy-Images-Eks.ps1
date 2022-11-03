@@ -8,7 +8,7 @@ Param(
     [parameter(Mandatory=$false)][string]$valuesFile = "",
     [parameter(Mandatory=$false)][string]$namespace = "",
     [parameter(Mandatory=$false)][string][ValidateSet('prod','staging','none','custom', IgnoreCase=$false)]$tlsEnv = "none",
-    [parameter(Mandatory=$false)][string]$tlsHost="aca9c186e9b4b4918aa0232a62deae61-7055480d6cf0bd74.elb.us-east-1.amazonaws.com",
+    [parameter(Mandatory=$false)][string]$tlsHost="eks.tailwindtraders.click",
     [parameter(Mandatory=$false)][string]$tlsSecretName="tt-tls-custom",
     [parameter(Mandatory=$false)][bool]$autoscale=$false
 )
