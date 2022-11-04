@@ -18,7 +18,7 @@ namespace Tailwind.Traders.Profile.Api.Repositories
             _ctx = ctx;
             _settings = options.Value;
         }
-        public async Task<List<ProfileDto>> GetAll()
+        public async Task<IEnumerable<ProfileDto>> GetAll()
         {
             return await _ctx.Profiles.AsQueryable()
                 .Select(p => p.ToProfileDto(_settings))
@@ -34,8 +34,7 @@ namespace Tailwind.Traders.Profile.Api.Repositories
 
         public async Task Add(CreateUser user)
         {
-            var newId = await _ctx.Profiles.AsQueryable().CountAsync();
-            var profile = user.MapUserProfile(newId);
+            var profile = user.MapUserProfile();
             await _ctx.Profiles.AddAsync(profile);
             await _ctx.SaveChangesAsync();
         }

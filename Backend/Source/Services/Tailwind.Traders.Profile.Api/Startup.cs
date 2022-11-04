@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using Tailwind.Traders.Profile.Api.Extensions;
 using Tailwind.Traders.Profile.Api.Infrastructure;
 using Tailwind.Traders.Profile.Api.Models;
@@ -24,13 +25,14 @@ namespace Tailwind.Traders.Profile.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(Configuration);
+
             services
                 .AddControllers()
                 .SetCompatibilityVersion(CompatibilityVersion.Latest)
                 .Services
                 .AddHealthChecks(Configuration)
-                .AddProfileContext(Configuration)
-                .AddModulesProfile();
+                .AddModulesProfile(Configuration);
 
             // configure basic authentication 
             services.AddAuthentication("BasicAuthentication")
@@ -42,17 +44,10 @@ namespace Tailwind.Traders.Profile.Api
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.ApiVersionReader = new QueryStringApiVersionReader();
             });
-
-            var appInsightsIK = Configuration["ApplicationInsights:InstrumentationKey"];
-
-            if (!string.IsNullOrEmpty(appInsightsIK))
-            {
-                services.AddApplicationInsightsTelemetry(appInsightsIK);
-            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {

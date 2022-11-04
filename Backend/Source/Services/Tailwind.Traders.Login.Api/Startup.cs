@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using Tailwind.Traders.Login.Api.Extensions;
 using Tailwind.Traders.Login.Api.Services;
 
@@ -23,8 +24,8 @@ namespace Tailwind.Traders.Login.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IConfiguration>(_ => _configuration);
 
-            // Services
             services
                 .AddSingleton<ITokenHandlerService, TokenHandlerService>()
                 .AddHealthChecks(_configuration);
@@ -47,7 +48,7 @@ namespace Tailwind.Traders.Login.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
 
             if (env.IsDevelopment())

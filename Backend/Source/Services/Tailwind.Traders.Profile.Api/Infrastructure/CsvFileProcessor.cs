@@ -8,12 +8,12 @@ using System.Linq;
 
 namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
-    public class ProccessCsv : IProcessFile
+    public class CsvFileProcessor : IFileProcessor
     {
-        private readonly ILogger<ProccessCsv> _logger;
+        private readonly ILogger<CsvFileProcessor> _logger;
         private readonly IEnumerable<ClassMap> _classMaps;
 
-        public ProccessCsv(ILogger<ProccessCsv> logger, IEnumerable<ClassMap> classMaps)
+        public CsvFileProcessor(ILogger<CsvFileProcessor> logger, IEnumerable<ClassMap> classMaps)
         {
             _logger = logger;
             _classMaps = classMaps;
@@ -30,6 +30,8 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
                     var csvReader = configuration != null ? new CsvReader(reader, configuration) :  new CsvReader(reader);
 
                     RegisterMappers(csvReader);
+                    csvReader.Configuration.HeaderValidated = null;
+                    csvReader.Configuration.MissingFieldFound = null;
 
                     var model = csvReader.GetRecords<TModel>().ToList();
 

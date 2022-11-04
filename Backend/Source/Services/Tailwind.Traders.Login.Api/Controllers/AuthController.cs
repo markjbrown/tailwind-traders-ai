@@ -25,15 +25,13 @@ namespace NetCoreJWTAuth.App.Controllers
         [HttpPost("oauth2/token")]
         public IActionResult Login([FromBody] TokenRequestModel request)
         {
-
             if (String.IsNullOrWhiteSpace(request.Username) || String.IsNullOrWhiteSpace(request.Password) || request.GrantType != "password")
             {
                 return BadRequest("Could not verify username and password");
             }
 
-           var token = _tokenHandlerService.SignIn(request.Username);
-
-           return Ok(token);
+            var tokenResponse = _tokenHandlerService.SignIn(request.Username);
+            return Ok(tokenResponse);
         }
 
         // PUT /oauth2/refresh
@@ -49,7 +47,7 @@ namespace NetCoreJWTAuth.App.Controllers
             {
                 return NotFound(e);
             }
-        } 
+        }
 
     }
 }

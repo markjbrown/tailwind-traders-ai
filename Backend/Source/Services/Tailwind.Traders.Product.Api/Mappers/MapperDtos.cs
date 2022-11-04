@@ -11,9 +11,9 @@ namespace Tailwind.Traders.Product.Api.Mappers
     {
         private AppSettings _appSettings;
 
-        public MapperDtos(IOptions<AppSettings> appSettings)
+        public MapperDtos(IOptions<AppSettings> options)
         {
-            _appSettings = appSettings.Value;
+            _appSettings = options.Value;
         }
 
         public IEnumerable<ProductDto> MapperToProductDto(IEnumerable<ProductItem> productItems)

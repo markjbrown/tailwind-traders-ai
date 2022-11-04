@@ -19,12 +19,10 @@ namespace Tailwind.Traders.Profile.Api.Controllers
     [Authorize]
     public class ProfileController : ControllerBase
     {
-        private readonly AppSettings _settings;
         private readonly IProfileRepository _profileRepository;
 
-        public ProfileController(IProfileRepository profileRepository, IOptions<AppSettings> options)
+        public ProfileController(IProfileRepository profileRepository)
         {
-            _settings = options.Value;
             _profileRepository = profileRepository;
         }
 
@@ -35,14 +33,14 @@ namespace Tailwind.Traders.Profile.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> GetAllProfiles()
         {
-            List<ProfileDto> result = await _profileRepository.GetAll();
+            var profiles = await _profileRepository.GetAll();
 
-            if (!result.Any())
+            if (!profiles.Any())
             {
                 return NoContent();
             }
 
-            return Ok(result);
+            return Ok(profiles);
         }
 
         // GET v1/profile/me
@@ -51,12 +49,12 @@ namespace Tailwind.Traders.Profile.Api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetProfile()
         {
-            var nameFilter = User.Identity.Name ?? string.Empty;
-            ProfileDto result = await _profileRepository.GetByEmail(nameFilter);
+            var email = User.Identity.Name ?? string.Empty;
+            ProfileDto result = await _profileRepository.GetByEmail(email);
 
             if (result == null)
             {
-                var defaultUser = GetDefaultUserProfile(nameFilter);
+                var defaultUser = GetDefaultUserProfile(email);
                 return Ok(defaultUser);
             }
 
@@ -74,20 +72,18 @@ namespace Tailwind.Traders.Profile.Api.Controllers
                 return BadRequest();
             }
 
-            // TODO: Auto generated value for int not implemented with CosmosDb EF yet.
             await _profileRepository.Add(user);
 
             return Ok();
         }
 
-        private ProfileDto GetDefaultUserProfile(string nameFilter)
+        private ProfileDto GetDefaultUserProfile(string email)
         {
             return new ProfileDto
             {
-                Id = 0,
-                Email = nameFilter,
+                Email = email,
                 Address = "7711 W. Pawnee Ave. Beachwood, OH 44122",
-                Name = nameFilter,
+                Name = email,
                 PhoneNumber = "+1-202-555-0155",
                 ImageUrlMedium = "defaultImage-m.jpg",
                 ImageUrlSmall = "defaultImage-s.jpg"

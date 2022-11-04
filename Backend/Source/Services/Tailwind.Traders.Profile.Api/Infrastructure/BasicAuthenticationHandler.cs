@@ -11,7 +11,7 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticationOptions>
     {
-        private const string AuthorizationHeaderName = "x-tt-name";
+        public const string AuthorizationHeaderName = "x-tt-name";
 
         public BasicAuthenticationHandler(
             IOptionsMonitor<BasicAuthenticationOptions> options,

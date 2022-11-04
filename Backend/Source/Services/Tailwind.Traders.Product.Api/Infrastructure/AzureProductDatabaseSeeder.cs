@@ -9,14 +9,15 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
     public class AzureProductDatabaseSeeder : ISeedDatabase
     {
         private readonly IProcessFile _processFile;
-        private readonly AppSettings _appConfig;
         private readonly ProductContext _productContext;
         private readonly IWebHostEnvironment _env;
 
-        public AzureProductDatabaseSeeder(IProcessFile processFile, ProductContext productContext, IOptions<AppSettings> options, IWebHostEnvironment env)
+        public AzureProductDatabaseSeeder(
+            IProcessFile processFile,
+            ProductContext productContext,
+            IWebHostEnvironment env)
         {
             _processFile = processFile;
-            _appConfig = options.Value;
             _productContext = productContext;
             _env = env;
         }

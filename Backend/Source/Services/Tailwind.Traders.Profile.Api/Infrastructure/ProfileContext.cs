@@ -13,8 +13,9 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Profiles>()
-                .HasAlternateKey(c => c.Email);
+            modelBuilder.Entity<Profiles>() 
+                .HasPartitionKey(c => c.App)
+                .HasKey(c => c.Email);
         }
     }
 }
