@@ -9,3 +9,8 @@ resource "google_storage_bucket_access_control" "public_read" {
   role   = "READER"
   entity = "allUsers"
 }
+
+resource "google_storage_bucket_acl" "public_read" {
+  bucket         = google_storage_bucket.image_store.name
+  predefined_acl = "publicRead"
+}
