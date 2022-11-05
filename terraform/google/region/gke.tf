@@ -94,3 +94,19 @@ resource "google_compute_address" "ip" {
   name         = "tailwindtraders-ip"
   address_type = "EXTERNAL"
 }
+
+resource "kubernetes_secret" "tls" {
+  metadata {
+    name      = "tls-tls-custom"
+    namespace = "default"
+  }
+
+  type = "kubernetes.io/tls"
+
+  data = {
+    tls.crt = ""
+    tls.key = ""
+  }
+
+  depends_on = [helm_release.cert_manager]
+}
