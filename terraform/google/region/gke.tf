@@ -78,7 +78,7 @@ resource "kubectl_manifest" "clusterissuer_le_prod" {
           {
             "http01" = {
               "ingress" = {
-                "class" = "nginx"
+                "class" = "ingress-gce"
               }
             }
           }
