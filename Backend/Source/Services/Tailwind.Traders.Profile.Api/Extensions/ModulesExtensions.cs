@@ -10,10 +10,6 @@ namespace Tailwind.Traders.Profile.Api.Extensions
 {
     public static class ModulesExtensions
     {
-        const string AZURE_CLOUD = "AZURE";
-        const string AWS_CLOUD = "AWS";
-        const string GCP_CLOUD = "GCP";
-
         public static IServiceCollection AddModulesProfile(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<CsvReaderHelper>();
@@ -21,7 +17,7 @@ namespace Tailwind.Traders.Profile.Api.Extensions
 
             string env = configuration["CLOUD_PLATFORM"];
 
-            if (env == AZURE_CLOUD)
+            if (env == CloudConstants.AZURE_CLOUD)
             {
                 services.AddTransient<ISeedDatabase, AzureProfileDatabaseSeeder>();
                 services.AddScoped<IProfileRepository, AzureProfileRepository>();
@@ -34,13 +30,13 @@ namespace Tailwind.Traders.Profile.Api.Extensions
                     services.AddApplicationInsightsTelemetry(appInsightsIK);
                 }
             }
-            else if (env == AWS_CLOUD)
+            else if (env == CloudConstants.AWS_CLOUD)
             {
                 services.AddTransient<AmazonDynamoDbClientFactory>();
                 services.AddTransient<ISeedDatabase, AwsProfileDatabaseSeeder>();
                 services.AddScoped<IProfileRepository, AwsDynamoDbProfileRepository>();
             }
-            else if (env == GCP_CLOUD)
+            else if (env == CloudConstants.GCP_CLOUD)
             {
                 services.AddTransient<ISeedDatabase, GcpProfileDatabaseSeeder>();
                 services.AddScoped<IProfileRepository, GcpFirestoreProfileRepository>();

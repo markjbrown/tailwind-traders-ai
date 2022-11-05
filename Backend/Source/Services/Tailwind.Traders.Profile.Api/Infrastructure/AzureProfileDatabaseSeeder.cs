@@ -10,7 +10,6 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
     public class AzureProfileDatabaseSeeder : ISeedDatabase
     {
-        private readonly CsvReaderHelper _csvHelper;
         private readonly IFileProcessor _processFile;
         private readonly ProfileContext _profileContext;
         private readonly IWebHostEnvironment _env;
