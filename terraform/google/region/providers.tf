@@ -10,23 +10,20 @@ terraform {
 provider "kubernetes" {
   host                   = "https://${google_container_cluster.gke.endpoint}"
   cluster_ca_certificate = base64decode(google_container_cluster.gke.master_auth.0.cluster_ca_certificate)
-  client_certificate     = base64decode(google_container_cluster.gke.master_auth.0.client_certificate)
-  client_key             = base64decode(google_container_cluster.gke.master_auth.0.client_key)
+  token                  = data.google_client_config.current.access_token
 }
 
 provider "helm" {
   kubernetes {
     host                   = "https://${google_container_cluster.gke.endpoint}"
     cluster_ca_certificate = base64decode(google_container_cluster.gke.master_auth.0.cluster_ca_certificate)
-    client_certificate     = base64decode(google_container_cluster.gke.master_auth.0.client_certificate)
-    client_key             = base64decode(google_container_cluster.gke.master_auth.0.client_key)
+    token                  = data.google_client_config.current.access_token
   }
 }
 
 provider "kubectl" {
   host                   = "https://${google_container_cluster.gke.endpoint}"
   cluster_ca_certificate = base64decode(google_container_cluster.gke.master_auth.0.cluster_ca_certificate)
-  client_certificate     = base64decode(google_container_cluster.gke.master_auth.0.client_certificate)
-  client_key             = base64decode(google_container_cluster.gke.master_auth.0.client_key)
+  token                  = data.google_client_config.current.access_token
   load_config_file       = false
 }
