@@ -3,3 +3,9 @@ resource "google_storage_bucket" "image_store" {
   location      = "US"
   force_destroy = true
 }
+
+resource "google_storage_bucket_access_control" "public_read" {
+  bucket = google_storage_bucket.image_store.name
+  role   = "READER"
+  entity = "allUsers"
+}
