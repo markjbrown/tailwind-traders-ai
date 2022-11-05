@@ -22,20 +22,20 @@ provider "registry.terraform.io/hashicorp/google" {
 }
 
 provider "registry.terraform.io/hashicorp/google-beta" {
-  version = "4.38.0"
+  version = "4.42.1"
   hashes = [
-    "h1:qMNnR5jS0EUKZOxF016O8TQyW9FkoB771GNFe6+f0MM=",
-    "zh:0036b20c2de88ee2e557d22378ed0c72114c9cd5b38cee664b14438718b86d6b",
-    "zh:28bdf6681a13a1cfdcc343a492e39cde154a5d921044bd19a844ff7ee9583df1",
-    "zh:656a9ae4ec64bfdbd48fa34581d6057d522cf6fd200bcb5cdebf4af28327597f",
-    "zh:6c6fc1e6dc1e44bce9efe7badedd870f46a91b419b682a3dffd32bce09ca7d6a",
-    "zh:6f98daf128af551f87a110f5ea35ace6a43f67f565f7e8f29433761ab9acf2b9",
-    "zh:90598721957f154c381763ed7e46cdbfd0f72ab1305f18fe1867141da02cd168",
-    "zh:a44c0504bdff7cfcae4e71c966f96b5cc911d1ee45d9c0ed70d41bef651914cd",
-    "zh:cf2c3e8b18ef4ec4e8ed20cd66ab9166bc449e6018533f42ee80cbed59d5e8aa",
-    "zh:daf26d690f8652af762cf46b4bfac3be6a6e78be8f4779939ebf9c7b747d645c",
-    "zh:e1afaebe88b64a6b946ca838875df25558aa2b650d43ae5c326605ce9b416c9a",
-    "zh:f0cf6a34721ca07e19552b11e1d2727bd5d52505c1cfba63a4c2bbbb813350db",
+    "h1:esQ77cokPeVn5YwJYuI89E4zyw7h7F1+dkRrR8mGqAU=",
+    "zh:157a5fdc429ec1e2e58cdf2f89287da700b85a41b69bd9a4a1baab9c829484a2",
+    "zh:31bb4603fe5ac887b47e30befda70ea192fd94e238cedf6b75db275406fe51ef",
+    "zh:3432ad24d0a5e79959b793e964b6a2a67d1e426fa38ba72576663394452f96bf",
+    "zh:67e5ec8629cbc7060e2dfa80afb8a9990486f7f48ae25610b695a233affedcc5",
+    "zh:75d8e73d23469fd470af1ada161250aa6388a32f73a38c9cea31211df790949d",
+    "zh:7e371090c86b137ac8722e8eab62a947e2346ddb53e5d6ca94fa8c492c9512a4",
+    "zh:bc8a28a36444e4fb67980d6a5373cbb9bace5a03144041d9999dc2b3dbb059ab",
+    "zh:bd00a68ab2b24075e9ae269a7e338f079a1ab9992b368f843a5fc896e561d784",
+    "zh:dcf52bc7da300bd110dd75a280c53e754d0abe551fe264af78c408bf4fde61a9",
+    "zh:e41bc9508f424d08a3eaab1755fb347a5a74d84cd09177a56ff193922904aa14",
+    "zh:f0121c04e2436610bea66eb5663b59e1bc6c09241c18548ca5556f6d8d6a2054",
     "zh:f569b65999264a9416862bca5cd2a6177d94ccb0424f3a4ef424428912b9cb3c",
   ]
 }

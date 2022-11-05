@@ -7,6 +7,11 @@ resource "google_container_cluster" "gke" {
 
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
+
+
+  workload_identity_config {
+    workload_pool = "${data.google_client_config.current.project}.svc.id.goog"
+  }
 }
 
 resource "google_container_node_pool" "node_pool" {
