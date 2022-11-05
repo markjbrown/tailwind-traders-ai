@@ -21,7 +21,7 @@ resource "google_storage_default_object_access_control" "public_read" {
   entity = "allUsers"
 }
 
-resource "google_storage_bucket_iam" "public_read" {
+resource "google_storage_bucket_iam_binding" "public_read" {
   bucket = google_storage_bucket.image_store.name
   role   = "roles/storage.objectViewer"
   members = [
