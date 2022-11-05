@@ -104,8 +104,8 @@ resource "kubernetes_secret" "tls" {
   type = "kubernetes.io/tls"
 
   data = {
-    tls.crt = ""
-    tls.key = ""
+    "tls.crt" = ""
+    "tls.key" = ""
   }
 
   depends_on = [helm_release.cert_manager]
