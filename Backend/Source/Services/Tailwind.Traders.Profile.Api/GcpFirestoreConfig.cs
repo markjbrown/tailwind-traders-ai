@@ -4,7 +4,7 @@ namespace Tailwind.Traders.Profile.Api
 {
     public class GcpFirestoreConfig
     {
-        public static string ConfigKey = "FirestoreDb";
+        public static string ConfigKey = "Firestore";
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
