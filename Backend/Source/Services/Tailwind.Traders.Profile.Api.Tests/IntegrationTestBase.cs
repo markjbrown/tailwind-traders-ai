@@ -23,7 +23,6 @@ namespace Tailwind.Traders.Profile.Api.Tests
         protected AuthHost AuthHost = new AuthHost();
         protected HttpClient AuthClient => AuthHost.Client;
         protected string AuthPath(string path) => AuthHost.Url(path);
-
 #endif
 
         public IntegrationTestBase()

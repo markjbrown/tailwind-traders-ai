@@ -48,6 +48,23 @@ namespace Tailwind.Traders.Profile.Api.Tests
         }
 
         [TestMethod]
+        public async Task TestAddProfile_GCP()
+        {
+            Initialize("GCP");
+            var createUser = new CreateUser
+            {
+                Name = "Scott Reed",
+                Email = "scott@me.com",
+                Address = "123 Fake St. San Diego, CA, 92101",
+                PhoneNumber = "619-555-1212",
+            };
+            var stringContent = new StringContent(JsonConvert.SerializeObject(createUser), Encoding.UTF8, MediaTypeNames.Application.Json);
+
+            var response = await ApiClient.PostAsync(ApiPath($@"/v1/profile"), stringContent);
+            Assert.IsTrue(response.IsSuccessStatusCode);
+        }
+
+        [TestMethod]
         public async Task TestGetAllProfiles_GCP()
         {
             Initialize("GCP");

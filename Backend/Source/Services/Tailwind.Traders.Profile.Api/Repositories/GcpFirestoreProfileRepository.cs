@@ -22,7 +22,7 @@ namespace Tailwind.Traders.Profile.Api.Repositories
             FirestoreDb db = GcpHelper.CreateDb(_settings.Firestore);
 
             // getting collections
-            _profilesCollection = db.Collection(typeof(Profiles).Name);
+            _profilesCollection = db.Collection("Profiles");
         }
 
         public async Task Add(CreateUser user)

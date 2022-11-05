@@ -11,11 +11,13 @@ namespace Tailwind.Traders.Profile.Api
     {
         public static void Main(string[] args)
         {
-            var webHost = CreateWebHostBuilder(args)
-                .Build();
+            var webHost = CreateWebHostBuilder(args).Build();
 
-            var seedData = webHost.Services.GetRequiredService<ISeedDatabase>();
-            seedData.SeedAsync();
+            using (var scope = webHost.Services.CreateScope())
+            {
+                var seedData = scope.ServiceProvider.GetRequiredService<ISeedDatabase>();
+                seedData.SeedAsync().Wait();
+            }
 
             webHost.Run();
         }

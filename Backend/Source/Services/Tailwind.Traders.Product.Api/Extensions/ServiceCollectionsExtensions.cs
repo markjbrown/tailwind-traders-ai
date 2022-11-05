@@ -13,11 +13,9 @@ using Tailwind.Traders.Product.Api.Repositories;
 
 namespace Tailwind.Traders.Product.Api.Extensions
 {
+
     public static class ServiceCollectionsExtensions
     {
-        const string AZURE_CLOUD = "AZURE";
-        const string AWS_CLOUD = "AWS";
-        const string GCP_CLOUD = "GCP";
         public static IServiceCollection AddProductsContext(this IServiceCollection service, AzureCosmosDbConfig cosmosDbConfig)
         {
             service.AddDbContext<ProductContext>(options =>
@@ -41,7 +39,7 @@ namespace Tailwind.Traders.Product.Api.Extensions
 
             string env = configuration["CLOUD_PLATFORM"];
 
-            if (env == AZURE_CLOUD)
+            if (env == CloudConstants.AZURE_CLOUD)
             {
                 var options = new AzureCosmosDbConfig();
                 configuration.GetSection(AzureCosmosDbConfig.ConfigKey).Bind(options);
@@ -50,13 +48,13 @@ namespace Tailwind.Traders.Product.Api.Extensions
                 service.AddApplicationInsightsTelemetry(configuration);
                 service.AddProductsContext(options);
             }
-            else if (env == AWS_CLOUD)
+            else if (env == CloudConstants.AWS_CLOUD)
             {
                 service.AddTransient<AmazonDynamoDbClientFactory>();
                 service.AddTransient<ISeedDatabase, AwsProductDatabaseSeeder>();
                 service.AddScoped<IProductItemRepository, AwsDynamoDbProductItemRepository>();
             }
-            else if (env == GCP_CLOUD)
+            else if (env == CloudConstants.GCP_CLOUD)
             {
                 service.AddTransient<ISeedDatabase, GcpProductDatabaseSeeder>();
                 service.AddScoped<IProductItemRepository, GcpFirestoreProductItemRepository>();
@@ -72,6 +70,19 @@ namespace Tailwind.Traders.Product.Api.Extensions
         {
             var hcBuilder = services.AddHealthChecks();
             hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
+            string env = configuration["CLOUD_PLATFORM"];
+
+            if (env == CloudConstants.AZURE_CLOUD)
+            {
+                hcBuilder.Add(new HealthCheckRegistration(
+                    "ProductsDB-check",
+                    sp => new CosmosDbHealthCheck(
+                        $"AccountEndpoint={configuration["CosmosDb:Host"]};AccountKey={configuration["CosmosDb:Key"]}",
+                        configuration["CosmosDb:Database"]),
+                    HealthStatus.Unhealthy,
+                    new string[] { "productdb" }
+                ));
+            }
             return services;
         }
     }

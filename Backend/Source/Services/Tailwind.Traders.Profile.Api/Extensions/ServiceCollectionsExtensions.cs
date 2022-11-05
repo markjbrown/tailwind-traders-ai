@@ -27,14 +27,18 @@ namespace Tailwind.Traders.Profile.Api.Extensions
 
             hcBuilder.AddCheck("self", () => HealthCheckResult.Healthy());
 
-            hcBuilder.Add(new HealthCheckRegistration(
-                "ProfileDB-check",
-                sp => new CosmosDbHealthCheck(
-                    $"AccountEndpoint={configuration["CosmosDb:Host"]};AccountKey={configuration["CosmosDb:Key"]}",
-                    configuration["CosmosDb:Database"]),
-                HealthStatus.Unhealthy,
-                new string[] { "profileDb"}
-            ));
+            string env = configuration["CLOUD_PLATFORM"];
+            if (env == CloudConstants.AZURE_CLOUD)
+            {
+                hcBuilder.Add(new HealthCheckRegistration(
+                    "ProfileDB-check",
+                    sp => new CosmosDbHealthCheck(
+                        $"AccountEndpoint={configuration["CosmosDb:Host"]};AccountKey={configuration["CosmosDb:Key"]}",
+                        configuration["CosmosDb:Database"]),
+                    HealthStatus.Unhealthy,
+                    new string[] { "profileDb" }
+                ));
+            }
 
             return services;
         }
