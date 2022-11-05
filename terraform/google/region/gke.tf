@@ -97,7 +97,7 @@ resource "google_compute_address" "ip" {
 
 resource "kubernetes_secret" "tls" {
   metadata {
-    name      = "tls-tls-custom"
+    name      = "tt-letsencrypt-prod"
     namespace = "default"
   }
 
