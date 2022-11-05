@@ -11,17 +11,13 @@ namespace Tailwind.Traders.Profile.Api
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args)
-                .Build()
-                .MigrateDbContext<ProfileContext>((context, services) =>
-                {
-                    var env = services.GetService<IWebHostEnvironment>();
-                    var csvReader = services.GetRequiredService<CsvReaderHelper>();
-                    var seeder = services.GetRequiredService<AzureProfileDatabaseSeeder>();
+            var webHost = CreateWebHostBuilder(args)
+                .Build();
 
-                    seeder.SeedAsync().Wait();
-                })
-                .Run();
+            var seedData = webHost.Services.GetRequiredService<ISeedDatabase>();
+            seedData.SeedAsync();
+
+            webHost.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

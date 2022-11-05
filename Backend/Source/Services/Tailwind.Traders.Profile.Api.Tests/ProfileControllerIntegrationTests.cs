@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Tailwind.Traders.Profile.Api.Tests
         }
 
         [TestMethod]
-        public async Task TestGetAllProfiles_AWS()
+        public async Task TestAddProfile_AWS()
         {
             Initialize("AWS");
             var createUser = new CreateUser
@@ -35,9 +36,15 @@ namespace Tailwind.Traders.Profile.Api.Tests
             var stringContent = new StringContent(JsonConvert.SerializeObject(createUser), Encoding.UTF8, MediaTypeNames.Application.Json);
 
             var response = await ApiClient.PostAsync(ApiPath($@"/v1/profile"), stringContent);
-            int i = 17;
-            //var response = await ApiClient.GetAsync(ApiPath($@"/v1/profile"));
-            //await response.VerifyResponseModelAsync<IEnumerable<Profiles>>();
+            Assert.IsTrue(response.IsSuccessStatusCode);
+        }
+
+        [TestMethod]
+        public async Task TestGetAllProfiles_AWS()
+        {
+            Initialize("AWS");
+            var response = await ApiClient.GetAsync(ApiPath($@"/v1/profile"));
+            await response.VerifyResponseModelAsync<IEnumerable<Profiles>>();
         }
 
         [TestMethod]
