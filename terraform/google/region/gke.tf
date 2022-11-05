@@ -90,3 +90,6 @@ resource "kubectl_manifest" "clusterissuer_le_prod" {
   depends_on = [helm_release.cert_manager]
 }
 
+resource "google_global_address" "ip" {
+  name = "tailwindtraders-ip"
+}
