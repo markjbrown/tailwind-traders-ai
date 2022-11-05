@@ -31,3 +31,62 @@ resource "google_container_node_pool" "node_pool" {
     ]
   }
 }
+
+resource "kubernetes_namespace" "cert_manager" {
+  metadata {
+    name = "cert-manager"
+  }
+
+  depends_on = [
+    google_container_cluster.gke
+  ]
+}
+
+resource "helm_release" "cert_manager" {
+  name       = "cert-manager"
+  repository = "https://charts.jetstack.io"
+  chart      = "cert-manager"
+  version    = "1.10.0"
+  namespace  = kubernetes_namespace.cert_manager.metadata[0].name
+
+
+  set {
+    name  = "installCRDs"
+    value = "true"
+  }
+
+  depends_on = [
+    google_container_cluster.gke
+  ]
+}
+
+resource "kubectl_manifest" "clusterissuer_le_prod" {
+  yaml_body = yamlencode({
+    "apiVersion" = "cert-manager.io/v1"
+    "kind"       = "ClusterIssuer"
+    "metadata" = {
+      "name" = "letsencrypt-prod"
+    }
+    "spec" = {
+      "acme" = {
+        "email" = "myemail@email.com"
+        "privateKeySecretRef" = {
+          "name" = "letsencrypt-prod"
+        }
+        "server" = "https://acme-v02.api.letsencrypt.org/directory"
+        "solvers" = [
+          {
+            "http01" = {
+              "ingress" = {
+                "class" = "ingress-gce"
+              }
+            }
+          }
+        ]
+      }
+    }
+  })
+
+  depends_on = [helm_release.cert_manager]
+}
+

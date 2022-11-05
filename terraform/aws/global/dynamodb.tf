@@ -14,13 +14,13 @@ resource "aws_dynamodb_table" "product_context" {
 resource "aws_dynamodb_table" "profile_context" {
   name           = "${local.resource_prefix}-ProfileContext-db"
   billing_mode   = "PROVISIONED"
-  hash_key       = "Id"
+  hash_key       = "Email"
   read_capacity  = 20
   write_capacity = 20
 
   attribute {
-    name = "Id"
-    type = "N"
+    name = "Email"
+    type = "S"
   }
 }
 
