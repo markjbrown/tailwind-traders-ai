@@ -16,6 +16,7 @@ inf:
     profile:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
+      profileTable: {{profileTable}}
     popularproducts:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}

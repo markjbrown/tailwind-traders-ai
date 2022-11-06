@@ -6,28 +6,36 @@ inf:
   sa: null
   db:
     products:
-      host: {{shoppinghost}}
-      auth: {{shoppingauth}}
-      productItemTable: {{productItemTable}}
-      brandTable: {{brandTable}}
-      featureTable: {{featureTable}}
-      tagTable: {{tagTable}}
-      typeTable: {{typeTable}}
+      host: TEMPVALUE
+      auth: TEMPVALUE
+      productItemTable: TEMPVALUE
+      brandTable: TEMPVALUE
+      featureTable: TEMPVALUE
+      tagTable: TEMPVALUE
+      typeTable: TEMPVALUE
     profile:
-      host: {{shoppinghost}}
-      auth: {{shoppingauth}}
+      host: TEMPVALUE
+      auth: TEMPVALUE
+      profileTable: TEMPVALUE
     popularproducts:
-      host: {{shoppinghost}}
-      auth: {{shoppingauth}}
+      host: TEMPVALUE
+      auth: TEMPVALUE
     stock:
-      host: {{shoppinghost}}
-      auth: {{shoppingauth}}
+      host: TEMPVALUE
+      auth: TEMPVALUE
+      stockItemTable: TEMPVALUE
+      projectId: TEMPVALUE
+      privateKeyId: TEMPVALUE
+      privateKey: TEMPVALUE
+      clientEmail: TEMPVALUE
+      clientId: TEMPVALUE
+      tokenUri: TEMPVALUE
     cart:
-      host: {{shoppinghost}}
-      auth: {{shoppingauth}}
-      productsTable: {{cartProductsTable}}
-      recommendationsTable: {{recommendationsTable}}
-      ordersTable: {{ordersTable}}
+      host: TEMPVALUE
+      auth: TEMPVALUE
+      productsTable: TEMPVALUE
+      recommendationsTable: TEMPVALUE
+      ordersTable: TEMPVALUE
     rewards:
       host: {{rewardshost}}
       port: "1433"
@@ -84,13 +92,15 @@ inf:
     registrationusersurl: http://rewards-registration/UserService.svc
 
 # Shared ingress configurations
+service:
+  type: NodePort
 ingress:
   enabled: true
   annotations:
-    kubernetes.io/ingress.class: alb
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    ingress.kubernetes.io/rewrite-target: /{{ingressrewritetarget}}
-    nginx.ingress.kubernetes.io/rewrite-target: /{{ingressrewritetarget}}
+    kubernetes.io/ingress.class: gce
+    kubernetes.io/ingress.allow-http: "true"
+    kubernetes.io/ingress-global-static-ip-name: tailwindtraders-ip
+    acme.cert-manager.io/http01-edit-in-place: "true"
 #  hosts:
 #    - <guid>.<region>.aksapp.io   # NOT NEEDED. SET BY SCRIPTS
 

@@ -2,8 +2,8 @@
 
 Param (
     [parameter(Mandatory=$false)][string[]]$outputFile=$null,
-    [parameter(Mandatory=$false)][string[]]$gvaluesTemplate="..,helm,aws-gvalues.template",
-    [parameter(Mandatory=$false)][string]$ingressClass="nginx"
+    [parameter(Mandatory=$false)][string[]]$gvaluesTemplate="..,helm,gcp-gvalues.template",
+    [parameter(Mandatory=$false)][string]$ingressClass="ingress-gce"
 )
 
 function EnsureAndReturnFirstItem($arr, $restype) {
@@ -83,7 +83,6 @@ $tokens.featureTable="GLB-TT-DEMO-ProductFeature-db"
 $tokens.tagTable="GLB-TT-DEMO-ProductTag-db"
 $tokens.typeTable="GLB-TT-DEMO-ProductType-db"
 $tokens.stockItemTable="GLB-TT-DEMO-StockCollection-db"
-$tokens.profileTable="GLB-TT-DEMO-ProfileContext-db"
 
 $tokens.shoppinghost="TEMPVALUE"
 $tokens.shoppingauth="TEMPVALUE"
@@ -92,7 +91,7 @@ $tokens.couponsuser="TEMPVALUE"
 $tokens.couponshost="TEMPVALUE"
 $tokens.couponspwd="TEMPVALUE"
 
-$tokens.storage="https://glb-tt-demo-img-s3.s3.amazonaws.com/"
+$tokens.storage="https://storage.googleapis.com/glb-tt-demo-img-bucket/"
 $tokens.rewardsregistration=If ($rewardsResourceGroup) { $true } Else { $false }
 $tokens.appinsightsik="TEMPVALUE"
 
@@ -100,8 +99,8 @@ $tokens.appinsightsik="TEMPVALUE"
 $tokens.ingressclass=$ingressClass
 $tokens.secissuer="TTFakeLogin"
 $tokens.seckey="nEpLzQJGNSCNL5H6DIQCtTdNxf5VgAGcBbtXLms1YDD01KJBAs0WVawaEjn97uwB"
-$tokens.ingressrewritepath="(/|$)(.*)"
-$tokens.ingressrewritetarget="`$2"
+$tokens.ingressrewritepath=""
+$tokens.ingressrewritetarget=""
 
 if($ingressClass -eq "nginx") {
     $tokens.ingressrewritepath="(/|$)(.*)" 

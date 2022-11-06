@@ -17,3 +17,4 @@ data:
   ISSUER: {{ .Values.sec.issuer }}
   SECURITYKEY: {{ .Values.sec.securityKey }}
   CLOUD_PLATFORM: "{{ .Values.inf.cloudPlatform }}"
+  DynamoDB__ProfileTable: {{ .Values.inf.db.profile.profileTable }}
