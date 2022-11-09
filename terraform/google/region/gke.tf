@@ -90,7 +90,7 @@ resource "kubectl_manifest" "clusterissuer_le_prod" {
   depends_on = [helm_release.cert_manager]
 }
 
-resource "google_compute_address" "ip" {
+resource "google_compute_global_address" "ip" {
   name         = "tailwindtraders-ip"
   address_type = "EXTERNAL"
 }
@@ -100,7 +100,7 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
     name      = "tt-ingress"
     namespace = "default"
     annotations = {
-      "kubernetes.io/ingress.global-static-ip-name" = google_compute_address.ip.name
+      "kubernetes.io/ingress.global-static-ip-name" = google_compute_global_address.ip.name
       "cert-manager.io/cluster-issuer"              = "letsencrypt-prod"
       "acme.cert-manager.io/http01-edit-in-place"   = "true"
     }
