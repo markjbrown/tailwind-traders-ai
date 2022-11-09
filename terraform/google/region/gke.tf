@@ -151,6 +151,7 @@ resource "kubernetes_ingress" "fanout_ingress" {
 
   depends_on = [
     helm_release.cert_manager,
-    kubectl_manifest.clusterissuer_le_prod
+    kubectl_manifest.clusterissuer_le_prod,
+    kubernetes_secret.tls
   ]
 }
