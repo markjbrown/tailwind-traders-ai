@@ -125,8 +125,8 @@ resource "kubernetes_ingress" "fanout_ingress" {
   spec {
     tls {
       hosts = ["gke.tailwindtraders.click"]
+      secret_name = kubernetes_secret.tls.metadata[0].name
     }
-    secret_name = kubernetes_secret.tls.metadata[0].name
 
     rule {
       host = "gke.tailwindtraders.click"
