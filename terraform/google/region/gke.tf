@@ -95,22 +95,6 @@ resource "google_compute_address" "ip" {
   address_type = "EXTERNAL"
 }
 
-resource "kubernetes_secret" "tls" {
-  metadata {
-    name      = "tt-letsencrypt-prod"
-    namespace = "default"
-  }
-
-  type = "kubernetes.io/tls"
-
-  data = {
-    "tls.crt" = ""
-    "tls.key" = ""
-  }
-
-  depends_on = [helm_release.cert_manager]
-}
-
 resource "kubernetes_ingress_v1" "fanout_ingress" {
   metadata {
     name      = "tt-ingress"
@@ -125,7 +109,7 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
   spec {
     tls {
       hosts = ["gke.tailwindtraders.click"]
-      secret_name = kubernetes_secret.tls.metadata[0].name
+      secret_name = "tt-letsencrypt-prod"
     }
 
     rule {
@@ -159,7 +143,6 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
 
   depends_on = [
     helm_release.cert_manager,
-    kubectl_manifest.clusterissuer_le_prod,
-    kubernetes_secret.tls
+    kubectl_manifest.clusterissuer_le_prod
   ]
 }
