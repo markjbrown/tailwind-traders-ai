@@ -111,7 +111,7 @@ resource "kubernetes_secret" "tls" {
   depends_on = [helm_release.cert_manager]
 }
 
-resource "kubernetes_ingress" "fanout_ingress" {
+resource "kubernetes_ingress_v1" "fanout_ingress" {
   metadata {
     name      = "tt-ingress"
     namespace = "default"
@@ -134,15 +134,23 @@ resource "kubernetes_ingress" "fanout_ingress" {
         path {
           path = "/cart-api"
           backend {
-            service_name = "cart-api"
-            service_port = 80
+            service {
+              name = "cart-api"
+              port {
+                number = 80
+              }
+            }
           }
         }
         path {
           path = "/product-api"
           backend {
-            service_name = "product-api"
-            service_port = 80
+            service {
+              name = "product-api"
+              port {
+                number = 80
+              }
+            }
           }
         }
       }
