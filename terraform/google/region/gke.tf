@@ -135,7 +135,7 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
           path = "/cart-api"
           backend {
             service {
-              name = "cart-api"
+              name = "cart"
               port {
                 number = 80
               }
@@ -146,7 +146,7 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
           path = "/product-api"
           backend {
             service {
-              name = "product-api"
+              name = "product"
               port {
                 number = 80
               }
