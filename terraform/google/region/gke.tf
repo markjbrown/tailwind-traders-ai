@@ -95,56 +95,56 @@ resource "google_compute_address" "ip" {
   address_type = "EXTERNAL"
 }
 
-#resource "kubernetes_ingress_v1" "fanout_ingress" {
-#  metadata {
-#    name      = "tt-ingress"
-#    namespace = "default"
-#    annotations = {
-#      "kubernetes.io/ingress.global-static-ip-name" = google_compute_address.ip.name
-#      "cert-manager.io/cluster-issuer"              = "letsencrypt-prod"
-#      "acme.cert-manager.io/http01-edit-in-place"   = "true"
-#    }
-#  }
-#
-#  spec {
-#    tls {
-#      hosts = [
-#        "gke.tailwindtraders.click"
-#      ]
-#      secret_name = "tt-letsencrypt-prod"
-#    }
-#
-#    rule {
-#      host = "gke.tailwindtraders.click"
-#      http {
-#        path {
-#          path = "/cart-api"
-#          backend {
-#            service {
-#              name = "cart"
-#              port {
-#                number = 80
-#              }
-#            }
-#          }
-#        }
-#        path {
-#          path = "/product-api"
-#          backend {
-#            service {
-#              name = "product"
-#              port {
-#                number = 80
-#              }
-#            }
-#          }
-#        }
-#      }
-#    }
-#  }
-#
-#  depends_on = [
-#    helm_release.cert_manager,
-#    kubectl_manifest.clusterissuer_le_prod
-#  ]
-#}
+resource "kubernetes_ingress_v1" "fanout_ingress" {
+  metadata {
+    name      = "tt-ingress"
+    namespace = "default"
+    annotations = {
+      "kubernetes.io/ingress.global-static-ip-name" = google_compute_address.ip.name
+      "cert-manager.io/cluster-issuer"              = "letsencrypt-prod"
+      "acme.cert-manager.io/http01-edit-in-place"   = "true"
+    }
+  }
+
+  spec {
+    tls {
+      hosts = [
+        "gke.tailwindtraders.click"
+      ]
+      secret_name = "tt-letsencrypt-prod"
+    }
+
+    rule {
+      host = "gke.tailwindtraders.click"
+      http {
+        path {
+          path = "/cart-api"
+          backend {
+            service {
+              name = "cart"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+        path {
+          path = "/product-api"
+          backend {
+            service {
+              name = "product"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  depends_on = [
+    helm_release.cert_manager,
+    kubectl_manifest.clusterissuer_le_prod
+  ]
+}
