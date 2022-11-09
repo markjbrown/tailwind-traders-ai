@@ -95,11 +95,10 @@ inf:
 service:
   type: NodePort
 ingress:
-  enabled: true
+  enabled: false
   annotations:
-    kubernetes.io/ingress.class: gce
-    kubernetes.io/ingress.allow-http: "true"
     kubernetes.io/ingress-global-static-ip-name: tailwindtraders-ip
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     acme.cert-manager.io/http01-edit-in-place: "true"
 #  hosts:
 #    - <guid>.<region>.aksapp.io   # NOT NEEDED. SET BY SCRIPTS
