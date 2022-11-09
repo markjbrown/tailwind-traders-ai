@@ -108,7 +108,9 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
 
   spec {
     tls {
-      hosts = ["gke.tailwindtraders.click"]
+      hosts = [
+        "gke.tailwindtraders.click"
+      ]
       secret_name = "tt-letsencrypt-prod"
     }
 
