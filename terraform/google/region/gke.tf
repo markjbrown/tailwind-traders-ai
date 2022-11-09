@@ -110,3 +110,47 @@ resource "kubernetes_secret" "tls" {
 
   depends_on = [helm_release.cert_manager]
 }
+
+resource "kubernetes_ingress" "fanout_ingress" {
+  metadata {
+    name      = "tt-ingress"
+    namespace = "default"
+    annotations = {
+      "kubernetes.io/ingress-global-static-ip-name" = google_compute_address.ip.name
+      "cert-manager.io/cluster-issuer"              = "letsencrypt-prod"
+      "acme.cert-manager.io/http01-edit-in-place"   = "true"
+    }
+  }
+
+  spec {
+    tls {
+      hosts = ["gke.tailwindtraders.click"]
+    }
+    secret_name = kubernetes_secret.tls.metadata[0].name
+
+    rule {
+      host = "gke.tailwindtraders.click"
+      http {
+        path {
+          path = "/cart-api"
+          backend {
+            service_name = "cart-api"
+            service_port = 80
+          }
+        }
+        path {
+          path = "/product-api"
+          backend {
+            service_name = "product-api"
+            service_port = 80
+          }
+        }
+      }
+    }
+  }
+
+  depends_on = [
+    helm_release.cert_manager,
+    kubectl_manifest.clusterissuer_le_prod
+  ]
+}
