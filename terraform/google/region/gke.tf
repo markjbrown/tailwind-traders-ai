@@ -164,16 +164,10 @@ resource "google_service_account" "gke" {
   display_name = "GKE"
 }
 
-data "google_iam_policy" "gke_sa" {
-  binding {
-    role    = "roles/firebase.admin"
-    members = ["serviceAccount:${google_service_account.gke.email}"]
-  }
-}
-
-resource "google_project_iam_policy" "gke_sa" {
-  project     = data.google_client_config.current.project
-  policy_data = data.google_iam_policy.gke_sa.policy_data
+resource "google_project_iam_binding" "gke_sa" {
+  project = data.google_client_config.current.project
+  role    = "roles/firebase.admin"
+  members = ["serviceAccount:${google_service_account.gke.email}"]
 }
 
 resource "google_service_account_iam_binding" "gke_wq" {
