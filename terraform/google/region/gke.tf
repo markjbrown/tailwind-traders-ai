@@ -216,6 +216,18 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
             }
           }
         }
+
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "ttweb"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
       }
     }
   }
