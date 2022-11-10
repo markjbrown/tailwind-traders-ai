@@ -2,8 +2,9 @@
 
 inf:
   cloudPlatform: GCP
+  gcpProjectId: tailwind-traders-363214
   awsRegion: {{awsRegion}}
-  sa: null
+  sa: gke
   db:
     products:
       host: TEMPVALUE
@@ -94,6 +95,11 @@ inf:
 # Shared ingress configurations
 service:
   type: NodePort
+
+nodeSelector:
+  "kubernetes.io/os": linux
+  "iam.gke.io/gke-metadata-server-enabled": "true"
+
 ingress:
   enabled: false
   annotations:

@@ -41,6 +41,7 @@ env:
     - name: identityMetadata
     - name: issuer
     - name: CLOUD_PLATFORM
+    - name: gcpProjectId
   values:
     - name: DISABLE_SSL
       value: "false"
