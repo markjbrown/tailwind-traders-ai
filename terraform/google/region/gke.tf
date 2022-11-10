@@ -173,7 +173,7 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
           path = "/image-classifier-api"
           backend {
             service {
-              name = "image-classifier"
+              name = "imageclassifier"
               port {
                 number = 80
               }
