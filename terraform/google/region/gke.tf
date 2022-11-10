@@ -134,7 +134,7 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
         }
 
         path {
-          path = "/product-api"
+          path = "/products-api"
           backend {
             service {
               name = "product"
@@ -146,10 +146,70 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
         }
 
         path {
-          path = "/profile-api"
+          path = "/profiles-api"
           backend {
             service {
               name = "profile"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+
+        path {
+          path = "/stock-api"
+          backend {
+            service {
+              name = "stock"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+
+        path {
+          path = "/image-classifier-api"
+          backend {
+            service {
+              name = "image-classifier"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+
+        path {
+          path = "/login-api"
+          backend {
+            service {
+              name = "login"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+
+        path {
+          path = "/mobilebff-api"
+          backend {
+            service {
+              name = "mobilebff"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+
+        path {
+          path = "/webbff-api"
+          backend {
+            service {
+              name = "webbff"
               port {
                 number = 80
               }
