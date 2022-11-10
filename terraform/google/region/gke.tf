@@ -18,7 +18,11 @@ resource "google_container_node_pool" "node_pool" {
   name       = lower("${local.resource_prefix}-APP-node-pool")
   location   = local.location
   cluster    = google_container_cluster.gke.name
-  node_count = 1
+
+  autoscaling {
+    max_node_count = 2
+    min_node_count = 1
+  }
 
   node_config {
     machine_type = "n1-standard-1"
@@ -128,11 +132,24 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
             }
           }
         }
+
         path {
           path = "/product-api"
           backend {
             service {
               name = "product"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+
+        path {
+          path = "/profile-api"
+          backend {
+            service {
+              name = "profile"
               port {
                 number = 80
               }
