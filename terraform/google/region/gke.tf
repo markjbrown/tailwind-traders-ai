@@ -176,15 +176,9 @@ resource "google_project_iam_policy" "gke_sa" {
   policy_data = data.google_iam_policy.gke_sa.policy_data
 }
 
-data "google_iam_policy" "gke" {
-  binding {
-    role    = "roles/iam.workloadIdentityUser"
-    members = ["serviceAccount:${data.google_client_config.current.project}.svc.id.goog[${kubernetes_service_account.gke.metadata[0].namespace}/${kubernetes_service_account.gke.metadata[0].name}]"]
-  }
-}
-
-resource "google_service_account_iam_policy" "gke" {
+resource "google_service_account_iam_binding" "gke_wq" {
   service_account_id = google_service_account.gke.name
-  policy_data        = data.google_iam_policy.gke.policy_data
+  role               = "roles/iam.workloadIdentityUser"
+  members            = ["serviceAccount:${data.google_client_config.current.project}.svc.id.goog[${kubernetes_service_account.gke.metadata[0].namespace}/${kubernetes_service_account.gke.metadata[0].name}]"]
 }
 
