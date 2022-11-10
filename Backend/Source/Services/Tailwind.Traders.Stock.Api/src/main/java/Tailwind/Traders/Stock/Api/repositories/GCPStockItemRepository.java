@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.FirestoreOptions;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.cloud.FirestoreClient;
 
 import Tailwind.Traders.Stock.Api.constant.CommonConstant;
 import Tailwind.Traders.Stock.Api.models.StockItem;
@@ -21,7 +21,7 @@ public class GCPStockItemRepository implements StockItemRepository {
 
 	@Override
 	public StockItem findByProductId(Integer productId) {
-		Firestore dbFirestore = FirestoreClient.getFirestore();
+		Firestore dbFirestore = FirestoreOptions.getDefaultInstance().getService();
 		Query documentReference = dbFirestore.collection(CommonConstant.COLLECTION_ID).whereEqualTo("productId", productId);
 		ApiFuture<QuerySnapshot> future = documentReference.get();
 		StockItem stock = null;
@@ -42,7 +42,7 @@ public class GCPStockItemRepository implements StockItemRepository {
 
 	@Override
 	public boolean update(StockItem stock) {
-		Firestore dbFirestore = FirestoreClient.getFirestore();
+		Firestore dbFirestore = FirestoreOptions.getDefaultInstance().getService();
 		ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(CommonConstant.COLLECTION_ID)
 				.document(stock.getId()).set(stock);
 		try {
@@ -55,7 +55,7 @@ public class GCPStockItemRepository implements StockItemRepository {
 
 	@Override
 	public Integer count() {
-		Firestore dbFirestore = FirestoreClient.getFirestore();
+		Firestore dbFirestore = FirestoreOptions.getDefaultInstance().getService();
 		Query documentReference = dbFirestore.collection(CommonConstant.COLLECTION_ID).select("productId");
 		ApiFuture<QuerySnapshot> future = documentReference.get();
 		try {
@@ -71,7 +71,7 @@ public class GCPStockItemRepository implements StockItemRepository {
 
 	@Override
 	public boolean save(StockItem stockItem) {
-		Firestore dbFirestore = FirestoreClient.getFirestore();
+		Firestore dbFirestore = FirestoreOptions.getDefaultInstance().getService();
 		stockItem.setId(UUID.randomUUID().toString());
 		ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(CommonConstant.COLLECTION_ID)
 				.document(stockItem.getId()).set(stockItem);

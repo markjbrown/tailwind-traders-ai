@@ -10,16 +10,9 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
     {
         public static FirestoreDb CreateDb(GcpFirestoreConfig firestoreSettings)
         {
-            string firestoreServiceKeyJson = JsonConvert.SerializeObject(firestoreSettings);
-            var cred = GoogleCredential.FromJson(firestoreServiceKeyJson);
-
-            var clientBuilder = new FirestoreClientBuilder
-            {
-                ChannelCredentials = cred.ToChannelCredentials()
-            };
-
+            var clientBuilder = new FirestoreClientBuilder();
             FirestoreClient client = clientBuilder.Build();
-            var db = FirestoreDb.Create(firestoreSettings.ProjectId, client);
+            var db = FirestoreDb.Create(null, client);
             return db;
         }
 
