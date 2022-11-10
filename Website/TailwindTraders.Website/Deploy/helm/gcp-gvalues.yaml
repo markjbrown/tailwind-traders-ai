@@ -1,0 +1,30 @@
+# Values for web chart. This values override local `values.yaml` and some of the values get overriden by scripts
+
+web:
+  auth: #auth email to use (set by script)
+  userid: #User id (set by script)
+inf:
+  appinsights:
+    id: ""
+  ingress:
+    webbff:
+      path: /webbff    
+    cart:
+      path: /cart-api
+az:
+  productvisitsurl: ""
+
+nodeSelector:
+  "kubernetes.io/os": linux
+  
+# Shared ingress configurations
+ingress:
+  enabled: false
+
+#  hosts:
+#    - <guid>.<region>.aksapp.io   # NOT NEEDED. SET BY SCRIPTS
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
