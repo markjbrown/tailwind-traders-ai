@@ -166,7 +166,7 @@ resource "google_service_account" "gke" {
 
 data "google_iam_policy" "gke_sa" {
   binding {
-    role    = "roles/firebase.admin"
+    role    = "roles/editor"
     members = ["serviceAccount:${google_service_account.gke.email}"]
   }
 }
