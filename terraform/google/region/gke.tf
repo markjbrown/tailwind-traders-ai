@@ -148,3 +148,43 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
     kubectl_manifest.clusterissuer_le_prod
   ]
 }
+
+resource "kubernetes_service_account" "gke" {
+  metadata {
+    name      = "gke"
+    namespace = "default"
+    annotations = {
+      "iam.gke.io/gcp-service-account" = google_service_account.gke.email
+    }
+  }
+}
+
+resource "google_service_account" "gke" {
+  account_id   = lower(join("-", [local.resource_prefix, "gke", "sa"]))
+  display_name = "GKE"
+}
+
+data "google_iam_policy" "gke_sa" {
+  binding {
+    role    = "roles/firebase.admin"
+    members = ["serviceAccount:${google_service_account.gke.email}"]
+  }
+}
+
+resource "google_project_iam_policy" "gke_sa" {
+  project     = data.google_client_config.current.project
+  policy_data = data.google_iam_policy.gke_sa.policy_data
+}
+
+data "google_iam_policy" "gke" {
+  binding {
+    role    = "roles/iam.workloadIdentityUser"
+    members = ["serviceAccount:${data.google_client_config.current.project}.svc.id.goog[${kubernetes_service_account.gke.metadata[0].namespace}/${kubernetes_service_account.gke.metadata[0].name}]"]
+  }
+}
+
+resource "google_service_account_iam_policy" "gke" {
+  service_account_id = google_service_account.gke.name
+  policy_data        = data.google_iam_policy.gke.policy_data
+}
+
