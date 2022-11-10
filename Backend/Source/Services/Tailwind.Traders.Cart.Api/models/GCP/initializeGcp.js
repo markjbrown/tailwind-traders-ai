@@ -6,10 +6,11 @@ const OrderDao = require("./orderDao");
 
 function initializeGcp() {
   var admin = require("firebase-admin");
-  var serviceAccount = config.serviceAccount;
-  var firebaseSettings = admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
+  // var serviceAccount = config.serviceAccount;
+  // var firebaseSettings = admin.initializeApp({
+  //   credential: admin.credential.cert(serviceAccount),
+  // });
+  var firebaseSettings = admin.initializeApp();
 
   const firebaseClient = firebaseSettings.firestore();
   const recommendedDao = new RecommededDao(firebaseClient);

@@ -24,14 +24,14 @@ if (process.env.CLOUD_PLATFORM === "AZURE") {
 }
 
 if (process.env.CLOUD_PLATFORM === "GCP") {
-  try {
-    var serviceAccount = require("../serviceKey.json");
-  } catch (err) {
-    console.error("Error While reading serviceKey.json file");
-    process.exit(1);
-  }
+  // try {
+  //   var serviceAccount = require("../serviceKey.json");
+  // } catch (err) {
+  //   console.error("Error While reading serviceKey.json file");
+  //   process.exit(1);
+  // }
 
-  config.serviceAccount = serviceAccount;
+  // config.serviceAccount = serviceAccount;
   config.collectionId = "Products";
   config.databaseURL = process.env.DATABASEURL;
 }
