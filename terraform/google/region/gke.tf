@@ -15,9 +15,9 @@ resource "google_container_cluster" "gke" {
 }
 
 resource "google_container_node_pool" "node_pool" {
-  name       = lower("${local.resource_prefix}-APP-node-pool")
-  location   = local.location
-  cluster    = google_container_cluster.gke.name
+  name     = lower("${local.resource_prefix}-APP-node-pool")
+  location = local.location
+  cluster  = google_container_cluster.gke.name
 
   autoscaling {
     max_node_count = 2
@@ -104,6 +104,7 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
     name      = "tt-ingress"
     namespace = "default"
     annotations = {
+      "kubernetes.io/ingress.class"                 = "gce"
       "kubernetes.io/ingress.global-static-ip-name" = google_compute_global_address.ip.name
       "cert-manager.io/cluster-issuer"              = "letsencrypt-prod"
       "acme.cert-manager.io/http01-edit-in-place"   = "true"
@@ -121,6 +122,19 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
     rule {
       host = "gke.tailwind-traders.net"
       http {
+
+        path {
+          path = "/*"
+          backend {
+            service {
+              name = "ttweb"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+
         path {
           path = "/cart-api"
           backend {
@@ -194,7 +208,7 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
         }
 
         path {
-          path = "/mobilebff-api"
+          path = "/mobilebff"
           backend {
             service {
               name = "mobilebff"
@@ -206,22 +220,10 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
         }
 
         path {
-          path = "/webbff-api"
+          path = "/webbff/*"
           backend {
             service {
               name = "webbff"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/"
-          backend {
-            service {
-              name = "ttweb"
               port {
                 number = 80
               }
