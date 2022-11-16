@@ -23,6 +23,8 @@ namespace Tailwind.Traders.Product.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(Configuration);
+
             services
                 .AddControllers()
                 .SetCompatibilityVersion(CompatibilityVersion.Latest)
