@@ -99,6 +99,11 @@ resource "google_compute_global_address" "ip" {
   address_type = "EXTERNAL"
 }
 
+resource "google_compute_address" "ip" {
+  name         = "tailwindtraders-ip"
+  address_type = "EXTERNAL"
+}
+
 resource "helm_release" "nginx_ingress" {
   name       = "ingress-nginx"
   repository = "https://kubernetes.github.io/ingress-nginx"
@@ -108,7 +113,7 @@ resource "helm_release" "nginx_ingress" {
 
   set {
     name  = "controller.service.loadBalancerIP"
-    value = google_compute_global_address.ip.address
+    value = google_compute_address.ip.address
   }
 
   depends_on = [
