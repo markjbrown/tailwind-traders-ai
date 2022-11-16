@@ -16,10 +16,6 @@ namespace Tailwind.Traders.Product.Api
         {
             var webHost = WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseDefaultServiceProvider(options => options.ValidateScopes = false)
-                .Build();
-
-            var config = new ConfigurationBuilder()
                 .Build();
 
             using (var scope = webHost.Services.CreateScope())
