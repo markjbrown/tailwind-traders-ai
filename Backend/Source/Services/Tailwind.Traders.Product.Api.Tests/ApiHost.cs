@@ -27,7 +27,7 @@ namespace Tailwind.Traders.Product.Api.Tests
         public HttpMessageHandler Handler { get; private set; }
         public HttpClient Client { get; set; }
 
-        public void Initialize(string cloudPlatform)
+        public void Initialize(string cloudPlatform, Action<IServiceCollection> overrideRegistration = null)
         {
             var hostBuilder = new HostBuilder()
                .ConfigureWebHost(builder =>
@@ -49,6 +49,10 @@ namespace Tailwind.Traders.Product.Api.Tests
 
                    _startup = new Startup(configuration);
                    builder.ConfigureServices(ConfigureServices);
+                   if (overrideRegistration != null)
+                   {
+                       builder.ConfigureServices(overrideRegistration);
+                   }
                    builder.Configure((ctx, bldr) => Configure(bldr, ctx.HostingEnvironment, bldr.ApplicationServices));
                });
 
