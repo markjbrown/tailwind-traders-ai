@@ -34,8 +34,9 @@ namespace Tailwind.Traders.Product.Api.Repositories
         public async Task<List<ProductItem>> FindProductsAsync(int[] brand, int[] type)
         {
             //var items = await _productItem.FindAsync(item => brand.Contains(item.BrandId) || type.Contains(item.TypeId))?.Result?.ToListAsync();
-            var productItemSnapshot = await _productItemCollection.WhereArrayContains("BrandId", brand).GetSnapshotAsync();
+            var productItemSnapshot = await _productItemCollection.WhereIn("TypeId", type).GetSnapshotAsync();
             var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
+            // var filtered = items.Where(x => type.Any(y => y == x.TypeId))
 
             var prdBrandSnapshot = await _brandCollection.GetSnapshotAsync();
             var prdTypeSnapshot = await _typeCollection.GetSnapshotAsync();
