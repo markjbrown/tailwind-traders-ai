@@ -100,6 +100,9 @@ $tokens.storage="https://ttstorageeyjxpfmnvpgmy.blob.core.windows.net/"
 $tokens.rewardsregistration=If ($rewardsResourceGroup) { $true } Else { $false }
 $tokens.appinsightsik=$appinsightsId
 
+$tokens.recommenderServiceUrl="https://tw-recommender-srv2.eastus2.inference.ml.azure.com/score"
+$tokens.recommenderServiceApiKey="cP3EIqcVvXKj08c7XgyUwgXMowoUgdz3"
+
 # Standard fixed tokens
 $tokens.ingressclass=$ingressClass
 $tokens.secissuer="TTFakeLogin"
