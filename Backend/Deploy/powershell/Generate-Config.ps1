@@ -30,9 +30,9 @@ if (-not $rg) {
 $tokens=@{}
 
 ## Getting storage info
-$storage=$(az storage account list -g $resourceGroup --query "[].{name: name, blob: primaryEndpoints.blob}" -o json | ConvertFrom-Json)
-$storage=EnsureAndReturnFirstItem $storage "Storage Account"
-Write-Host "Storage Account: $($storage.name)" -ForegroundColor Yellow
+# $storage=$(az storage account list -g $resourceGroup --query "[].{name: name, blob: primaryEndpoints.blob}" -o json | ConvertFrom-Json)
+# $storage=EnsureAndReturnFirstItem $storage "Storage Account"
+# Write-Host "Storage Account: $($storage.name)" -ForegroundColor Yellow
 
 ## Getting CosmosDb info
 $docdb=$(az cosmosdb list -g $resourceGroup --query "[?kind=='GlobalDocumentDB'].{name: name, kind:kind, documentEndpoint:documentEndpoint}" -o json | ConvertFrom-Json)
@@ -95,7 +95,8 @@ $tokens.couponsuser=$mongodb.name
 $tokens.couponshost="$($mongodb.name).documents.azure.com"
 $tokens.couponspwd=$mongodbKey
 
-$tokens.storage=$storage.blob
+# $tokens.storage=$storage.blob
+$tokens.storage="https://ttstorageeyjxpfmnvpgmy.blob.core.windows.net/"
 $tokens.rewardsregistration=If ($rewardsResourceGroup) { $true } Else { $false }
 $tokens.appinsightsik=$appinsightsId
 

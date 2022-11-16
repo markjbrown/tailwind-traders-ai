@@ -101,11 +101,13 @@ nodeSelector:
   "iam.gke.io/gke-metadata-server-enabled": "true"
 
 ingress:
-  enabled: false
+  enabled: true
   annotations:
-    kubernetes.io/ingress-global-static-ip-name: tailwindtraders-ip
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    acme.cert-manager.io/http01-edit-in-place: "true"
+    kubernetes.io/ingress.class: {{ingressclass}}
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/rewrite-target: /{{ingressrewritetarget}}
+    nginx.ingress.kubernetes.io/rewrite-target: /{{ingressrewritetarget}}
 #  hosts:
 #    - <guid>.<region>.aksapp.io   # NOT NEEDED. SET BY SCRIPTS
 

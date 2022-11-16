@@ -16,10 +16,19 @@ az:
 
 nodeSelector:
   "kubernetes.io/os": linux
-  
+
+service:
+  type: NodePort
 # Shared ingress configurations
 ingress:
-  enabled: false
+  enabled: true
+  protocol: #http | https (set by script)
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /
 
 #  hosts:
 #    - <guid>.<region>.aksapp.io   # NOT NEEDED. SET BY SCRIPTS

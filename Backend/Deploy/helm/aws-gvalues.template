@@ -2,6 +2,7 @@
 
 inf:
   cloudPlatform: AWS
+  gcpProjectId: TEMPVALUE
   awsRegion: {{awsRegion}}
   sa: null
   db:

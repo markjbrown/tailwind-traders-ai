@@ -2,21 +2,35 @@
 
 inf:
   cloudPlatform: AZURE
-  awsRegion: {{awsRegion}}
+  gcpProjectId: TEMPVALUE
+  awsRegion: TEMPVALUE
   sa: ttsa
   db:
     products:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
+      productItemTable: TEMPVALUE
+      brandTable: TEMPVALUE
+      featureTable: TEMPVALUE
+      tagTable: TEMPVALUE
+      typeTable: TEMPVALUE
     profile:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
+      profileTable: TEMPVALUE
     popularproducts:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
     stock:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}
+      stockItemTable: TEMPVALUE
+      projectId: TEMPVALUE
+      privateKeyId: TEMPVALUE
+      privateKey: TEMPVALUE
+      clientEmail: TEMPVALUE
+      clientId: TEMPVALUE
+      tokenUri: TEMPVALUE
     cart:
       host: {{shoppinghost}}
       auth: {{shoppingauth}}

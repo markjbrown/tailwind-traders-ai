@@ -8,7 +8,7 @@ Param(
     [parameter(Mandatory=$false)][string]$valuesFile = "",
     [parameter(Mandatory=$false)][string]$namespace = "",
     [parameter(Mandatory=$false)][string][ValidateSet('prod','staging','none','custom', IgnoreCase=$false)]$tlsEnv = "none",
-    [parameter(Mandatory=$false)][string]$tlsHost="eks.tailwindtraders.click",
+    [parameter(Mandatory=$false)][string]$tlsHost="eks.tailwind-traders.net",
     [parameter(Mandatory=$false)][string]$tlsSecretName="tt-tls-custom",
     [parameter(Mandatory=$false)][bool]$autoscale=$false
 )

@@ -3,7 +3,7 @@
 Param (
     [parameter(Mandatory=$false)][string[]]$outputFile=$null,
     [parameter(Mandatory=$false)][string[]]$gvaluesTemplate="..,helm,gcp-gvalues.template",
-    [parameter(Mandatory=$false)][string]$ingressClass="ingress-gce"
+    [parameter(Mandatory=$false)][string]$ingressClass="nginx"
 )
 
 function EnsureAndReturnFirstItem($arr, $restype) {

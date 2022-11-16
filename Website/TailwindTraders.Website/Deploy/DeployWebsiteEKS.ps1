@@ -1,14 +1,14 @@
 Param(
     [parameter(Mandatory = $false)][string]$name = "my-tt-web",
     [parameter(Mandatory = $false)][string]$eksName,
-    [parameter(Mandatory = $false)][string]$eksHost = "eks.tailwindtraders.click",
+    [parameter(Mandatory = $false)][string]$eksHost = "eks.tailwind-traders.net",
     [parameter(Mandatory = $false)][string]$ecrName,
     [parameter(Mandatory = $false)][string]$tag = "latest",
     [parameter(Mandatory = $false)][string]$valueSFile = "aws-gvalues.yaml",
     [parameter(Mandatory = $false)][string]$b2cValuesFile = "values.b2c.yaml",
-    [parameter(Mandatory = $false)][string]$afHost = "https://eks.tailwindtraders.click/",
+    [parameter(Mandatory = $false)][string]$afHost = "https://eks.tailwind-traders.net/",
     [parameter(Mandatory = $false)][string][ValidateSet('prod', 'staging', 'none', 'custom', IgnoreCase = $false)]$tlsEnv = "custom",
-    [parameter(Mandatory = $false)][string]$tlsHost = "eks.tailwindtraders.click",
+    [parameter(Mandatory = $false)][string]$tlsHost = "eks.tailwind-traders.net",
     [parameter(Mandatory = $false)][string]$tlsSecretName = "",
     [parameter(Mandatory = $false)][string]$appInsightsName = "",    
     [parameter(Mandatory = $false)][string]$build = $false,
@@ -109,6 +109,7 @@ Write-Host " --------------------------------------------------------"
 $awsAccountId=$(aws sts get-caller-identity --query "Account" --output text)
 $awsRegion=$(aws configure get region)
 $ecrLogin="$awsAccountId.dkr.ecr.$awsRegion.amazonaws.com"
+aws eks update-kubeconfig --name $eksName --region $awsRegion
 
 # if ($tlsEnv -ne "custom") {
 #     $eksHost = $(az aks show -n $eksName -g $resourceGroup | ConvertFrom-Json).addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName

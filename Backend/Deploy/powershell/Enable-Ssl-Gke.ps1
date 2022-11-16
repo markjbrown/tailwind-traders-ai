@@ -4,11 +4,12 @@ Param (
     [parameter(Mandatory=$false)][string][ValidateSet('prod','staging','none','custom', IgnoreCase=$false)]$sslSupport = "none",
     [parameter(Mandatory=$false)][string]$name = "tailwindtraders",
     [parameter(Mandatory=$false)][string]$gkeName,
+    [parameter(Mandatory=$false)][string]$gkeRegion = "us-east1",
     [parameter(Mandatory=$false)][string]$tlsCertFile="",
     [parameter(Mandatory=$false)][string]$tlsKeyFile="",
-    [parameter(Mandatory=$false)][string]$domain="gke.tailwindtraders.click",
+    [parameter(Mandatory=$false)][string]$domain="gke.tailwind-traders.net",
     [parameter(Mandatory=$false)][string]$tlsSecretName="tt-tls-custom",
-    [parameter(Mandatory=$false)][string]$ingressClass="ingress-gce"
+    [parameter(Mandatory=$false)][string]$ingressClass="nginx"
 )
 
 function validate {
@@ -65,6 +66,8 @@ if ([String]::IsNullOrEmpty($domain)) {
     Write-Host "Error: domain not passed and can't be inferred from GKE $gkeName" -ForegroundColor Red
     exit 1
 }
+
+gcloud container clusters get-credentials $gkeName --region=$gkeRegion
 
 Write-Host "TLS/SSL will be bound to domain $domain"
 Join-Path .. helm | Push-Location

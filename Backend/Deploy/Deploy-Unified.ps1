@@ -1,8 +1,9 @@
 #! /usr/bin/pwsh
 
 Param(
-    [parameter(Mandatory=$true)][string]$resourceGroup,
-    [parameter(Mandatory=$true)][string]$location,
+  [parameter(Mandatory=$true)][string]$acrName,
+  [parameter(Mandatory=$true)][string]$resourceGroup,
+  [parameter(Mandatory=$true)][string]$location,
     [parameter(Mandatory=$true)][string]$subscription,
     [parameter(Mandatory=$false)][string]$clientId,
     [parameter(Mandatory=$false)][string]$password,
@@ -53,7 +54,7 @@ $gValuesLocation=$(./Join-Path-Recursively.ps1 -pathParts ..,helm,__values,$gVal
 & ./Generate-Config.ps1 -resourceGroup $resourceGroup -outputFile $gValuesLocation
 
 # Create Secrets
-$acrName = $(az acr list --resource-group $resourceGroup --subscription $subscription -o json | ConvertFrom-Json).name
+# $acrName = $(az acr list --resource-group $resourceGroup --subscription $subscription -o json | ConvertFrom-Json).name
 Write-Host "The Name of your ACR: $acrName" -ForegroundColor Yellow
 & ./Create-Secret.ps1 -resourceGroup $resourceGroup -acrName $acrName
 

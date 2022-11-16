@@ -37,7 +37,6 @@ if (process.env.CLOUD_PLATFORM === "GCP") {
 }
 
 if (process.env.CLOUD_PLATFORM === "AWS") {
-  config.serviceAccount = serviceAccount;
   config.cartProductsTable = process.env.AWS_CART_PRODUCTS_TABLE;
   config.cartRecommendationsTable = process.env.AWS_CART_RECOMMENDATIONS_TABLE;
   config.cartOrdersTable = process.env.AWS_CART_ORDERS_TABLE;

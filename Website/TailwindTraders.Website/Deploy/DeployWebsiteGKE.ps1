@@ -1,15 +1,15 @@
 Param(
     [parameter(Mandatory = $false)][string]$name = "my-tt-web",
     [parameter(Mandatory = $false)][string]$gkeName,
-    [parameter(Mandatory = $false)][string]$gkeHost = "gke.tailwindtraders.click",
+    [parameter(Mandatory = $false)][string]$gkeHost = "gke.tailwind-traders.net",
     [parameter(Mandatory = $false)][string]$gkeRegion = "us-east1",
     [parameter(Mandatory = $false)][string]$projectId = "tailwind-traders-363214",
     [parameter(Mandatory = $false)][string]$tag = "latest",
     [parameter(Mandatory = $false)][string]$valueSFile = "gcp-gvalues.yaml",
     [parameter(Mandatory = $false)][string]$b2cValuesFile = "values.b2c.yaml",
-    [parameter(Mandatory = $false)][string]$afHost = "https://gke.tailwindtraders.click/",
+    [parameter(Mandatory = $false)][string]$afHost = "https://gke.tailwind-traders.net/",
     [parameter(Mandatory = $false)][string][ValidateSet('prod', 'staging', 'none', 'custom', IgnoreCase = $false)]$tlsEnv = "custom",
-    [parameter(Mandatory = $false)][string]$tlsHost = "gke.tailwindtraders.click",
+    [parameter(Mandatory = $false)][string]$tlsHost = "gke.tailwind-traders.net",
     [parameter(Mandatory = $false)][string]$tlsSgcretName = "",
     [parameter(Mandatory = $false)][string]$appInsightsName = "",    
     [parameter(Mandatory = $false)][string]$build = $false,
@@ -130,7 +130,7 @@ Push-Location helm
 Write-Host "Deploying web chart" -ForegroundColor Yellow
 gcloud container clusters get-credentials $gkeName --region=$gkeRegion
 
-$command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts='{$gkeHost}' --set image.repository=$gcrLogin/web --set image.tag=$tag" "web" 
+$command = createHelmCommand "helm upgrade --install $name -f $valuesFile -f $b2cValuesFile --set inf.appinsights.id=$appinsightsId --set az.productvisitsurl=$afHost --set ingress.hosts='{$gkeHost}' --set image.repository=$gcrRegistry/web --set image.tag=$tag" "web" 
 echo $command
 Invoke-Expression "$command"
 

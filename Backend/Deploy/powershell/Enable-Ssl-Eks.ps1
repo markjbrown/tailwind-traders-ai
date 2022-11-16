@@ -6,7 +6,7 @@ Param (
     [parameter(Mandatory=$false)][string]$eksName,
     [parameter(Mandatory=$false)][string]$tlsCertFile="",
     [parameter(Mandatory=$false)][string]$tlsKeyFile="",
-    [parameter(Mandatory=$false)][string]$domain="eks.tailwindtraders.click",
+    [parameter(Mandatory=$false)][string]$domain="eks.tailwind-traders.net",
     [parameter(Mandatory=$false)][string]$tlsSecretName="tt-tls-custom",
     [parameter(Mandatory=$false)][string]$ingressClass="nginx"
 )
@@ -65,6 +65,10 @@ if ([String]::IsNullOrEmpty($domain)) {
     Write-Host "Error: domain not passed and can't be inferred from EKS $eksName" -ForegroundColor Red
     exit 1
 }
+
+$awsRegion=$(aws configure get region)
+
+aws eks update-kubeconfig --name $eksName --region $awsRegion
 
 Write-Host "TLS/SSL will be bound to domain $domain"
 Join-Path .. helm | Push-Location
