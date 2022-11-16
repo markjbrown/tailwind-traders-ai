@@ -113,13 +113,13 @@ resource "kubernetes_ingress_v1" "fanout_ingress" {
   spec {
     tls {
       hosts = [
-        "gke.tailwindtraders.click"
+        "gke.tailwind-traders.net"
       ]
       secret_name = "tt-letsencrypt-prod"
     }
 
     rule {
-      host = "gke.tailwindtraders.click"
+      host = "gke.tailwind-traders.net"
       http {
         path {
           path = "/cart-api"
