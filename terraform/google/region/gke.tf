@@ -99,146 +99,163 @@ resource "google_compute_global_address" "ip" {
   address_type = "EXTERNAL"
 }
 
-resource "kubernetes_ingress_v1" "fanout_ingress" {
-  metadata {
-    name      = "tt-ingress"
-    namespace = "default"
-    annotations = {
-      "kubernetes.io/ingress.class"                 = "gce"
-      "kubernetes.io/ingress.global-static-ip-name" = google_compute_global_address.ip.name
-      "cert-manager.io/cluster-issuer"              = "letsencrypt-prod"
-      "acme.cert-manager.io/http01-edit-in-place"   = "true"
-    }
-  }
+resource "helm_release" "nginx_ingress" {
+  name       = "nginx-ingress"
+  repository = "https://kubernetes-charts.storage.googleapis.com/"
+  chart      = "nginx-ingress"
+  version    = "1.40.3"
+  namespace  = "cert-manager"
 
-  spec {
-    tls {
-      hosts = [
-        "gke.tailwind-traders.net"
-      ]
-      secret_name = "tt-letsencrypt-prod"
-    }
-
-    rule {
-      host = "gke.tailwind-traders.net"
-      http {
-
-        path {
-          path = "/*"
-          backend {
-            service {
-              name = "ttweb"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/cart-api"
-          backend {
-            service {
-              name = "cart"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/products-api"
-          backend {
-            service {
-              name = "product"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/profiles-api"
-          backend {
-            service {
-              name = "profile"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/stock-api"
-          backend {
-            service {
-              name = "stock"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/image-classifier-api"
-          backend {
-            service {
-              name = "imageclassifier"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/login-api"
-          backend {
-            service {
-              name = "login"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/mobilebff"
-          backend {
-            service {
-              name = "mobilebff"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-
-        path {
-          path = "/webbff/*"
-          backend {
-            service {
-              name = "webbff"
-              port {
-                number = 80
-              }
-            }
-          }
-        }
-      }
-    }
+  set {
+    name  = "controller.service.loadBalancerIP"
+    value = google_compute_global_address.ip.address
   }
 
   depends_on = [
-    helm_release.cert_manager,
-    kubectl_manifest.clusterissuer_le_prod
+    google_container_cluster.gke
   ]
 }
+
+#resource "kubernetes_ingress_v1" "fanout_ingress" {
+#  metadata {
+#    name      = "tt-ingress"
+#    namespace = "default"
+#    annotations = {
+#      "kubernetes.io/ingress.class"                 = "gce"
+#      "kubernetes.io/ingress.global-static-ip-name" = google_compute_global_address.ip.name
+#      "cert-manager.io/cluster-issuer"              = "letsencrypt-prod"
+#      "acme.cert-manager.io/http01-edit-in-place"   = "true"
+#    }
+#  }
+#
+#  spec {
+#    tls {
+#      hosts = [
+#        "gke.tailwind-traders.net"
+#      ]
+#      secret_name = "tt-letsencrypt-prod"
+#    }
+#
+#    rule {
+#      host = "gke.tailwind-traders.net"
+#      http {
+#
+#        path {
+#          path = "/*"
+#          backend {
+#            service {
+#              name = "ttweb"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#
+#        path {
+#          path = "/cart-api"
+#          backend {
+#            service {
+#              name = "cart"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#
+#        path {
+#          path = "/products-api"
+#          backend {
+#            service {
+#              name = "product"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#
+#        path {
+#          path = "/profiles-api"
+#          backend {
+#            service {
+#              name = "profile"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#
+#        path {
+#          path = "/stock-api"
+#          backend {
+#            service {
+#              name = "stock"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#
+#        path {
+#          path = "/image-classifier-api"
+#          backend {
+#            service {
+#              name = "imageclassifier"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#
+#        path {
+#          path = "/login-api"
+#          backend {
+#            service {
+#              name = "login"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#
+#        path {
+#          path = "/mobilebff"
+#          backend {
+#            service {
+#              name = "mobilebff"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#
+#        path {
+#          path = "/webbff/*"
+#          backend {
+#            service {
+#              name = "webbff"
+#              port {
+#                number = 80
+#              }
+#            }
+#          }
+#        }
+#      }
+#    }
+#  }
+#
+#  depends_on = [
+#    helm_release.cert_manager,
+#    kubectl_manifest.clusterissuer_le_prod
+#  ]
+#}
 
 resource "kubernetes_service_account" "gke" {
   metadata {
