@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Net.Http;
 
 namespace Tailwind.Traders.Product.Api.Tests
 {
@@ -13,9 +15,9 @@ namespace Tailwind.Traders.Product.Api.Tests
         {
         }
 
-        protected void Initialize(string cloudPlatform)
+        protected void Initialize(string cloudPlatform, Action<IServiceCollection> overrideRegistration = null)
         {
-            ApiHost.Initialize(cloudPlatform);
+            ApiHost.Initialize(cloudPlatform, overrideRegistration);
         }
     }
 }

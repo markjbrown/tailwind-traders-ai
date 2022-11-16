@@ -5,29 +5,26 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Infrastructure;
 
 namespace Tailwind.Traders.Product.Api
 {
     public class Program
     {
-        
+
         public static void Main(string[] args)
         {
-            var webHostBuilder = WebHost.CreateDefaultBuilder(args)
-                                .UseStartup<Startup>()
-                                .UseDefaultServiceProvider(options =>
-                                options.ValidateScopes = false)
-                               .Build();
+            var webHost = WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
 
-       
-            var config = new ConfigurationBuilder().SetBasePath(AppDomain.CurrentDomain.BaseDirectory).AddJsonFile("appsettings.json").Build();
+            using (var scope = webHost.Services.CreateScope())
+            {
+                var seedData = scope.ServiceProvider.GetRequiredService<ISeedDatabase>();
+                seedData.SeedAsync().Wait();
+            }
 
-            var seedData = webHostBuilder.Services.GetRequiredService<ISeedDatabase>();
-            seedData.SeedAsync().Wait();
-
-            webHostBuilder.Run();
+            webHost.Run();
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
