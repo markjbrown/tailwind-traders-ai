@@ -15,14 +15,11 @@ namespace Tailwind.Traders.Product.Api
         public static void Main(string[] args)
         {
             var webHost = WebHost.CreateDefaultBuilder(args)
-                                .UseStartup<Startup>()
-                                .UseDefaultServiceProvider(options =>
-                                    options.ValidateScopes = false)
-                               .Build();
+                .UseStartup<Startup>()
+                .UseDefaultServiceProvider(options => options.ValidateScopes = false)
+                .Build();
 
             var config = new ConfigurationBuilder()
-                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json")
                 .Build();
 
             using (var scope = webHost.Services.CreateScope())
