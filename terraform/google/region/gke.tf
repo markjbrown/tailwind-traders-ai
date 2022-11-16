@@ -100,11 +100,11 @@ resource "google_compute_global_address" "ip" {
 }
 
 resource "helm_release" "nginx_ingress" {
-  name       = "nginx-ingress"
-  repository = "https://kubernetes-charts.storage.googleapis.com/"
-  chart      = "nginx-ingress"
-  version    = "1.40.3"
-  namespace  = "cert-manager"
+  name       = "ingress-nginx"
+  repository = "https://kubernetes.github.io/ingress-nginx"
+  chart      = "ingress-nginx"
+  version    = "4.3.0"
+  namespace  = "kube-system"
 
   set {
     name  = "controller.service.loadBalancerIP"
