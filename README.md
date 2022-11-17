@@ -44,7 +44,19 @@ You can find the **[demo scripts](Documents/DemoScripts)** that show the power o
 
 # Application Diagram
 
+Here is the original diagram of Tailwind Traders:
 ![Tailwind Traders Application Diagram](Documents/Images/Diagram.png)
+
+It was simplified to be more easily deployable to various clouds.
+
+Here is the simplified deployment diagram for Azure:
+![Azure Tailwind Traders Simplified Diagram](Documents/Images/DeployedAssetsOnly_Azure.png)
+
+Here is the simplified deployment diagram for AWS:
+![Azure Tailwind Traders Simplified Diagram](Documents/Images/DeployedAssetsOnly_AWS.png)
+
+Here is the simplified deployment diagram for GCP:
+![Azure Tailwind Traders Simplified Diagram](Documents/Images/DeployedAssetsOnly_GCP.png)
 
 # Application Screens
 
