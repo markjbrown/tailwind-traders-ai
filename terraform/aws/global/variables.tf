@@ -1,3 +1,7 @@
+variable "domain_name" {
+  type = string
+}
+
 variable "location" {
   type        = string
   description = "The location/region where the resource group should exist."
