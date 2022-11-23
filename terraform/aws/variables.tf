@@ -1,5 +1,5 @@
 variable "domain_name" {
   type        = string
-  default     = "tailwindtraders.click"
+  default     = "tailwind-traders.net"
   description = "The domain name for the website"
 }
