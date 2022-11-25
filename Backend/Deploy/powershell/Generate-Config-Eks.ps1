@@ -3,7 +3,8 @@
 Param (
     [parameter(Mandatory=$false)][string[]]$outputFile=$null,
     [parameter(Mandatory=$false)][string[]]$gvaluesTemplate="..,helm,aws-gvalues.template",
-    [parameter(Mandatory=$false)][string]$ingressClass="nginx"
+    [parameter(Mandatory=$false)][string]$ingressClass="nginx",
+    [parameter(Mandatory=$true)][string]$bucketName
 )
 
 function EnsureAndReturnFirstItem($arr, $restype) {
@@ -92,7 +93,7 @@ $tokens.couponsuser="TEMPVALUE"
 $tokens.couponshost="TEMPVALUE"
 $tokens.couponspwd="TEMPVALUE"
 
-$tokens.storage="https://glb-tt-demo-img-s3.s3.amazonaws.com/"
+$tokens.storage="https://$bucketName.s3.amazonaws.com/"
 $tokens.rewardsregistration=If ($rewardsResourceGroup) { $true } Else { $false }
 $tokens.appinsightsik="TEMPVALUE"
 

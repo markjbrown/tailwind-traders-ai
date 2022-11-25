@@ -21,15 +21,6 @@ function validate {
         $valid=$false
     }
 
-    # if ([string]::IsNullOrEmpty($eksHost) -and $tlsEnv -ne "custom")  {
-    #     Write-Host "EKS host of HttpRouting can't be found. Are you using right EKS ($eksName)?" -ForegroundColor Red
-    #     $valid=$false
-    # }     
-    # if ([string]::IsNullOrEmpty($ecrLogin))  {
-    #     Write-Host "ECR login server can't be found. Are you using the right AWS account?" -ForegroundColor Red
-    #     $valid=$false
-    # }
-
     if ($tlsEnv -eq "custom" -and [string]::IsNullOrEmpty($tlsSecretName)) {
         Write-Host "If tlsEnv is custom must use -tlsSecretName to set the TLS secret name (you need to install this secret manually)"
         $valid=$false
@@ -122,13 +113,6 @@ if ($charts.Contains("pr") -or  $charts.Contains("*")) {
         $command = "$command -f vnodes-values.yaml"
     }
     $command = createHelmCommand $command 
-    Invoke-Expression "$command"
-}
-
-if ($charts.Contains("cp") -or  $charts.Contains("*")) {
-    Write-Host "Coupons chart - cp" -ForegroundColor Yellow
-    $command = "helm upgrade --install $name-coupon coupons-api -f $valuesFile --set ingress.hosts='{$eksHost}' --set image.repository=$ecrLogin/coupon.api --set image.tag=$tag  --set hpa.activated=$autoscale"
-    $command = createHelmCommand $command
     Invoke-Expression "$command"
 }
 
