@@ -1,6 +1,7 @@
 #! /usr/bin/pwsh
 
 Param (
+    [parameter(Mandatory=$true)][string]$bucketName,
     [parameter(Mandatory=$false)][string[]]$outputFile=$null,
     [parameter(Mandatory=$false)][string[]]$gvaluesTemplate="..,helm,gcp-gvalues.template",
     [parameter(Mandatory=$false)][string]$ingressClass="nginx"
@@ -91,7 +92,7 @@ $tokens.couponsuser="TEMPVALUE"
 $tokens.couponshost="TEMPVALUE"
 $tokens.couponspwd="TEMPVALUE"
 
-$tokens.storage="https://storage.googleapis.com/glb-tt-demo-img-bucket/"
+$tokens.storage="https://storage.googleapis.com/$bucketname/"
 $tokens.rewardsregistration=If ($rewardsResourceGroup) { $true } Else { $false }
 $tokens.appinsightsik="TEMPVALUE"
 

@@ -2,9 +2,9 @@
 
 Param(
     [parameter(Mandatory=$false)][string]$name = "tailwindtraders",
-    [parameter(Mandatory=$false)][string]$gkeName,
-    [parameter(Mandatory=$false)][string]$gkeRegion = "us-east1",
-    [parameter(Mandatory=$false)][string]$projectId="tailwind-traders-363214",
+    [parameter(Mandatory=$true)][string]$gkeName,
+    [parameter(Mandatory=$true)][string]$gkeRegion,
+    [parameter(Mandatory=$true)][string]$projectId,
     [parameter(Mandatory=$false)][string]$tag="latest",
     [parameter(Mandatory=$false)][string]$charts = "*",
     [parameter(Mandatory=$false)][string]$valuesFile = "",
@@ -125,13 +125,6 @@ if ($charts.Contains("pr") -or  $charts.Contains("*")) {
         $command = "$command -f vnodes-values.yaml"
     }
     $command = createHelmCommand $command 
-    Invoke-Expression "$command"
-}
-
-if ($charts.Contains("cp") -or  $charts.Contains("*")) {
-    Write-Host "Coupons chart - cp" -ForegroundColor Yellow
-    $command = "helm upgrade --install $name-coupon coupons-api -f $valuesFile --set ingress.hosts='{$gkeHost}' --set image.repository=$gcrRegistry/coupon.api --set image.tag=$tag  --set hpa.activated=$autoscale"
-    $command = createHelmCommand $command
     Invoke-Expression "$command"
 }
 

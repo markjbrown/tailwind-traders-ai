@@ -3,7 +3,7 @@
 Param(
   [parameter(Mandatory=$false)][bool]$dockerBuild=$true,
   [parameter(Mandatory=$false)][bool]$dockerPush=$true,
-  [parameter(Mandatory=$false)][string]$projectId="tailwind-traders-363214",
+  [parameter(Mandatory=$true)][string]$projectId,
   [parameter(Mandatory=$false)][string]$dockerTag="latest"
 )
 
@@ -14,7 +14,7 @@ Write-Host "---------------------------------------------------" -ForegroundColo
 Write-Host "---------------------------------------------------" -ForegroundColor Yellow
 Write-Host "Getting info from GCR..." -ForegroundColor Yellow
 Write-Host "---------------------------------------------------" -ForegroundColor Yellow
-$gcrLoginServer="us.gcr.io"
+$gcrLoginServer="gcr.io"
 $gcrUser="oauth2accesstoken"
 $gcrPassword=$(gcloud auth print-access-token)
 $dockerComposeFile= "docker-compose.yml"

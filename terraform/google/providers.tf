@@ -10,12 +10,12 @@ terraform {
     }
   }
 
-  cloud {
-    organization = "tailwind-traders"
-    workspaces {
-      name = "tailwind-traders-google"
-    }
-  }
+#  cloud {
+#    organization = "tailwind-traders"
+#    workspaces {
+#      name = "tailwind-traders-google"
+#    }
+#  }
 }
 
 provider "aws" {}
