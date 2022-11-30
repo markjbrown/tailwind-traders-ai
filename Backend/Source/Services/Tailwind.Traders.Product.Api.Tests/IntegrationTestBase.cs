@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
+using VerifyMSTest;
 
 namespace Tailwind.Traders.Product.Api.Tests
 {
-    public class IntegrationTestBase
+    public class IntegrationTestBase : VerifyBase
     {
         protected ApiHost ApiHost = new ApiHost();
         protected HttpClient ApiClient => ApiHost.Client;
