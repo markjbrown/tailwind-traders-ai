@@ -1,5 +1,6 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,28 +29,43 @@ namespace Tailwind.Traders.Product.Api.Repositories.Services
             var result = await _amazonDynamoDBClient.ScanAsync(request);
             foreach (var item in result.Items)
             {
-                item.TryGetValue("Id", out var id);
-                item.TryGetValue("Name", out var name);
-                item.TryGetValue("Price", out var price);
-                item.TryGetValue("ImageName", out var imageName);
-                item.TryGetValue("TagId", out var tagId);
-                item.TryGetValue("TypeId", out var typeId);
-                item.TryGetValue("BrandId", out var brandId);
+                item.TryGetValue(nameof(ProductItem.ProductItemId), out var productId);
+                item.TryGetValue(nameof(ProductItem.Name), out var name);
+                item.TryGetValue(nameof(ProductItem.Price), out var price);
+                item.TryGetValue(nameof(ProductItem.ImageName), out var imageName);
+                item.TryGetValue(nameof(ProductItem.Tags), out var tags);
+                item.TryGetValue(nameof(ProductItem.Type), out var type);
+                item.TryGetValue(nameof(ProductItem.BrandName), out var brandName);
                 items.Add(new ProductItem
                 {
-                    Id = Convert.ToInt32(id?.N ?? "0"),
+                    ProductItemId = Convert.ToInt32(productId.N ?? "0"),
                     Name = name?.S ?? string.Empty,
                     Price = Convert.ToSingle(price?.N ?? "0"),
                     ImageName = imageName?.S ?? string.Empty,
-                    BrandId = Convert.ToInt32(brandId?.N ?? "0"),
-                    TypeId = Convert.ToInt32(typeId?.N ?? "0"),
-                    TagId = Convert.ToInt32(tagId?.N ?? "0")
+                    BrandName = brandName?.S ?? string.Empty,
+                    Type = ConvertToType(type?.M), //TODO: Need to map the dictionary to a type object
+                    Tags = tags.SS.AsReadOnly()
                 });
             }
             return items.ToList();
         }
 
-        public async static Task<List<ProductItem>> GetProductItemByIdAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
+        private static ProductType ConvertToType(Dictionary<string, AttributeValue> m)
+        {
+            string name = string.Empty;
+            if (m.TryGetValue(nameof(ProductType.Name), out var nameAttribute))
+            {
+                name = nameAttribute.S;
+            }
+            string code = string.Empty;
+            if (m.TryGetValue(nameof(ProductType.Code), out var codeAttribute))
+            {
+                code = nameAttribute.S;
+            }
+            return new ProductType { Name = name, Code = code };
+        }
+
+        public async static Task<ProductItem> GetProductItemByIdAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName, int productId)
         {
             var items = new List<ProductItem>();
             var request = new ScanRequest
@@ -57,138 +73,29 @@ namespace Tailwind.Traders.Product.Api.Repositories.Services
                 TableName = _tableName,
                 FilterExpression = "Id = :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     { ":id", new AttributeValue { N = "1"} }
+                     { ":id", new AttributeValue { N = productId.ToString() } }
                 }
             };
             var result = await _amazonDynamoDBClient.ScanAsync(request);
-            foreach (var item in result.Items)
+            var item = result.Items.SingleOrDefault();
+            item.TryGetValue(nameof(ProductItem.ProductItemId), out var id);
+            item.TryGetValue(nameof(ProductItem.Name), out var name);
+            item.TryGetValue(nameof(ProductItem.Price), out var price);
+            item.TryGetValue(nameof(ProductItem.ImageName), out var imageName);
+            item.TryGetValue(nameof(ProductItem.Tags), out var tags);
+            item.TryGetValue(nameof(ProductItem.Type), out var type);
+            item.TryGetValue(nameof(ProductItem.BrandName), out var brandName);
+            var productItem = new ProductItem
             {
-                item.TryGetValue("Id", out var id);
-                item.TryGetValue("Name", out var name);
-                item.TryGetValue("Price", out var price);
-                item.TryGetValue("ImageName", out var imageName);
-                item.TryGetValue("TagId", out var tagId);
-                item.TryGetValue("TypeId", out var typeId);
-                item.TryGetValue("BrandId", out var brandId);
-                items.Add(new ProductItem
-                {
-                    Id = Convert.ToInt32(id?.N ?? "0"),
-                    Name = name?.S ?? string.Empty,
-                    Price = Convert.ToSingle(price?.N ?? "0"),
-                    ImageName = imageName?.S ?? string.Empty,
-                    BrandId = Convert.ToInt32(brandId?.N ?? "0"),
-                    TypeId = Convert.ToInt32(typeId?.N ?? "0"),
-                    TagId = Convert.ToInt32(tagId?.N ?? "0")
-                });
-            }
-            return items.ToList();
-        }
-
-        public async static Task<List<ProductBrand>> GetProductBrandsAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
-        {
-            var brands = new List<ProductBrand>();
-            var request = new ScanRequest
-            {
-                TableName = _tableName,
-                FilterExpression = "Id >= :id",
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     { ":id", new AttributeValue { N = "1" } }
-                }
+                ProductItemId = Convert.ToInt32(id?.N ?? "0"),
+                Name = name?.S ?? string.Empty,
+                Price = Convert.ToSingle(price?.N ?? "0"),
+                ImageName = imageName?.S ?? string.Empty,
+                BrandName = brandName?.S ?? string.Empty,
+                Type = ConvertToType(type?.M),
+                Tags = tags.SS.AsReadOnly()
             };
-            var result = await _amazonDynamoDBClient.ScanAsync(request);
-            foreach (var item in result.Items)
-            {
-                item.TryGetValue("Id", out var id);
-                item.TryGetValue("Name", out var name);
-                brands.Add(new ProductBrand
-                {
-                    Id = Convert.ToInt32(id?.N ?? "0"),
-                    Name = name?.S ?? string.Empty
-                });
-            }
-            return brands.ToList();
-        }
-
-        public async static Task<List<ProductType>> GetProductTypesAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
-        {
-            var types = new List<ProductType>();
-            var request = new ScanRequest
-            {
-                TableName = _tableName,
-                FilterExpression = "Id >= :id",
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     { ":id", new AttributeValue { N = "1" } }
-                }
-            };
-            var result = await _amazonDynamoDBClient.ScanAsync(request);
-            foreach (var item in result.Items)
-            {
-                item.TryGetValue("Id", out var id);
-                item.TryGetValue("Name", out var name);
-                item.TryGetValue("Code", out var code);
-                types.Add(new ProductType
-                {
-                    Id = Convert.ToInt32(id?.N ?? "0"),
-                    Code = code?.S ?? string.Empty,
-                    Name = name?.S ?? string.Empty
-                });
-            }
-            return types.ToList();
-        }
-
-        public async static Task<List<ProductTag>> GetProductTagsAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
-        {
-            var tag = new List<ProductTag>();
-            var request = new ScanRequest
-            {
-                TableName = _tableName,
-                FilterExpression = "Id >= :id",
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     { ":id", new AttributeValue { N = "1" } }
-                }
-            };
-            var result = await _amazonDynamoDBClient.ScanAsync(request);
-            foreach (var item in result.Items)
-            {
-                item.TryGetValue("Id", out var id);
-                item.TryGetValue("Value", out var value);
-                tag.Add(new ProductTag
-                {
-                    Id = Convert.ToInt32(id?.N ?? "0"),
-                    Value = value?.S ?? string.Empty
-                });
-            }
-            return tag.ToList();
-        }
-
-        public async static Task<List<ProductFeature>> GetProductFeaturesAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
-        {
-            var features = new List<ProductFeature>();
-            var request = new ScanRequest
-            {
-                TableName = _tableName,
-                FilterExpression = "Id >= :id",
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     { ":id", new AttributeValue { N = "1" } }
-                }
-            };
-            var result = await _amazonDynamoDBClient.ScanAsync(request);
-            foreach (var item in result.Items)
-            {
-                item.TryGetValue("Id", out var id);
-                item.TryGetValue("Title", out var title);
-                item.TryGetValue("Description", out var description);
-                item.TryGetValue("ProductItemId", out var productItemId);
-
-                features.Add(new ProductFeature
-                {
-                    Id = Convert.ToInt32(id?.N ?? "0"),
-                    Title = title?.S ?? string.Empty,
-                    Description = description?.S ?? string.Empty,
-                    ProductItemId = Convert.ToInt32(productItemId?.N ?? "0")
-                });
-            }
-            return features.ToList();
+            return productItem;
         }
     }
 }
