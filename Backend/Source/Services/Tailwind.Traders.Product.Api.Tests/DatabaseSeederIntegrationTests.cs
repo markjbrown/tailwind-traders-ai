@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,7 +34,13 @@ namespace Tailwind.Traders.Product.Api.Tests
                 services.AddScoped<IWebHostEnvironment>(w => _mockWebHostEnv.Object);
             });
             var seeder = ApiHost.Server.Services.GetService<ISeedDatabase>();
+
+            await seeder.ResetAsync();
+
+            var stopwatch = Stopwatch.StartNew();
             await seeder.SeedAsync();
+            stopwatch.Stop();
+            Console.WriteLine($"AZURE Seed took {stopwatch.Elapsed}");
         }
 
         [TestMethod]

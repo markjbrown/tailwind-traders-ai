@@ -4,6 +4,7 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 {
     public interface ISeedDatabase
     {
+        Task ResetAsync();
         Task SeedAsync();
     }
 }
