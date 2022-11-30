@@ -26,44 +26,14 @@ namespace Tailwind.Traders.Product.Api.Mappers
             return new ProductDto
             {
                 BrandName = productItem.BrandName,
-                Features = productItem.Features.Select(feature => MapperToProductFeatureDto(feature)),
+                Features = productItem.Features,
                 Id = productItem.ProductItemId,
                 Name = productItem.Name,
                 Price = productItem.Price,
-                Type = MapperToProductTypeDto(productItem.Type),
+                Type = productItem.Type,
                 ImageUrl = isDetail ? 
                     $"{_appSettings.ProductDetailImagesUrl}/{productItem.ImageName}" :
                     $"{_appSettings.ProductImagesUrl}/{productItem.ImageName}"
-            };
-        }
-
-        public IEnumerable<ProductTypeDto> MapperToProductTypeDto(IEnumerable<ProductType> productTypes)
-        {
-            var types = new List<ProductTypeDto>();
-
-            foreach (var productType in productTypes)
-            {
-                types.Add(MapperToProductTypeDto(productType));
-            }
-
-            return types;
-        }
-
-        public ProductTypeDto MapperToProductTypeDto(ProductType productType)
-        {
-            return new ProductTypeDto
-            {
-                Code = productType.Code,
-                Name = productType.Name
-            };
-        }
-
-        public ProductFeatureDto MapperToProductFeatureDto(ProductFeature productFeature)
-        {
-            return new ProductFeatureDto
-            {
-                Description = productFeature.Description,
-                Title = productFeature.Title
             };
         }
     }
