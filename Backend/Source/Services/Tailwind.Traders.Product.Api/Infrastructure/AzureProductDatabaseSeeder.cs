@@ -24,6 +24,11 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _env = env;
         }
 
+        public async Task ResetAsync()
+        {
+            await _productContext.Database.EnsureDeletedAsync();
+        }
+
         public async Task SeedAsync()
         {
             await _productContext.Database.EnsureCreatedAsync();

@@ -32,6 +32,11 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _amazonDynamoDBClient = factory.Create();
         }
 
+        public Task ResetAsync()
+        {
+            return Task.CompletedTask;
+        }
+
         public async Task SeedAsync()
         {
             var brands = _processFile.Process<ProductBrandSeed>(_env.ContentRootPath, "ProductBrands");
