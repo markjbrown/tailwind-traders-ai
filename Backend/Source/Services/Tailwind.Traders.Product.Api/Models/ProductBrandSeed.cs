@@ -3,12 +3,9 @@
 namespace Tailwind.Traders.Product.Api.Models
 {
     [FirestoreData]
-    public class ProductType
+    public class ProductBrandSeed : IHaveId
     {
-        [FirestoreProperty]
-        public string Code { get; set; }
-
-        [FirestoreProperty]
+        public int Id { get; set; }
         public string Name { get; set; }
     }
 }

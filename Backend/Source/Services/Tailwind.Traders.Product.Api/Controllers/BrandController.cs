@@ -1,10 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Tailwind.Traders.Product.Api.Infrastructure;
 using Tailwind.Traders.Product.Api.Mappers;
 using Tailwind.Traders.Product.Api.Repositories;
 
@@ -40,7 +37,7 @@ namespace Tailwind.Traders.Product.Api.Controllers
                 return NoContent();
             }
 
-            return Ok(_mapperDtos.MapperToProductBrandDto(brands));
+            return Ok(brands);
         }
     }
 }

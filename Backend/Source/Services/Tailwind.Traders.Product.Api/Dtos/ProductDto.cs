@@ -12,7 +12,7 @@ namespace Tailwind.Traders.Product.Api.Dtos
 
         public string ImageUrl { get; set; }
 
-        public ProductBrandDto Brand { get; set; }
+        public string BrandName { get; set; }
 
         public ProductTypeDto Type { get; set; }
 

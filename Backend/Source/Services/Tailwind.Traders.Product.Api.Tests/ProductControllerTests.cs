@@ -26,16 +26,13 @@ namespace Tailwind.Traders.Product.Api.Tests
                 {
                     new ProductItem
                     {
-                        Id = 123,
+                        ProductItemId = 123,
                         Name = "Name",
                         Price = 42.00f,
                         ImageName = "ImageName.jpg",
-                        BrandId = 1,
-                        Brand = new ProductBrand { Id = 1, Name = "Brand"},
-                        TypeId = 23,
-                        Type = new ProductType { Id = 23, Code = "home", Name = "White Door" },
-                        TagId = 3,
-                        Tag = new ProductTag { Id = 3, Value = "tag" },
+                        BrandName = "Brand",
+                        Type = new ProductType { Code = "home", Name = "White Door" },
+                        Tags = new string[] { "tag" },
                     }
                 });
             var controller = new ProductController(
@@ -48,7 +45,6 @@ namespace Tailwind.Traders.Product.Api.Tests
             var okResult = result as OkObjectResult;
             Assert.IsNotNull(okResult);
         }
-
 
     }
 }

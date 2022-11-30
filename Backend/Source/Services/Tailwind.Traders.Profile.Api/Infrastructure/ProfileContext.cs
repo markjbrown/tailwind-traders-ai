@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Tailwind.Traders.Profile.Api.Models;
 
 namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
     public class ProfileContext : DbContext
     {
-        public DbSet<Profiles> Profiles { get; set; }
+        public DbSet<Models.Profile> Profiles { get; set; }
 
         public ProfileContext(DbContextOptions<ProfileContext> options) : base(options)
         {
@@ -13,7 +12,7 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Profiles>() 
+            modelBuilder.Entity<Models.Profile>() 
                 .HasPartitionKey(c => c.App)
                 .HasKey(c => c.Email);
         }

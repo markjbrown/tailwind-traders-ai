@@ -18,50 +18,22 @@ namespace Tailwind.Traders.Product.Api.Mappers
 
         public IEnumerable<ProductDto> MapperToProductDto(IEnumerable<ProductItem> productItems)
         {
-            var products = new List<ProductDto>();
-
-            foreach(var productItem in productItems)
-            {
-                products.Add(MapperToProductDto(productItem));
-            }
-
-            return products;
+            return productItems.Select(item => MapperToProductDto(item));
         }
 
         public ProductDto MapperToProductDto(ProductItem productItem, bool isDetail = false)
         {
             return new ProductDto
             {
-                Brand = MapperToProductBrandDto(productItem.Brand),
+                BrandName = productItem.BrandName,
                 Features = productItem.Features.Select(feature => MapperToProductFeatureDto(feature)),
-                Id = productItem.Id,
+                Id = productItem.ProductItemId,
                 Name = productItem.Name,
                 Price = productItem.Price,
                 Type = MapperToProductTypeDto(productItem.Type),
                 ImageUrl = isDetail ? 
                     $"{_appSettings.ProductDetailImagesUrl}/{productItem.ImageName}" :
                     $"{_appSettings.ProductImagesUrl}/{productItem.ImageName}"
-            };
-        }
-
-        public IEnumerable<ProductBrandDto> MapperToProductBrandDto(IEnumerable<ProductBrand> productBrands)
-        {
-            var brands = new List<ProductBrandDto>();
-
-            foreach (var productBrand in productBrands)
-            {
-                brands.Add(MapperToProductBrandDto(productBrand));
-            }
-
-            return brands;
-        }
-
-        public ProductBrandDto MapperToProductBrandDto(ProductBrand productBrand)
-        {
-            return new ProductBrandDto
-            {
-                Id = productBrand.Id,
-                Name = productBrand.Name
             };
         }
 
@@ -81,7 +53,6 @@ namespace Tailwind.Traders.Product.Api.Mappers
         {
             return new ProductTypeDto
             {
-                Id = productType.Id,
                 Code = productType.Code,
                 Name = productType.Name
             };
@@ -91,7 +62,6 @@ namespace Tailwind.Traders.Product.Api.Mappers
         {
             return new ProductFeatureDto
             {
-                Id = productFeature.Id,
                 Description = productFeature.Description,
                 Title = productFeature.Title
             };

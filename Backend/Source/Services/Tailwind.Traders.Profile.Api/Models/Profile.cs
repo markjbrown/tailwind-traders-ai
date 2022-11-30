@@ -4,7 +4,7 @@ using Tailwind.Traders.Profile.Api.DTOs;
 namespace Tailwind.Traders.Profile.Api.Models
 {
     [FirestoreData]
-    public class Profiles
+    public class Profile
     {
         public const string AppName = "Tailwind";
 
@@ -32,12 +32,12 @@ namespace Tailwind.Traders.Profile.Api.Models
         public ProfileDto ToProfileDto(AppSettings settings) =>
             new ProfileDto()
             {
-                Name = this.Name,
-                Address = this.Address,
-                Email = this.Email,
-                PhoneNumber = this.PhoneNumber,
-                ImageUrlSmall = $"{settings.ProfilesImageUrl}/{this.ImageNameSmall}",
-                ImageUrlMedium = $"{settings.ProfilesImageUrl}/{this.ImageNameMedium}"
+                Name = Name,
+                Address = Address,
+                Email = Email,
+                PhoneNumber = PhoneNumber,
+                ImageUrlSmall = $"{settings.ProfilesImageUrl}/{ImageNameSmall}",
+                ImageUrlMedium = $"{settings.ProfilesImageUrl}/{ImageNameMedium}"
             };
     }    
 }

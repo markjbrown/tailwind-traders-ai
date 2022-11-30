@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
@@ -28,17 +30,16 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 
             if (!_productContext.ProductItems.ToList().Any())
             {
-                var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
-                var types = _processFile.Process<ProductType>(_env.ContentRootPath, "ProductTypes");
-                var features = _processFile.Process<ProductFeature>(_env.ContentRootPath, "ProductFeatures");
-                var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
-                var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
+                var brands = _processFile.Process<ProductBrandSeed>(_env.ContentRootPath, "ProductBrands");
+                var types = _processFile.Process<ProductTypeSeed>(_env.ContentRootPath, "ProductTypes");
+                var features = _processFile.Process<ProductFeatureSeed>(_env.ContentRootPath, "ProductFeatures");
+                var tags = _processFile.Process<ProductTagSeed>(_env.ContentRootPath, "ProductTags");
+                var products = _processFile.Process<ProductItemSeed>(_env.ContentRootPath, "ProductItems",
+                    new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
 
-                await _productContext.ProductItems.AddRangeAsync(products);
-                await _productContext.ProductBrands.AddRangeAsync(brands);
-                await _productContext.ProductTypes.AddRangeAsync(types);
-                await _productContext.Tags.AddRangeAsync(tags);
-                await _productContext.ProductFeatures.AddRangeAsync(features);
+                var productItems = ProductItemExtensions.Join(products, brands, types, features, tags);
+
+                await _productContext.ProductItems.AddRangeAsync(productItems);
 
                 await _productContext.SaveChangesAsync();
             }

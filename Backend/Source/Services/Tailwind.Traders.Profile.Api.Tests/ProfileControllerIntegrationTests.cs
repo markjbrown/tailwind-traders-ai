@@ -19,7 +19,7 @@ namespace Tailwind.Traders.Profile.Api.Tests
         {
             Initialize("AZURE");
             var response = await ApiClient.GetAsync(ApiPath($@"/v1/profile"));
-            await response.VerifyResponseModelAsync<IEnumerable<Profiles>>();
+            await response.VerifyResponseModelAsync<IEnumerable<Models.Profile>>();
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace Tailwind.Traders.Profile.Api.Tests
         {
             Initialize("AWS");
             var response = await ApiClient.GetAsync(ApiPath($@"/v1/profile"));
-            await response.VerifyResponseModelAsync<IEnumerable<Profiles>>();
+            await response.VerifyResponseModelAsync<IEnumerable<Models.Profile>>();
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace Tailwind.Traders.Profile.Api.Tests
         {
             Initialize("GCP");
             var response = await ApiClient.GetAsync(ApiPath($@"/v1/profile"));
-            await response.VerifyResponseModelAsync<IEnumerable<Profiles>>();
+            await response.VerifyResponseModelAsync<IEnumerable<Models.Profile>>();
         }
 
     }

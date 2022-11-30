@@ -12,7 +12,7 @@ namespace Tailwind.Traders.WebBff.Models
         public string Name { get; set; }
 
         public float Price { get; set; }
-        // Undocument line 16 for AKS Dev Spaces Demo Script and document line 17
+        // Uncomment line 16 for AKS Dev Spaces Demo Script and comment line 17
         // public string ProductName { get; set; }
         public string ImageUrl { get; set; }
 

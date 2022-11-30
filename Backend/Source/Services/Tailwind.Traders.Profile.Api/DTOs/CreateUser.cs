@@ -11,8 +11,8 @@ namespace Tailwind.Traders.Profile.Api.DTOs
         [Required]
         public string Email { get; set; }
 
-        public Profiles MapUserProfile() =>
-            new Profiles()
+        public Models.Profile MapUserProfile() =>
+            new Models.Profile()
             {
                 Name = Name,
                 Address = Address,
