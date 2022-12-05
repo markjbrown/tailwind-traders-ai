@@ -79,7 +79,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
         public async Task<List<Models.ProductType>> GetAllTypesAsync()
         {
             var types = await _productType.FindAsync(_ => true)?.Result?.ToListAsync();
-            return types;
+            return types.DistinctBy(x => x.Code).ToList();
         }
     }
 }

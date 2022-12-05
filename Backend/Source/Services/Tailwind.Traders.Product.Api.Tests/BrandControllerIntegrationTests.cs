@@ -19,13 +19,13 @@ namespace Tailwind.Traders.Product.Api.Tests
             Initialize(CloudPlatform);
             string uri = ApiPath($@"/v1/brand");
             var response = await ApiClient.GetAsync(uri);
-            var model = await response.VerifyResponseModelAsync<IEnumerable<ProductBrandDto>>();
+            var model = await response.VerifyResponseModelAsync<IEnumerable<string>>();
             await VerifyJson(await response.Content.ReadAsStringAsync());
 
 
             await TimeMethod(CloudPlatform, "GetAllBrands", 50,
                 (index) => uri,
-                async (response) => await response.VerifyResponseModelAsync<IEnumerable<ProductBrandDto>>());
+                async (response) => await response.VerifyResponseModelAsync<IEnumerable<string>>());
         }
     }
 }

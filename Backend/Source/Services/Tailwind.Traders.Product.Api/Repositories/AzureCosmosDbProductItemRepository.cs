@@ -57,13 +57,14 @@ namespace Tailwind.Traders.Product.Api.Repositories
 
         public async Task<List<string>> GetAllBrandsAsync()
         {
-            var brands = await _productContext.ProductItems.AsQueryable().Select(pi => pi.BrandName).ToListAsync();
+            var brands = await _productContext.ProductItems.AsQueryable().Select(pi => pi.BrandName).Distinct().ToListAsync();
             return brands;
         }
 
         public async Task<List<Models.ProductType>> GetAllTypesAsync()
         {
-            var types = await _productContext.ProductItems.AsQueryable().Select(pi => pi.Type).ToListAsync();
+            var types = (await _productContext.ProductItems.AsQueryable().Select(pi => pi.Type).ToListAsync())
+                .DistinctBy(x => x.Code).ToList();
             return types;
         }
 

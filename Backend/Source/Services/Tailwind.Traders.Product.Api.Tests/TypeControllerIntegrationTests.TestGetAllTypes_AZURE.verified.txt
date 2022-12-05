@@ -1,36 +1,29 @@
 ﻿[
   {
-    id: 1,
     code: homeappliances,
     name: Home Appliances
   },
   {
-    id: 2,
     code: sink,
     name: Sink
   },
   {
-    id: 3,
     code: home,
     name: Home
   },
   {
-    id: 4,
     code: gardening,
     name: Gardening
   },
   {
-    id: 5,
     code: decor,
     name: Decor
   },
   {
-    id: 6,
     code: kitchen,
     name: Kitchen Accessories
   },
   {
-    id: 7,
     code: diytools,
     name: DIY tools
   }

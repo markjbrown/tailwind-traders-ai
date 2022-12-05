@@ -62,7 +62,9 @@ namespace Tailwind.Traders.Product.Api.Repositories
         public async Task<List<string>> GetAllBrandsAsync()
         {
             var productsSnapshot = await _productItemCollection.GetSnapshotAsync();
-            var brands = productsSnapshot.Documents.Select(x => x.GetValue<string>(nameof(ProductItem.BrandName))).ToList();
+            var brands = productsSnapshot.Documents
+                .Select(x => x.GetValue<string>(nameof(ProductItem.BrandName)))
+                .Distinct().ToList();
             return brands;
         }
 
@@ -76,7 +78,9 @@ namespace Tailwind.Traders.Product.Api.Repositories
         public async Task<List<ProductType>> GetAllTypesAsync()
         {
             var typeSnapshot = await _typeCollection.GetSnapshotAsync();
-            var types = typeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).ToList();
+            var types = typeSnapshot.Documents
+                .Select(x => x.ConvertTo<ProductType>())
+                .DistinctBy(x => x.Code).ToList();
             return types;
         }
 

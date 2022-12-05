@@ -3,12 +3,8 @@
   name: Blue multi-tool plier,
   price: 50.0,
   imageUrl: /19595793.jpg,
-  brand: {
-    id: 1,
-    name: ElctroDrill
-  },
+  brandName: ElctroDrill,
   type: {
-    id: 7,
     code: diytools,
     name: DIY tools
   }

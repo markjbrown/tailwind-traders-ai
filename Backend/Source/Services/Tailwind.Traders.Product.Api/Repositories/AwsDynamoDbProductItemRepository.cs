@@ -62,7 +62,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
         public async Task<List<ProductType>> GetAllTypesAsync()
         {
             var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductItemTable);
-            return items.Select(item => item.Type).Distinct().ToList();
+            return items.Select(item => item.Type).DistinctBy(x => x.Code).ToList();
         }
 
         public async Task<ProductItem> GetProductById(int productId)
