@@ -34,7 +34,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
 
             items = items.Where(item => brand.Contains(item.BrandId) || type.Contains(item.TypeId)).ToList();
             items
-                .OrderByDescending(inc => inc.Name.Contains("gnome"))
+                .OrderBy(inc => inc.Id)
                 .Join(brands, types, features, tags);
             return items;
         }
@@ -75,7 +75,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
         public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
             var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductBrandTable);
-            return brands;
+            return brands.OrderBy(x => x.Id).ToList();
         }
 
         public async Task<List<ProductItem>> GetAllProductsAsync()
@@ -86,22 +86,20 @@ namespace Tailwind.Traders.Product.Api.Repositories
             var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductFeatureTable);
             var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductTagTable);
 
-            items
-                .OrderByDescending(inc => inc.Name.Contains("gnome"))
-                .Join(brands, types, features, tags);
+            items.Join(brands, types, features, tags);
 
-            return items;
+            return items.OrderBy(x => x.Id).ToList();
         }
 
         public async Task<List<ProductType>> GetAllTypesAsync()
         {
             var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductTypeTable);
-            return types;
+            return types.OrderBy(x => x.Id).ToList();
         }
 
         public async Task<ProductItem> GetProductById(int productId)
         {
-            var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductItemTable);
+            var items = await DynomoDbService.GetProductItemByIdAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductItemTable, productId);
             var brands = await DynomoDbService.GetProductBrandsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductBrandTable);
             var types = await DynomoDbService.GetProductTypesAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductTypeTable);
             var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductFeatureTable);
@@ -109,8 +107,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
 
             items.Join(brands, types, features, tags);
 
-
-            var item = items.FirstOrDefault();
+            var item = items.SingleOrDefault();
             return item;
         }
 
@@ -122,7 +119,9 @@ namespace Tailwind.Traders.Product.Api.Repositories
             var features = await DynomoDbService.GetProductFeaturesAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductFeatureTable);
             var tags = await DynomoDbService.GetProductTagsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductTagTable);
 
-            items = items.OrderBy(product => new Random().Next()).Take(_take).ToList();
+            items = items
+                .OrderBy(product => new Random().Next()).Take(_take)
+                .ToList();
             items.Join(brands, types, features, tags);
 
             return items;

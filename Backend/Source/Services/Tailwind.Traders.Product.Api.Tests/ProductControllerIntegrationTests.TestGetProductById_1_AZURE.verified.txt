@@ -1,0 +1,42 @@
+﻿{
+  id: 1,
+  name: Microwave 0.9 Cu. Ft. 900 W,
+  price: 100.0,
+  imageUrl: /10446729.jpg,
+  brand: {
+    id: 1,
+    name: ElctroDrill
+  },
+  type: {
+    id: 1,
+    code: homeappliances,
+    name: Home Appliances
+  },
+  features: [
+    {
+      id: 1,
+      title: 20 Litre,
+      description: Create delicious meals with this 800 W manual microwave with a 20 Litre capacity
+    },
+    {
+      id: 2,
+      title: Multipower,
+      description: Six power levels including a defrost setting offers variety for your cooking requirements
+    },
+    {
+      id: 3,
+      title: 3 years guarantee,
+      description: 3 years guarantee
+    },
+    {
+      id: 4,
+      title: Key features,
+      description: 20Litre capacity (0.7cu.ft) 800W microwave output 11 microwave power levels 99min timer Cooking end signal Auto cook menus Defrost setting Glass turntable Mirror door
+    },
+    {
+      id: 5,
+      title: Triple Distribution System,
+      description: Meaning a more even and effective distribution of heat. Easytronics dial control
+    }
+  ]
+}

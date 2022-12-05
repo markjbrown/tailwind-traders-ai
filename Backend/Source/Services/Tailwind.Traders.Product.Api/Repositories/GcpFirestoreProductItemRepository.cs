@@ -17,6 +17,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
         private readonly CollectionReference _typeCollection;
         private readonly CollectionReference _tagCollection;
         private readonly CollectionReference _featureCollection;
+        private const int _take = 3;
 
         public GcpFirestoreProductItemRepository(IOptions<AppSettings> options)
         {
@@ -44,7 +45,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
 
             items
-                .OrderByDescending(inc => inc.Name.Contains("gnome"))
+                .OrderBy(inc => inc.Id)
                 .Join(
                     prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
                     prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
@@ -125,7 +126,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
 
             items
-                .OrderByDescending(inc => inc.Name.Contains("gnome"))
+                .OrderBy(inc => inc.Id)
                 .Join(
                     prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
                     prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
@@ -168,15 +169,14 @@ namespace Tailwind.Traders.Product.Api.Repositories
         public async Task<List<ProductItem>> RecommendedProductsAsync()
         {
             var productItemSnapshot = await _productItemCollection.GetSnapshotAsync();
-            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
-            items = items.OrderBy(product => new Random().Next()).Take(3).ToList();
-
             var prdBrandSnapshot = await _brandCollection.GetSnapshotAsync();
             var prdTypeSnapshot = await _typeCollection.GetSnapshotAsync();
             var prdFeatureSnapshot = await _featureCollection.GetSnapshotAsync();
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
+
+            var items = productItemSnapshot.Documents.Select(x => x.ConvertTo<ProductItem>()).ToList();
             items
-                .OrderByDescending(inc => inc.Name.Contains("gnome"))
+                .OrderBy(product => new Random().Next()).Take(_take)
                 .Join(
                     prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
                     prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
@@ -184,7 +184,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
                     prdTagSnapshot.Documents.Select(x => x.ConvertTo<ProductTag>()).AsQueryable()
                     );
 
-            return null;
+            return items;
         }
     }
 }

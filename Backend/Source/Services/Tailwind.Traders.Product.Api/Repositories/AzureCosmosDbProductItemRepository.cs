@@ -24,7 +24,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
                 .ToListAsync();
 
             items
-                .OrderByDescending(inc => inc.Name.Contains("gnome"))
+                .OrderBy(inc => inc.Id)
                 .Join(
                 _productContext.ProductBrands,
                 _productContext.ProductTypes,
@@ -58,7 +58,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
             var items = await _productContext.ProductItems.AsQueryable().ToListAsync();
 
             items
-                .OrderByDescending(inc => inc.Name.Contains("gnome"))
+                .OrderBy(inc => inc.Id)
                 .Join(
                     _productContext.ProductBrands,
                     _productContext.ProductTypes,
@@ -85,7 +85,9 @@ namespace Tailwind.Traders.Product.Api.Repositories
         {
             var items = await _productContext.ProductItems.AsQueryable().ToListAsync();
 
-            items = items.OrderBy(product => new Random().Next()).Take(_take).ToList();
+            items = items
+                .OrderBy(product => new Random().Next()).Take(_take)
+                .ToList();
 
             items.Join(
               _productContext.ProductBrands,
@@ -98,13 +100,15 @@ namespace Tailwind.Traders.Product.Api.Repositories
 
         public async Task<List<Models.ProductBrand>> GetAllBrandsAsync()
         {
-            var brands = await _productContext.ProductBrands.AsQueryable().ToListAsync();
+            var brands = await _productContext.ProductBrands.AsQueryable()
+                .ToListAsync();
             return brands;
         }
 
         public async Task<List<Models.ProductType>> GetAllTypesAsync()
         {
-            var types = await _productContext.ProductTypes.AsQueryable().ToListAsync();
+            var types = await _productContext.ProductTypes.AsQueryable()
+                .ToListAsync();
             return types;
         }
 

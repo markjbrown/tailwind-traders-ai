@@ -49,7 +49,7 @@ namespace Tailwind.Traders.Product.Api.Repositories.Services
             return items.ToList();
         }
 
-        public async static Task<List<ProductItem>> GetProductItemByIdAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName)
+        public async static Task<List<ProductItem>> GetProductItemByIdAsync(AmazonDynamoDBClient _amazonDynamoDBClient, string _tableName, int productId)
         {
             var items = new List<ProductItem>();
             var request = new ScanRequest
@@ -57,7 +57,7 @@ namespace Tailwind.Traders.Product.Api.Repositories.Services
                 TableName = _tableName,
                 FilterExpression = "Id = :id",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue> {
-                     { ":id", new AttributeValue { N = "1"} }
+                     { ":id", new AttributeValue { N = productId.ToString()} }
                 }
             };
             var result = await _amazonDynamoDBClient.ScanAsync(request);

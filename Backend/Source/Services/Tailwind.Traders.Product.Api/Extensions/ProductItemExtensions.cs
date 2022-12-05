@@ -16,7 +16,9 @@ namespace Tailwind.Traders.Product.Api.Extensions
             {
                 productItem.Brand = productBrands.FirstOrDefault(brand => brand.Id == productItem.BrandId);
                 productItem.Type = productTypes.FirstOrDefault(type => type.Id == productItem.TypeId);
-                productItem.Features = productFeatures.Where(feature => feature.ProductItemId == productItem.Id).ToList();
+                productItem.Features = productFeatures.Where(feature => feature.ProductItemId == productItem.Id)
+                    .OrderBy(f => f.Id)
+                    .ToList();
                 if (productItem.TagId != null)
                 {
                     productItem.Tag = tags.SingleOrDefault(t => t.Id == productItem.TagId);

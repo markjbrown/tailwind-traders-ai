@@ -15,14 +15,18 @@ namespace Tailwind.Traders.Product.Api.Tests
         [TestMethod]
         public async Task TestGetAllProducts_AZURE()
         {
-            const string CloudPlatform = "AZURE";
-            Initialize(CloudPlatform);
+            await TestGetAllProducts("AZURE");
+        }
+
+        private async Task TestGetAllProducts(string cloudPlatform)
+        {
+            Initialize(cloudPlatform);
             string uri = ApiPath($@"/v1/product");
             var response = await ApiClient.GetAsync(uri);
             var model = await response.VerifyResponseModelAsync<IEnumerable<ProductDto>>();
             await VerifyJson(await response.Content.ReadAsStringAsync());
 
-            await TimeMethod(CloudPlatform, "GetAllProducts", 50,
+            await TimeMethod(cloudPlatform, "GetAllProducts", 50,
                 (index) => uri,
                 async (response) => await response.VerifyResponseModelAsync<IEnumerable<ProductDto>>());
         }
@@ -30,9 +34,7 @@ namespace Tailwind.Traders.Product.Api.Tests
         [TestMethod]
         public async Task TestGetAllProducts_AWS()
         {
-            Initialize("AWS");
-            var response = await ApiClient.GetAsync(ApiPath($@"/v1/product"));
-            await response.VerifyResponseModelAsync<IEnumerable<ProductDto>>();
+            await TestGetAllProducts("AWS");
         }
 
         [TestMethod]
@@ -46,17 +48,39 @@ namespace Tailwind.Traders.Product.Api.Tests
         [TestMethod]
         public async Task TestGetProductById_AZURE()
         {
-            const string CloudPlatform = "AZURE";
-            Initialize(CloudPlatform);
-            string uri = ApiPath($@"/v1/product/52");
+            await TestGetProductById("AZURE", 52);
+        }
+
+        [TestMethod]
+        public async Task TestGetProductById_1_AZURE()
+        {
+            await TestGetProductById("AZURE", 1);
+        }
+
+        private async Task TestGetProductById(string cloudPlatform, int productId)
+        {
+            Initialize(cloudPlatform);
+
+            string uri = ApiPath($@"/v1/product/{productId}");
             var response = await ApiClient.GetAsync(uri);
             var model = await response.VerifyResponseModelAsync<ProductDto>();
             await VerifyJson(await response.Content.ReadAsStringAsync());
 
-            await TimeMethod(CloudPlatform, "GetProductById", 70, 
+            await TimeMethod(cloudPlatform, "GetProductById", 70,
                 (index) => ApiPath($@"/v1/product/{index}"),
                 async (response) => await response.VerifyResponseModelAsync<ProductDto>());
         }
 
+        [TestMethod]
+        public async Task TestGetProductById_AWS()
+        {
+            await TestGetProductById("AWS", 52);
+        }
+
+        [TestMethod]
+        public async Task TestGetProductById_1_AWS()
+        {
+            await TestGetProductById("AWS", 1);
+        }
     }
 }

@@ -28,9 +28,54 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _amazonDynamoDBClient = factory.Create();
         }
 
-        public Task ResetAsync()
+        public async Task ResetAsync()
         {
-            return Task.CompletedTask;
+            var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
+            var types = _processFile.Process<ProductType>(_env.ContentRootPath, "ProductTypes");
+            var features = _processFile.Process<ProductFeature>(_env.ContentRootPath, "ProductFeatures");
+            var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems",
+                new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
+            var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
+
+            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductItemTable);
+            var productItemBatchWrite = productItemTable.CreateBatchWrite();
+            foreach (var item in products)
+            {
+                productItemBatchWrite.AddKeyToDelete(item.Id);
+            }
+            await productItemBatchWrite.ExecuteAsync();
+
+            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductBrandTable);
+            var brandBatchWrite = productItemTable.CreateBatchWrite();
+            foreach (var item in brands)
+            {
+                brandBatchWrite.AddKeyToDelete(item.Id);
+            }
+            await brandBatchWrite.ExecuteAsync();
+
+            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductFeatureTable);
+            var featureBatchWrite = productItemTable.CreateBatchWrite();
+            foreach (var item in features)
+            {
+                featureBatchWrite.AddKeyToDelete(item.Id);
+            }
+            await featureBatchWrite.ExecuteAsync();
+
+            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductTypeTable);
+            var typeBatchWrite = productItemTable.CreateBatchWrite();
+            foreach (var item in types)
+            {
+                typeBatchWrite.AddKeyToDelete(item.Id);
+            }
+            await typeBatchWrite.ExecuteAsync();
+
+            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductTagTable);
+            var tagBatchWrite = productItemTable.CreateBatchWrite();
+            foreach (var item in tags)
+            {
+                tagBatchWrite.AddKeyToDelete(item.Id);
+            }
+            await tagBatchWrite.ExecuteAsync();
         }
 
         public async Task SeedAsync()
@@ -38,7 +83,8 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
             var types = _processFile.Process<ProductType>(_env.ContentRootPath, "ProductTypes");
             var features = _processFile.Process<ProductFeature>(_env.ContentRootPath, "ProductFeatures");
-            var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
+            var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", 
+                new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
             var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
 
             Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductItemTable);
