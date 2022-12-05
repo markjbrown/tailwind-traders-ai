@@ -19,9 +19,12 @@ namespace Tailwind.Traders.WebBff.Infrastructure
             }
             public static string GetProductsByFilter(string baseUri, string version, int[] brands, int[] types)
             {
-                var productBrandsFormatted = string.Join("&", brands.Select(b => "brand=" + b));
-                var productTypesFormatted = string.Join("&", types.Select(b => "type=" + b));
-                return $"{baseUri}/{version}/product/filter?{string.Join("&", productBrandsFormatted, productTypesFormatted)}";
+                var productBrandsFormatted = string.Join("&", brands?.Select(b => "brand=" + b) ?? new string[0]);
+                var productTypesFormatted = string.Join("&", types?.Select(b => "type=" + b) ?? new string[0]);
+                var queryString = !string.IsNullOrEmpty(productBrandsFormatted) && !string.IsNullOrEmpty(productTypesFormatted)
+                    ? string.Join("&", productBrandsFormatted, productTypesFormatted)
+                    : string.IsNullOrEmpty(productBrandsFormatted) ? productTypesFormatted : productBrandsFormatted;
+                return $"{baseUri}/{version}/product/filter?{queryString}";
             }
 
             public static class ImageClassifier
@@ -45,7 +48,7 @@ namespace Tailwind.Traders.WebBff.Infrastructure
         {
             public static string GetCoupons(string baseUri, string version) => $"{baseUri}/{version}/coupon";
         }
-
+        
         public static class Login
         {
             public static string PostLogin(string baseUri, string version) => $"{baseUri}/{version}/oauth2/token";

@@ -150,7 +150,7 @@ namespace Tailwind.Traders.WebBff.Controllers
 
             var selectedTypeIds = types.Where(t => type.Contains(t.Code)).Select(t => t.Id).ToArray();
 
-            var productsUrl = brand.Count() > 0 || type.Count() > 0 ?
+            var productsUrl = brand?.Count() > 0 || type?.Count() > 0 ?
                 API.Products.GetProductsByFilter(_settings.ProductsApiUrl, VERSION_API, brand, selectedTypeIds) :
                 API.Products.GetProducts(_settings.ProductsApiUrl, VERSION_API);
 
