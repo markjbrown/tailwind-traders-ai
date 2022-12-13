@@ -40,9 +40,7 @@ namespace Tailwind.Traders.Product.Api.Tests
         [TestMethod]
         public async Task TestGetAllProducts_GCP()
         {
-            Initialize("GCP");
-            var response = await ApiClient.GetAsync(ApiPath($@"/v1/product"));
-            await response.VerifyResponseModelAsync<IEnumerable<ProductDto>>();
+            await TestGetAllProducts("GCP");
         }
 
         [TestMethod]
@@ -81,6 +79,18 @@ namespace Tailwind.Traders.Product.Api.Tests
         public async Task TestGetProductById_1_AWS()
         {
             await TestGetProductById("AWS", 1);
+        }
+
+        [TestMethod]
+        public async Task TestGetProductById_GCP()
+        {
+            await TestGetProductById("GCP", 52);
+        }
+
+        [TestMethod]
+        public async Task TestGetProductById_1_GCP()
+        {
+            await TestGetProductById("GCP", 1);
         }
     }
 }

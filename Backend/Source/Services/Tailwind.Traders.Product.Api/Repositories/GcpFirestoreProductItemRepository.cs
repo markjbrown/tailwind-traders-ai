@@ -110,8 +110,10 @@ namespace Tailwind.Traders.Product.Api.Repositories
 
         public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
-            var branhSnapshot = await _brandCollection.GetSnapshotAsync();
-            var brands = branhSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).ToList();
+            var brandSnapshot = await _brandCollection.GetSnapshotAsync();
+            var brands = brandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>())
+                .OrderBy(b => b.Id)
+                .ToList();
             return brands;
         }
 
@@ -126,7 +128,6 @@ namespace Tailwind.Traders.Product.Api.Repositories
             var prdTagSnapshot = await _tagCollection.GetSnapshotAsync();
 
             items
-                .OrderBy(inc => inc.Id)
                 .Join(
                     prdBrandSnapshot.Documents.Select(x => x.ConvertTo<ProductBrand>()).AsQueryable(),
                     prdTypeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).AsQueryable(),
@@ -135,13 +136,15 @@ namespace Tailwind.Traders.Product.Api.Repositories
                     );
 
 
-            return items;
+            return items.OrderBy(inc => inc.Id).ToList();
         }
 
         public async Task<List<ProductType>> GetAllTypesAsync()
         {
             var typeSnapshot = await _typeCollection.GetSnapshotAsync();
-            var types = typeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>()).ToList();
+            var types = typeSnapshot.Documents.Select(x => x.ConvertTo<ProductType>())
+                .OrderBy(x => x.Id)
+                .ToList();
             return types;
         }
 

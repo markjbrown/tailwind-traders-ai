@@ -36,5 +36,11 @@ namespace Tailwind.Traders.Product.Api.Tests
             await TestGetAllTypes("AWS");
         }
 
+        [TestMethod]
+        public async Task TestGetAllTypes_GCP()
+        {
+            await TestGetAllTypes("GCP");
+        }
+
     }
 }
