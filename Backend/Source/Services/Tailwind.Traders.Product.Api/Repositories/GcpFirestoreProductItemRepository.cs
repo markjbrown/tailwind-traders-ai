@@ -17,6 +17,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
         private readonly CollectionReference _typeCollection;
         private readonly CollectionReference _tagCollection;
         private readonly CollectionReference _featureCollection;
+        private const int _take = 3;
 
         public GcpFirestoreProductItemRepository(IOptions<AppSettings> options)
         {

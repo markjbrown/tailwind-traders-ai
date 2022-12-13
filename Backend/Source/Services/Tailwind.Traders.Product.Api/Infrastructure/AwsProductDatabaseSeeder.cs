@@ -32,9 +32,18 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _amazonDynamoDBClient = factory.Create();
         }
 
-        public Task ResetAsync()
+        public async Task ResetAsync()
         {
-            return Task.CompletedTask;
+            var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems",
+                new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
+
+            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductItemTable);
+            var productItemBatchWrite = productItemTable.CreateBatchWrite();
+            foreach (var item in products)
+            {
+                productItemBatchWrite.AddKeyToDelete(item.ProductItemId);
+            }
+            await productItemBatchWrite.ExecuteAsync();
         }
 
         public async Task SeedAsync()

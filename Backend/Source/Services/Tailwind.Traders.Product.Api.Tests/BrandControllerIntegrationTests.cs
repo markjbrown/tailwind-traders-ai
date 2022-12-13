@@ -15,7 +15,11 @@ namespace Tailwind.Traders.Product.Api.Tests
         [TestMethod]
         public async Task TestGetAllBrands_AZURE()
         {
-            const string CloudPlatform = "AZURE";
+            await TestGetAllBrands("AZURE");
+        }
+
+        private async Task TestGetAllBrands(string CloudPlatform)
+        {
             Initialize(CloudPlatform);
             string uri = ApiPath($@"/v1/brand");
             var response = await ApiClient.GetAsync(uri);
@@ -27,5 +31,18 @@ namespace Tailwind.Traders.Product.Api.Tests
                 (index) => uri,
                 async (response) => await response.VerifyResponseModelAsync<IEnumerable<string>>());
         }
+
+        [TestMethod]
+        public async Task TestGetAllBrands_AWS()
+        {
+            await TestGetAllBrands("AWS");
+        }
+
+        [TestMethod]
+        public async Task TestGetAllBrands_GCP()
+        {
+            await TestGetAllBrands("GCP");
+        }
+
     }
 }

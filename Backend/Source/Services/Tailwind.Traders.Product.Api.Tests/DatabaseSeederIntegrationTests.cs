@@ -51,7 +51,13 @@ namespace Tailwind.Traders.Product.Api.Tests
                 services.AddScoped<IWebHostEnvironment>(w => _mockWebHostEnv.Object);
             });
             var seeder = ApiHost.Server.Services.GetService<ISeedDatabase>();
+
+            await seeder.ResetAsync();
+
+            var stopwatch = Stopwatch.StartNew();
             await seeder.SeedAsync();
+            stopwatch.Stop();
+            Console.WriteLine($"AWS Seed took {stopwatch.Elapsed}");
         }
 
         [TestMethod]
