@@ -31,9 +31,16 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
             _featureCollection = db.Collection(typeof(ProductFeature).Name);
         }
 
-        public Task ResetAsync()
+        public async Task ResetAsync()
         {
-            return Task.CompletedTask;
+            var products = _processFile.Process<ProductItemSeed>(_env.ContentRootPath, "ProductItems",
+                new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
+
+            foreach (var product in products)
+            {
+                DocumentReference docRef = _productItemCollection.Document(product.Id.ToString());
+                await docRef.DeleteAsync();
+            }
         }
 
         public async Task SeedAsync()
@@ -46,15 +53,16 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
                 new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
 
             var productItems = ProductItemExtensions.Join(products, brands, types, features, tags);
-            foreach (var prodItem in productItems)
+            foreach (var productItem in productItems)
             {
-                await AddDocumentIfNeeded(_productItemCollection, prodItem);
+                await AddDocumentIfNeeded(_productItemCollection, productItem);
             }
         }
 
         private static async Task AddDocumentIfNeeded(CollectionReference collection, ProductItem item)
         {
-            var docResult = await collection.Select("Id").WhereEqualTo("Id", item.ProductItemId).GetSnapshotAsync();
+            var docResult = await collection.Select(nameof(ProductItem.ProductItemId))
+                .WhereEqualTo(nameof(ProductItem.ProductItemId), item.ProductItemId).GetSnapshotAsync();
             if (docResult.Count == 0)
             {
                 var doc = await collection.AddAsync(item);
