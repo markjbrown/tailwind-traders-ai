@@ -29,7 +29,12 @@ namespace Tailwind.Traders.Product.Api.Tests
         [TestMethod]
         public async Task TestAzureSeeder()
         {
-            Initialize("AZURE", services =>
+            await TestDatabaseSeed("AZURE");
+        }
+
+        private async Task TestDatabaseSeed(string CloudPlatform)
+        {
+            Initialize(CloudPlatform, services =>
             {
                 services.AddScoped<IWebHostEnvironment>(w => _mockWebHostEnv.Object);
             });
@@ -40,35 +45,19 @@ namespace Tailwind.Traders.Product.Api.Tests
             var stopwatch = Stopwatch.StartNew();
             await seeder.SeedAsync();
             stopwatch.Stop();
-            Console.WriteLine($"AZURE Seed took {stopwatch.Elapsed}");
+            Console.WriteLine($"{CloudPlatform} Seed took {stopwatch.Elapsed}");
         }
 
         [TestMethod]
         public async Task TestAwsSeeder()
         {
-            Initialize("AWS", services =>
-            {
-                services.AddScoped<IWebHostEnvironment>(w => _mockWebHostEnv.Object);
-            });
-            var seeder = ApiHost.Server.Services.GetService<ISeedDatabase>();
-
-            await seeder.ResetAsync();
-
-            var stopwatch = Stopwatch.StartNew();
-            await seeder.SeedAsync();
-            stopwatch.Stop();
-            Console.WriteLine($"AWS Seed took {stopwatch.Elapsed}");
+            await TestDatabaseSeed("AWS");
         }
 
         [TestMethod]
         public async Task TestGcpSeeder()
         {
-            Initialize("GCP", services =>
-            {
-                services.AddScoped<IWebHostEnvironment>(w => _mockWebHostEnv.Object);
-            });
-            var seeder = ApiHost.Server.Services.GetService<ISeedDatabase>();
-            await seeder.SeedAsync();
+            await TestDatabaseSeed("GCP");
         }
 
         public string GetRootDirectory(

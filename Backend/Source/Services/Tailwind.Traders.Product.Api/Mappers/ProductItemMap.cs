@@ -7,13 +7,13 @@ namespace Tailwind.Traders.Product.Api.Mappers
     {
         public ProductItemMap()
         {
-            Map(p => p.Id);
+            Map(p => p.ProductItemId);
             Map(p => p.Name);
             Map(p => p.Price);
             Map(p => p.ImageName);
-            Map(p => p.BrandId);
-            Map(p => p.TypeId);
-            Map(p => p.TagId);
+            Map(p => p.BrandName);
+            Map(p => p.Type);
+            Map(p => p.Tags);
         }
     }
 }

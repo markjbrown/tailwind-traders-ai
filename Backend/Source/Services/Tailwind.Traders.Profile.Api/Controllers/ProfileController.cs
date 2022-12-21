@@ -29,7 +29,7 @@ namespace Tailwind.Traders.Profile.Api.Controllers
 
         // GET v1/profile
         [HttpGet]
-        [ProducesResponseType(typeof(List<Profiles>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<Models.Profile>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NoContent)]
         public async Task<IActionResult> GetAllProfiles()
         {
@@ -45,7 +45,7 @@ namespace Tailwind.Traders.Profile.Api.Controllers
 
         // GET v1/profile/me
         [HttpGet("me")]
-        [ProducesResponseType(typeof(List<Profiles>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<Models.Profile>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetProfile()
         {
@@ -63,7 +63,7 @@ namespace Tailwind.Traders.Profile.Api.Controllers
 
         // POST v1/profile
         [HttpPost]
-        [ProducesResponseType(typeof(List<Profiles>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<Models.Profile>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post([FromBody] CreateUser user)
         {

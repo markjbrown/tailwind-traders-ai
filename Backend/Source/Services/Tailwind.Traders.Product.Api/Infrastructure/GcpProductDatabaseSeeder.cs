@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
+using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
@@ -26,56 +27,42 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 
             // getting collections
             _productItemCollection = db.Collection(typeof(ProductItem).Name);
-            _brandCollection = db.Collection(typeof(ProductBrand).Name);
             _typeCollection = db.Collection(typeof(ProductType).Name);
-            _tagCollection = db.Collection(typeof(ProductTag).Name);
             _featureCollection = db.Collection(typeof(ProductFeature).Name);
         }
 
-        public Task ResetAsync()
+        public async Task ResetAsync()
         {
-            return Task.CompletedTask;
+            var products = _processFile.Process<ProductItemSeed>(_env.ContentRootPath, "ProductItems",
+                new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
+
+            foreach (var product in products)
+            {
+                DocumentReference docRef = _productItemCollection.Document(product.Id.ToString());
+                await docRef.DeleteAsync();
+            }
         }
 
         public async Task SeedAsync()
         {
-            var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
-            var types = _processFile.Process<ProductType>(_env.ContentRootPath, "ProductTypes");
-            var features = _processFile.Process<ProductFeature>(_env.ContentRootPath, "ProductFeatures");
-            var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", 
+            var brands = _processFile.Process<ProductBrandSeed>(_env.ContentRootPath, "ProductBrands");
+            var types = _processFile.Process<ProductTypeSeed>(_env.ContentRootPath, "ProductTypes");
+            var features = _processFile.Process<ProductFeatureSeed>(_env.ContentRootPath, "ProductFeatures");
+            var tags = _processFile.Process<ProductTagSeed>(_env.ContentRootPath, "ProductTags");
+            var products = _processFile.Process<ProductItemSeed>(_env.ContentRootPath, "ProductItems",
                 new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
-            var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
 
-            foreach (var prodBrand in brands)
+            var productItems = ProductItemExtensions.Join(products, brands, types, features, tags);
+            foreach (var productItem in productItems)
             {
-                await AddDocumentIfNeeded(_brandCollection, prodBrand);
+                await AddDocumentIfNeeded(_productItemCollection, productItem);
             }
-
-            foreach (var prodType in types)
-            {
-                await AddDocumentIfNeeded(_typeCollection, prodType);
-            }
-
-            foreach (var prodFeature in features)
-            {
-                await AddDocumentIfNeeded(_featureCollection, prodFeature);
-            }
-
-            foreach (var prodTag in tags)
-            {
-                await AddDocumentIfNeeded(_tagCollection, prodTag);
-            }
-
-            foreach (var prodItem in products)
-            {
-                await AddDocumentIfNeeded(_productItemCollection, prodItem);
-            }
-
         }
 
-        private static async Task AddDocumentIfNeeded(CollectionReference collection, IHaveId item)
+        private static async Task AddDocumentIfNeeded(CollectionReference collection, ProductItem item)
         {
-            var docResult = await collection.Select("Id").WhereEqualTo("Id", item.Id).GetSnapshotAsync();
+            var docResult = await collection.Select(nameof(ProductItem.ProductItemId))
+                .WhereEqualTo(nameof(ProductItem.ProductItemId), item.ProductItemId).GetSnapshotAsync();
             if (docResult.Count == 0)
             {
                 var doc = await collection.AddAsync(item);

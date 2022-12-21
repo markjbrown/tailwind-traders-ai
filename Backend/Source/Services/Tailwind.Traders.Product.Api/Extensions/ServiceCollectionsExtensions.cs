@@ -30,11 +30,8 @@ namespace Tailwind.Traders.Product.Api.Extensions
         public static IServiceCollection AddModulesProducts(this IServiceCollection service, IConfiguration configuration)
         {
             service.AddTransient<IProcessFile, ProccessCsv>()
-                .AddTransient<ClassMap, ProductBrandMap>()
                 .AddTransient<ClassMap, ProductFeatureMap>()
                 .AddTransient<ClassMap, ProductItemMap>()
-                .AddTransient<ClassMap, ProductTypeMap>()
-                .AddTransient<ClassMap, ProductTagMap>()
                 .AddTransient<MapperDtos>();
 
             string env = configuration["CLOUD_PLATFORM"];
@@ -61,7 +58,6 @@ namespace Tailwind.Traders.Product.Api.Extensions
             }
 
             service.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
 
             return service;
         }

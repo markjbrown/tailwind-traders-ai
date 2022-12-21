@@ -1,33 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Tailwind.Traders.Product.Api.Mappers;
 using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Extensions
 {
     public static class ProductItemExtensions
     {
-        public static void Join(this IEnumerable<ProductItem> productItems,
-            IEnumerable<ProductBrand> productBrands,
-            IEnumerable<ProductType> productTypes,
-            IEnumerable<ProductFeature> productFeatures,
-            IEnumerable<ProductTag> tags)
+        public static IEnumerable<ProductItem> Join(this IEnumerable<ProductItemSeed> productItems,
+            IEnumerable<ProductBrandSeed> productBrands,
+            IEnumerable<ProductTypeSeed> productTypes,
+            IEnumerable<ProductFeatureSeed> productFeatures,
+            IEnumerable<ProductTagSeed> tags)
         {
-            foreach (var productItem in productItems)
+            return productItems.Select(item =>
             {
-                productItem.Brand = productBrands.FirstOrDefault(brand => brand.Id == productItem.BrandId);
-                productItem.Type = productTypes.FirstOrDefault(type => type.Id == productItem.TypeId);
-                productItem.Features = productFeatures.Where(feature => feature.ProductItemId == productItem.Id)
-                    .OrderBy(f => f.Id)
+                var productItem = item.ToProductItem();
+                productItem.BrandName = productBrands.SingleOrDefault(brand => brand.Id == item.BrandId)?.Name;
+                productItem.Type = productTypes.SingleOrDefault(type => type.Id == item.TypeId)?.ToProductType();
+                productItem.Features = productFeatures
+                    .Where(feature => feature.ProductItemId == item.Id)
+                    .Select(seed => seed.ToProductFeature())
                     .ToList();
-                if (productItem.TagId != null)
+                if (item.TagId != null)
                 {
-                    productItem.Tag = tags.SingleOrDefault(t => t.Id == productItem.TagId);
+                    productItem.Tags = new[]
+                    {
+                        tags.SingleOrDefault(t => t.Id == item.TagId).Value
+                    };
                 }
-                else
-                {
-                    productItem.TagId = null;
-                }
-            }
+                return productItem;
+            });
         }
     }
 }

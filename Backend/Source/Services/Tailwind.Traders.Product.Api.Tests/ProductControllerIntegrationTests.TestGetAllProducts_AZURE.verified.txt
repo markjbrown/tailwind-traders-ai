@@ -4,38 +4,29 @@
     name: Microwave 0.9 Cu. Ft. 900 W,
     price: 100.0,
     imageUrl: /10446729.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 1,
       code: homeappliances,
       name: Home Appliances
     },
     features: [
       {
-        id: 1,
         title: 20 Litre,
         description: Create delicious meals with this 800 W manual microwave with a 20 Litre capacity
       },
       {
-        id: 2,
         title: Multipower,
         description: Six power levels including a defrost setting offers variety for your cooking requirements
       },
       {
-        id: 3,
         title: 3 years guarantee,
         description: 3 years guarantee
       },
       {
-        id: 4,
         title: Key features,
         description: 20Litre capacity (0.7cu.ft) 800W microwave output 11 microwave power levels 99min timer Cooking end signal Auto cook menus Defrost setting Glass turntable Mirror door
       },
       {
-        id: 5,
         title: Triple Distribution System,
         description: Meaning a more even and effective distribution of heat. Easytronics dial control
       }
@@ -46,28 +37,21 @@
     name: Refrigerator 1.7 cu. ft. 110 watts,
     price: 200.0,
     imageUrl: /24640268.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 1,
       code: homeappliances,
       name: Home Appliances
     },
     features: [
       {
-        id: 6,
         title: Low Noise,
         description: Thermoelectric technology is almost silent, so your kitchen stays quiet
       },
       {
-        id: 7,
         title: Stylish,
         description: Stylish American Style, Side by side Fridge freezer with energy rating A+
       },
       {
-        id: 8,
         title: Great capacity,
         description: 510 litre capacity - holds 28 bags of food shopping
       }
@@ -78,23 +62,17 @@
     name: Oven 900 W,
     price: 300.0,
     imageUrl: /26881473.jpg,
-    brand: {
-      id: 4,
-      name: Drills Co
-    },
+    brandName: Drills Co,
     type: {
-      id: 1,
       code: homeappliances,
       name: Home Appliances
     },
     features: [
       {
-        id: 9,
         title: Double Hotplate,
         description: Enjoy the bonus feature of including 2 ceramic hotplates, which are positioned on the top of the mini oven and are suitable for use with any kind of pot, pan, and frying pan for boiling, steaming, warming, or frying.
       },
       {
-        id: 10,
         title: 2-year warranty,
         description: Shop with confidence. Your Oven with is covered by a 2 year manufacturer's warranty
       }
@@ -105,23 +83,17 @@
     name: Washing machine 1200rpm,
     price: 400.0,
     imageUrl: /31000074.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 1,
       code: homeappliances,
       name: Home Appliances
     },
     features: [
       {
-        id: 11,
         title: 9k capacity,
         description: 9kg drum capacity 
       },
       {
-        id: 12,
         title: A+++,
         description: A+++ energy rating
       }
@@ -132,23 +104,17 @@
     name: Washing machine 900rpm,
     price: 300.0,
     imageUrl: /31285507.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 1,
       code: homeappliances,
       name: Home Appliances
     },
     features: [
       {
-        id: 13,
         title: 1600rpm,
         description: 1600rpm max spin speed 
       },
       {
-        id: 14,
         title: 15 wash programmes ,
         description: 15 wash programmes 
       }
@@ -159,28 +125,21 @@
     name: Kitchen stoves ,
     price: 1400.0,
     imageUrl: /33641114.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 1,
       code: homeappliances,
       name: Home Appliances
     },
     features: [
       {
-        id: 15,
         title: Silver,
         description: Colour Silver 
       },
       {
-        id: 16,
         title: Eco-Friendly ,
         description: Eco-Friendly 
       },
       {
-        id: 17,
         title: Size,
         description: Approx. 27x27cm
       }
@@ -191,18 +150,13 @@
     name: Refrigerator ft. 90 watts,
     price: 400.0,
     imageUrl: /45808024.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 1,
       code: homeappliances,
       name: Home Appliances
     },
     features: [
       {
-        id: 18,
         title: Capacity,
         description: 141 Litres Fridge Capacity
       }
@@ -213,18 +167,13 @@
     name: One Handle Stainless Steel Pull Out Kitchen Faucet,
     price: 20.0,
     imageUrl: /47090355.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 1,
       code: homeappliances,
       name: Home Appliances
     },
     features: [
       {
-        id: 19,
         title: Interface,
         description:  inlet: G1 / 2, outlet: G1 / 4.
       }
@@ -235,18 +184,13 @@
     name: Bathing System Classic 18 in. H x 60 in. W x 32.5,
     price: 200.0,
     imageUrl: /12330912.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 2,
       code: sink,
       name: Sink
     },
     features: [
       {
-        id: 20,
         title: Leakproof,
         description: The shower arm diverter is made by top premium brass with disc cartridge for leakproof and durability warranty
       }
@@ -257,23 +201,17 @@
     name: Showerhead 1.75 gpm,
     price: 40.0,
     imageUrl: /12866014.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 2,
       code: sink,
       name: Sink
     },
     features: [
       {
-        id: 21,
         title: Pinhole,
         description: The pinhole is out of the water, the water is slender and soft, and there is no pain in the body. 
       },
       {
-        id: 22,
         title: Interface,
         description: The interface is suitable for most home use, hoses, showers, and interfaces are 2cm in diameter. It is suitable for all types of water heaters. 
       }
@@ -284,28 +222,21 @@
     name: Toilet 1.28 gal.,
     price: 180.0,
     imageUrl: /20155731.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 2,
       code: sink,
       name: Sink
     },
     features: [
       {
-        id: 23,
         title: Portable battery,
         description: Battery powered portable bidet (rechargeable) can be taken anywhere 
       },
       {
-        id: 24,
         title: 10 wash cycles,
         description: Minimum 50 wash cycles between charge & 10 wash cycles per 1.5 litre reservoir 
       },
       {
-        id: 25,
         title: Remote handset,
         description: Operates from a simple remote handset 
       }
@@ -316,23 +247,17 @@
     name: Black Bathing System Classic 18 in. H x 60 in. W x 32.5,
     price: 250.0,
     imageUrl: /24547395.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 2,
       code: sink,
       name: Sink
     },
     features: [
       {
-        id: 26,
         title: Multifunction,
         description: Not only ideal for dog shower in bathroom, but also can be used as handheld bidet for personal hygiene etc. 
       },
       {
-        id: 27,
         title: Handheld dog shower,
         description: Comes with handheld dog shower sprayer head, hand shower arm diverter
       }
@@ -343,28 +268,21 @@
     name: Bathroom Sink Faucet Waterfall,
     price: 175.0,
     imageUrl: /25200686.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 2,
       code: sink,
       name: Sink
     },
     features: [
       {
-        id: 28,
         title: Single and double tap,
         description: Single tap type and double tap type available, fit for most of standard taps. 
       },
       {
-        id: 29,
         title: Pet washing,
         description: Can be used for pet washing, help you to take care of your cat or dog at ease and keep them clean.
       },
       {
-        id: 30,
         title: Light weight,
         description: Light weight, soft and flexible, easy to install and convenient to use. 
       }
@@ -375,23 +293,17 @@
     name: Bathroom Sink Faucet,
     price: 99.0,
     imageUrl: /40193368.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 2,
       code: sink,
       name: Sink
     },
     features: [
       {
-        id: 31,
         title: Chrome finished,
         description: Chrome finish to create a bright, highly reflective, guaranteed not to tarnish or corrode Bathroom Sink faucet 
       },
       {
-        id: 32,
         title: Ceramic disc,
         description: Ceramic disc cartridge for smooth and long lasting operation bathtub sink faucet 
       }
@@ -402,23 +314,17 @@
     name: Bathroom Sink Faucet Classic,
     price: 100.0,
     imageUrl: /40887643.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 2,
       code: sink,
       name: Sink
     },
     features: [
       {
-        id: 33,
         title: Single handle,
         description: Single handle easy control of hot and cold water, Single hole easy installation basin mixer tap 
       },
       {
-        id: 34,
         title: Durable,
         description: Durable lead-free solid brass construction. waterfall widespread vintage style bathroom vessel sink mixer tap, tall body 
       }
@@ -429,18 +335,13 @@
     name: Showerhead 1.20 gpm,
     price: 125.0,
     imageUrl: /46028385.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 2,
       code: sink,
       name: Sink
     },
     features: [
       {
-        id: 35,
         title: Chrome finished,
         description: This universal bath shower head is made of high grade ABS. Chrome finish 
       }
@@ -451,18 +352,13 @@
     name: Blend Solid White Sheer Curtains,
     price: 110.0,
     imageUrl: /13778772.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 3,
       code: home,
       name: Home
     },
     features: [
       {
-        id: 36,
         title: Ready made,
         description: Two Panels Per Package, Each panel measures 117 x 138cm Drop, Inner Diameter of the Each Ring Measures 4cm. 
       }
@@ -473,18 +369,13 @@
     name: Door Hardware Kit Single Door,
     price: 120.0,
     imageUrl: /17031875.jpg,
-    brand: {
-      id: 4,
-      name: Drills Co
-    },
+    brandName: Drills Co,
     type: {
-      id: 3,
       code: home,
       name: Home
     },
     features: [
       {
-        id: 37,
         title: Only hardware,
         description: Only Hardware is sold, the door is not included. 
       }
@@ -495,18 +386,13 @@
     name: White Sheer Curtains,
     price: 105.0,
     imageUrl: /27367695.jpg,
-    brand: {
-      id: 4,
-      name: Drills Co
-    },
+    brandName: Drills Co,
     type: {
-      id: 3,
       code: home,
       name: Home
     },
     features: [
       {
-        id: 38,
         title: Thermal curtains,
         description: These thermal blackout curtains are made of 100 percent polyester and are imported. 
       }
@@ -517,18 +403,13 @@
     name: White Window,
     price: 120.0,
     imageUrl: /34744564.jpg,
-    brand: {
-      id: 4,
-      name: Drills Co
-    },
+    brandName: Drills Co,
     type: {
-      id: 3,
       code: home,
       name: Home
     },
     features: [
       {
-        id: 39,
         title: 3 Year Guarantee ,
         description: 3 Year Guarantee 
       }
@@ -539,23 +420,17 @@
     name: Curtain Rod 48 in,
     price: 25.0,
     imageUrl: /35268457.jpg,
-    brand: {
-      id: 4,
-      name: Drills Co
-    },
+    brandName: Drills Co,
     type: {
-      id: 3,
       code: home,
       name: Home
     },
     features: [
       {
-        id: 40,
         title: Telescoping rod,
         description: Telescoping double rod has a 3/4-inch diameter front rod and 5/8-inch diameter back rod, and is available in 3 sizes to accommodate most windows 
       },
       {
-        id: 41,
         title: Easy setup,
         description: Your Twilight double curtain rod comes with everything you need to get set up quickly and doesn't require a curtain rod bracket
       }
@@ -566,18 +441,13 @@
     name: Steel Passage Door Knob,
     price: 10.0,
     imageUrl: /39689828.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 3,
       code: home,
       name: Home
     },
     features: [
       {
-        id: 42,
         title: Brushed steel,
         description: Brushed Stainless Steel Door Knob Handle Passage Entrance Privacy Thumb Lock 
       }
@@ -588,23 +458,17 @@
     name: White Door,
     price: 123.0,
     imageUrl: /40505435.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 3,
       code: home,
       name: Home
     },
     features: [
       {
-        id: 43,
         title: Woodgrain effect ,
         description: Woodgrain effect 
       },
       {
-        id: 44,
         title: Primed finish-ready,
         description: Primed finish-ready to paint
       }
@@ -615,23 +479,17 @@
     name: White Window Wood,
     price: 230.0,
     imageUrl: /46655256.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 3,
       code: home,
       name: Home
     },
     features: [
       {
-        id: 45,
         title: Real wood,
         description: Natural real wood venetian blinds 
       },
       {
-        id: 46,
         title: Metal brackets,
         description: Metal brackets that can be top, side or face fixed 
       }
@@ -642,18 +500,13 @@
     name: Indoor Kit Gardering,
     price: 70.0,
     imageUrl: /9470575.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     },
     features: [
       {
-        id: 47,
         title: 9 plants size,
         description: Up to 9 plants can be grown at a time. Plants grow in water, not soil. Advanced hydroponics made simple, Enjoy plants all year round. Grow fresh herbs, vegetables, salad leaves, flowers and more in this smart indoor garden 
       }
@@ -664,18 +517,13 @@
     name: Craftsman 100 ft. L x 5/8 in.,
     price: 100.0,
     imageUrl: /12598356.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     },
     features: [
       {
-        id: 48,
         title: Wood material,
         description: Wood material
       }
@@ -686,18 +534,13 @@
     name: Metal Watering Can,
     price: 20.0,
     imageUrl: /12902526.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     },
     features: [
       {
-        id: 49,
         title: Galvanised steel ,
         description: Durable galvanised steel 
       }
@@ -708,18 +551,13 @@
     name: Steel Contractor Wheelbarrow,
     price: 100.0,
     imageUrl: /13894399.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     },
     features: [
       {
-        id: 50,
         title: 85L capacity,
         description: Capacity: 85 Litres / 120 Kgs 
       }
@@ -730,18 +568,13 @@
     name: Craftsman 21 in. W 140,
     price: 200.0,
     imageUrl: /15365639.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     },
     features: [
       {
-        id: 51,
         title: Tissue holder ,
         description: Tissue holder 
       }
@@ -752,18 +585,13 @@
     name: Gardering,
     price: 10.0,
     imageUrl: /29201547.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     },
     features: [
       {
-        id: 52,
         title: Stainless fork,
         description: Stainless Steel Weed Fork with 40-Inch Handle 
       }
@@ -774,23 +602,17 @@
     name: Celebrations C9,
     price: 10.0,
     imageUrl: /16658158.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 5,
       code: decor,
       name: Decor
     },
     features: [
       {
-        id: 53,
         title: 22cm high,
         description: Stands approx. 22cm high 
       },
       {
-        id: 54,
         title: Tree pack,
         description: Christmas tree pack
       }
@@ -801,23 +623,17 @@
     name: Artificial Tree,
     price: 250.0,
     imageUrl: /23073793.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 5,
       code: decor,
       name: Decor
     },
     features: [
       {
-        id: 55,
         title: 6 feet tall,
         description: 6 feet tall Christmas Tree in plain green with 1000 tips, pvc material is suitable for both outdoor and indoor using. 
       },
       {
-        id: 56,
         title: Foldable base,
         description: Designed with a durable metal body to use season after season, plus a foldable base for easy assembly. 
       }
@@ -828,18 +644,13 @@
     name: Celebrations C8,
     price: 5.0,
     imageUrl: /23536846.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 5,
       code: decor,
       name: Decor
     },
     features: [
       {
-        id: 57,
         title: Material,
         description: Green plastic
       }
@@ -850,18 +661,13 @@
     name: Artificial Tree Big,
     price: 300.0,
     imageUrl: /23980448.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 5,
       code: decor,
       name: Decor
     },
     features: [
       {
-        id: 58,
         title: 9 feet tall,
         description: 9 feet tall Christmas tree
       }
@@ -872,23 +678,17 @@
     name: Wood Pack,
     price: 30.0,
     imageUrl: /31434677.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 5,
       code: decor,
       name: Decor
     },
     features: [
       {
-        id: 59,
         title: Natural pine,
         description: Our natural wood slices are made of natural pine wood with barks and clearly visible wood grain.
       },
       {
-        id: 60,
         title: High-quality,
         description: Our wood slices were drying, slicing, and picking out high-quality wood chips
       }
@@ -899,23 +699,17 @@
     name: Wood Table,
     price: 395.0,
     imageUrl: /19806834.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 6,
       code: kitchen,
       name: Kitchen Accessories
     },
     features: [
       {
-        id: 61,
         title: Dining table,
         description: A solid oak rectangular dining table in a durable oiled finish 
       },
       {
-        id: 62,
         title: Dimensions,
         description: Dimensions (D x W x H): 118 x 75 x 75 cm 
       }
@@ -926,18 +720,13 @@
     name: Kitchen Stoves,
     price: 85.0,
     imageUrl: /27227580.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 6,
       code: kitchen,
       name: Kitchen Accessories
     },
     features: [
       {
-        id: 63,
         title: Folding foot,
         description: Folding foot, Piezo ignition, wind shield 
       }
@@ -948,18 +737,13 @@
     name: Kit Metal Casseroles,
     price: 125.0,
     imageUrl: /43229847.jpg,
-    brand: {
-      id: 4,
-      name: Drills Co
-    },
+    brandName: Drills Co,
     type: {
-      id: 6,
       code: kitchen,
       name: Kitchen Accessories
     },
     features: [
       {
-        id: 64,
         title: Double ceramic coating,
         description: Double ceramic coating, aluminium cookware set 
       }
@@ -970,18 +754,13 @@
     name: Coffee Maker Red,
     price: 200.0,
     imageUrl: /52076809.jpg,
-    brand: {
-      id: 4,
-      name: Drills Co
-    },
+    brandName: Drills Co,
     type: {
-      id: 6,
       code: kitchen,
       name: Kitchen Accessories
     },
     features: [
       {
-        id: 65,
         title: Stylish machine,
         description: Stylish bean-to-cup espresso/cappuccino machine with professional 15-bar pump pressure
       }
@@ -992,18 +771,13 @@
     name: Extractor Steal,
     price: 135.0,
     imageUrl: /102013777.jpg,
-    brand: {
-      id: 4,
-      name: Drills Co
-    },
+    brandName: Drills Co,
     type: {
-      id: 6,
       code: kitchen,
       name: Kitchen Accessories
     },
     features: [
       {
-        id: 66,
         title: Ventilation mode,
         description: Recirculation inside your kitchen with the use of carbon filters.
       }
@@ -1014,18 +788,13 @@
     name: Wooden Commode,
     price: 50.0,
     imageUrl: /21610747.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 67,
         title: Small commode,
         description: Upholstered commode chair is small, easier to move around the patient's room, at home or in clinical setting.
       }
@@ -1036,18 +805,13 @@
     name: Metal Shelving,
     price: 90.0,
     imageUrl: /39696958.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 68,
         title: Easy setup,
         description: Provided with detailed instructions, the cubes are easy to assemble; and can be installed on the wall seamlessly with the screws and cloaking metal plates 
       }
@@ -1058,18 +822,13 @@
     name: Big Metal Shelving,
     price: 99.0,
     imageUrl: /49460165.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 69,
         title: Large bay size,
         description: 1500mm High x 700mm Wide x 300mm Deep and capable of holding 180kg per shelf 
       }
@@ -1080,18 +839,13 @@
     name: Wooden Wardrobe,
     price: 120.0,
     imageUrl: /51716553.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 70,
         title: Modern design,
         description: Wood-patterned closed doors and walls
       }
@@ -1102,18 +856,13 @@
     name: Wooden Saw,
     price: 145.0,
     imageUrl: /11143240.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 71,
         title: High carbon steel blade,
         description: High carbon steel blade for use in hard-to-reach areas 
       }
@@ -1124,18 +873,13 @@
     name: Measuring Tape,
     price: 123.0,
     imageUrl: /13168288.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 72,
         title: Tylon blade coating,
         description: Tylon blade coating gives durability and wear resistance than lacquer
       }
@@ -1146,18 +890,13 @@
     name: Multi Function Drill,
     price: 159.0,
     imageUrl: /14805480.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 73,
         title: Vibration absorbing handle ,
         description: Vibration absorbing handle 
       }
@@ -1168,23 +907,17 @@
     name: Hammer,
     price: 100.0,
     imageUrl: /19682904.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 74,
         title: Forged black,
         description: Forged black painted head 
       },
       {
-        id: 75,
         title: Polished faces,
         description: Hardened and tempered with polished faces and hardwood shaft 
       }
@@ -1195,18 +928,13 @@
     name: Screwdriver,
     price: 110.0,
     imageUrl: /51109515.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 76,
         title: Chrome vanadium steel ,
         description: Manufactured from chrome vanadium steel 
       }
@@ -1217,18 +945,13 @@
     name: Pliers,
     price: 105.0,
     imageUrl: /85167541.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     },
     features: [
       {
-        id: 77,
         title: Hardened and tempered ,
         description: Carbon steel hardened and tempered 
       }
@@ -1239,12 +962,8 @@
     name: Red multi-tool plier,
     price: 50.0,
     imageUrl: /34312289.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     }
@@ -1254,12 +973,8 @@
     name: Blue multi-tool plier,
     price: 50.0,
     imageUrl: /19595793.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     }
@@ -1269,12 +984,8 @@
     name: Stainless multi-tool plier,
     price: 90.0,
     imageUrl: /35414723.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     }
@@ -1284,12 +995,8 @@
     name: Yellow Rechargeable screwdriver,
     price: 250.0,
     imageUrl: /8704649.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     }
@@ -1299,12 +1006,8 @@
     name: Red Rechargeable screwdriver,
     price: 250.0,
     imageUrl: /6910004.jpg,
-    brand: {
-      id: 1,
-      name: ElctroDrill
-    },
+    brandName: ElctroDrill,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     }
@@ -1314,12 +1017,8 @@
     name: Rechargeable screwdriver with extra battery,
     price: 312.0,
     imageUrl: /63581524.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     }
@@ -1329,12 +1028,8 @@
     name: Yellow hard hat with tool bag pack,
     price: 46.0,
     imageUrl: /59890052.jpg,
-    brand: {
-      id: 3,
-      name: ProSaws
-    },
+    brandName: ProSaws,
     type: {
-      id: 7,
       code: diytools,
       name: DIY tools
     }
@@ -1344,12 +1039,8 @@
     name: Single red garden gnome,
     price: 56.0,
     imageUrl: /6112251.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1359,12 +1050,8 @@
     name: Two red garden gnomes,
     price: 92.0,
     imageUrl: /10999322.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1374,12 +1061,8 @@
     name: One sat gnome,
     price: 34.0,
     imageUrl: /24639790.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1389,12 +1072,8 @@
     name: One sat on shoe gnome,
     price: 54.0,
     imageUrl: /24639792.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1404,12 +1083,8 @@
     name: One barrow gnome,
     price: 29.0,
     imageUrl: /34369812.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1419,12 +1094,8 @@
     name: One glasses gnome,
     price: 54.0,
     imageUrl: /34369851.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1434,12 +1105,8 @@
     name: One smiling gnome,
     price: 43.0,
     imageUrl: /38786528.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1449,12 +1116,8 @@
     name: Two singing gnomes,
     price: 65.0,
     imageUrl: /44333595.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1464,12 +1127,8 @@
     name: Two sleeping gnomes,
     price: 32.0,
     imageUrl: /76911883.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1479,12 +1138,8 @@
     name: Seven-pack gnomes,
     price: 250.0,
     imageUrl: /91797131.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1494,12 +1149,8 @@
     name: One afraid gnome,
     price: 39.0,
     imageUrl: /106662449.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1509,12 +1160,8 @@
     name: One welcome gnome,
     price: 28.0,
     imageUrl: /106906828.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }
@@ -1524,12 +1171,8 @@
     name: Two smiling gnomes,
     price: 76.0,
     imageUrl: /106906834.jpg,
-    brand: {
-      id: 2,
-      name: Home & Pro tools
-    },
+    brandName: Home & Pro tools,
     type: {
-      id: 4,
       code: gardening,
       name: Gardening
     }

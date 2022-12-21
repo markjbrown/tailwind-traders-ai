@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
 using System.Linq;
 using System.Threading.Tasks;
-using Tailwind.Traders.Profile.Api.Csv;
-using Tailwind.Traders.Profile.Api.Helpers;
-using Tailwind.Traders.Profile.Api.Models;
 
 namespace Tailwind.Traders.Profile.Api.Infrastructure
 {
@@ -27,7 +23,7 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
             await _profileContext.Database.EnsureCreatedAsync();
             if (!_profileContext.Profiles.ToList().Any())
             {
-                var profiles = _processFile.Process<Profiles>(_env.ContentRootPath, "Profiles");
+                var profiles = _processFile.Process<Models.Profile>(_env.ContentRootPath, "Profiles");
                 await _profileContext.Profiles.AddRangeAsync(profiles);
                 await _profileContext.SaveChangesAsync();
             }

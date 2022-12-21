@@ -11,7 +11,8 @@ namespace Tailwind.Traders.Profile.Api
     {
         public static void Main(string[] args)
         {
-            var webHost = CreateWebHostBuilder(args).Build();
+            var webHost = CreateWebHostBuilder(args)
+                .Build();
 
             using (var scope = webHost.Services.CreateScope())
             {

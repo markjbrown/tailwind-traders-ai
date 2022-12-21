@@ -1,25 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using Google.Cloud.Firestore;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
 
 namespace Tailwind.Traders.Product.Api.Models
 {
     [FirestoreData]
-    public class ProductItem : IHaveId
+    public class ProductItem
     {
         public ProductItem()
         {
-            Features = new HashSet<ProductFeature>();
+            Features = new List<ProductFeature>();
         }
 
-        [BsonId]
-        public ObjectId? _id { get; set; }
-
         [FirestoreProperty]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public int ProductItemId { get; set; }
 
         [FirestoreProperty]
         public string Name { get; set; }
@@ -31,24 +24,15 @@ namespace Tailwind.Traders.Product.Api.Models
         public string ImageName { get; set; }
 
         [FirestoreProperty]
-        public int BrandId {get; set;}
-
-        [FirestoreProperty]
-        public ProductBrand Brand { get; set; }
-
-        [FirestoreProperty]
-        public int TypeId {get; set;}
+        public string BrandName {get; set;}
 
         [FirestoreProperty]
         public ProductType Type { get; set; }
 
         [FirestoreProperty]
-        public int? TagId { get; set; }
+        public IReadOnlyList<string> Tags { get; set; }
 
         [FirestoreProperty]
-        public ProductTag Tag { get; set; }
-
-        [FirestoreProperty]
-        public virtual ICollection<ProductFeature> Features { get; set; }
+        public List<ProductFeature> Features { get; set; }
     }
 }

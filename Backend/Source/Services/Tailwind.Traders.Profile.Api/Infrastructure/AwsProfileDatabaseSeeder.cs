@@ -32,7 +32,7 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
 
         public async Task SeedAsync()
         {
-            var profiles = _processFile.Process<Profiles>(_env.ContentRootPath, "Profiles");
+            var profiles = _processFile.Process<Models.Profile>(_env.ContentRootPath, "Profiles");
 
             Table profileTable = Table.LoadTable(_amazonDynamoDBClient, _appSettings.DynamoDb.ProfileTable);
             foreach (var item in profiles)

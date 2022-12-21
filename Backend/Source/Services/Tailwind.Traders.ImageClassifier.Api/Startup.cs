@@ -75,7 +75,6 @@ namespace Tailwind.Traders.ImageClassifier.Api
 
             services.AddSwaggerGen(options =>
             {
-                options.DescribeAllEnumsAsStrings();
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "Tailwind Traders - Image Classifier API",

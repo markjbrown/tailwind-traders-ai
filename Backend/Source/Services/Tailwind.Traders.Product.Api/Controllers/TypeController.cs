@@ -40,7 +40,7 @@ namespace Tailwind.Traders.Product.Api.Controllers
                 return NoContent();
             }
 
-            return Ok(_mapperDtos.MapperToProductTypeDto(types));
+            return Ok(types);
         }
     }
 }

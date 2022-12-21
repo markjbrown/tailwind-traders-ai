@@ -1,10 +1,14 @@
 ﻿using Amazon;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
+using Amazon.DynamoDBv2.Model;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.AwsClients;
+using Tailwind.Traders.Product.Api.Extensions;
 using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Infrastructure
@@ -15,10 +19,10 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
         private readonly AppSettings _appConfig;
         private readonly AmazonDynamoDBClient _amazonDynamoDBClient;
         private readonly IWebHostEnvironment _env;
-       
 
-        public AwsProductDatabaseSeeder(IProcessFile processFile, 
-            IOptions<AppSettings> options, 
+
+        public AwsProductDatabaseSeeder(IProcessFile processFile,
+            IOptions<AppSettings> options,
             IWebHostEnvironment env,
             AmazonDynamoDbClientFactory factory)
         {
@@ -30,115 +34,59 @@ namespace Tailwind.Traders.Product.Api.Infrastructure
 
         public async Task ResetAsync()
         {
-            var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
-            var types = _processFile.Process<ProductType>(_env.ContentRootPath, "ProductTypes");
-            var features = _processFile.Process<ProductFeature>(_env.ContentRootPath, "ProductFeatures");
             var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems",
                 new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
-            var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
 
             Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductItemTable);
             var productItemBatchWrite = productItemTable.CreateBatchWrite();
             foreach (var item in products)
             {
-                productItemBatchWrite.AddKeyToDelete(item.Id);
+                productItemBatchWrite.AddKeyToDelete(item.ProductItemId);
             }
             await productItemBatchWrite.ExecuteAsync();
-
-            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductBrandTable);
-            var brandBatchWrite = productItemTable.CreateBatchWrite();
-            foreach (var item in brands)
-            {
-                brandBatchWrite.AddKeyToDelete(item.Id);
-            }
-            await brandBatchWrite.ExecuteAsync();
-
-            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductFeatureTable);
-            var featureBatchWrite = productItemTable.CreateBatchWrite();
-            foreach (var item in features)
-            {
-                featureBatchWrite.AddKeyToDelete(item.Id);
-            }
-            await featureBatchWrite.ExecuteAsync();
-
-            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductTypeTable);
-            var typeBatchWrite = productItemTable.CreateBatchWrite();
-            foreach (var item in types)
-            {
-                typeBatchWrite.AddKeyToDelete(item.Id);
-            }
-            await typeBatchWrite.ExecuteAsync();
-
-            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductTagTable);
-            var tagBatchWrite = productItemTable.CreateBatchWrite();
-            foreach (var item in tags)
-            {
-                tagBatchWrite.AddKeyToDelete(item.Id);
-            }
-            await tagBatchWrite.ExecuteAsync();
         }
 
         public async Task SeedAsync()
         {
-            var brands = _processFile.Process<ProductBrand>(_env.ContentRootPath, "ProductBrands");
-            var types = _processFile.Process<ProductType>(_env.ContentRootPath, "ProductTypes");
-            var features = _processFile.Process<ProductFeature>(_env.ContentRootPath, "ProductFeatures");
-            var products = _processFile.Process<ProductItem>(_env.ContentRootPath, "ProductItems", 
+            var brands = _processFile.Process<ProductBrandSeed>(_env.ContentRootPath, "ProductBrands");
+            var types = _processFile.Process<ProductTypeSeed>(_env.ContentRootPath, "ProductTypes");
+            var features = _processFile.Process<ProductFeatureSeed>(_env.ContentRootPath, "ProductFeatures");
+            var tags = _processFile.Process<ProductTagSeed>(_env.ContentRootPath, "ProductTags");
+            var products = _processFile.Process<ProductItemSeed>(_env.ContentRootPath, "ProductItems",
                 new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
-            var tags = _processFile.Process<ProductTag>(_env.ContentRootPath, "ProductTags");
 
-            Table productItemTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductItemTable);
-            foreach (var item in products)
+            var productItems = ProductItemExtensions.Join(products, brands, types, features, tags);
+
+            foreach (var item in productItems)
             {
-                var productItem = new Document();
-                productItem["Id"] = item.Id;
-                productItem["Name"] = item.Name;
-                productItem["BrandId"] = item.BrandId;
-                productItem["TypeId"] = item.TypeId;
-                productItem["TagId"] = item.TagId;
-                productItem["Price"] = item.Price;
-                productItem["ImageName"] = item.ImageName;
-                await productItemTable.PutItemAsync(productItem);
+                var request = new PutItemRequest
+                {
+                    TableName = _appConfig.DynamoDBServiceKey.ProductItemTable,
+                    Item = new System.Collections.Generic.Dictionary<string, AttributeValue>
+                    {
+                        [nameof(ProductItem.ProductItemId)] = new AttributeValue { N = item.ProductItemId.ToString() },
+                        [nameof(ProductItem.Name)] = new AttributeValue(item.Name),
+                        [nameof(ProductItem.BrandName)] = new AttributeValue(item.BrandName),
+                        [nameof(ProductItem.Type)] = ConvertToAttributeValue(item.Type),
+                        [nameof(ProductItem.Tags)] = new AttributeValue { SS = item.Tags.ToList() },
+                        [nameof(ProductItem.ProductItemId)] = new AttributeValue { N = item.Price.ToString() },
+                        [nameof(ProductItem.ProductItemId)] = new AttributeValue(item.ImageName),
+                    }
+                };
+                await _amazonDynamoDBClient.PutItemAsync(request);
             }
 
-            Table brandTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductBrandTable);
-            foreach (var item in brands)
-            {
-                var brandItem = new Document();
-                brandItem["Id"] = item.Id;
-                brandItem["Name"] = item.Name;
-                await brandTable.PutItemAsync(brandItem);
-            }
+        }
 
-            Table featureTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductFeatureTable);
-            foreach (var item in features)
+        private AttributeValue ConvertToAttributeValue(ProductType type)
+        {
+            var value = new AttributeValue();
+            value.M = new System.Collections.Generic.Dictionary<string, AttributeValue>
             {
-                var featureItem = new Document();
-                featureItem["Id"] = item.Id;
-                featureItem["ProductItemId"] = item.ProductItemId;
-                featureItem["Title"] = item.Title;
-                featureItem["Description"] = item.Description;
-                await featureTable.PutItemAsync(featureItem);
-            }
-
-            Table productTypeTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductTypeTable);
-            foreach (var item in types)
-            {
-                var prodcutTypeItem = new Document();
-                prodcutTypeItem["Id"] = item.Id;
-                prodcutTypeItem["Code"] = item.Code;
-                prodcutTypeItem["Name"] = item.Name;
-                await productTypeTable.PutItemAsync(prodcutTypeItem);
-            }
-
-            Table productTagTable = Table.LoadTable(_amazonDynamoDBClient, _appConfig.DynamoDBServiceKey.ProductTagTable);
-            foreach (var item in tags)
-            {
-                var prodcutTagItem = new Document();
-                prodcutTagItem["Id"] = item.Id;
-                prodcutTagItem["Value"] = item.Value;
-                await productTagTable.PutItemAsync(prodcutTagItem);
-            }
+                [nameof(ProductType.Name)] = new AttributeValue(type.Name),
+                [nameof(ProductType.Code)] = new AttributeValue(type.Code),
+            };
+            return value;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Tailwind.Traders.Product.Api.Tests
 
             await TimeMethod(CloudPlatform, "GetAllTypes", 50,
                 (index) => uri,
-                async (response) => await response.VerifyResponseModelAsync<IEnumerable<ProductBrandDto>>());
+                async (response) => await response.VerifyResponseModelAsync<IEnumerable<ProductType>>());
         }
 
         [TestMethod]

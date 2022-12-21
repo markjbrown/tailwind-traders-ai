@@ -34,7 +34,7 @@ namespace Tailwind.Traders.Profile.Api.Repositories
         public async Task<IEnumerable<ProfileDto>> GetAll()
         {
             var profilesSnapshot = await _profilesCollection.GetSnapshotAsync();
-            var profiles = profilesSnapshot.Documents.Select(x => x.ConvertTo<Profiles>()).ToList();
+            var profiles = profilesSnapshot.Documents.Select(x => x.ConvertTo<Models.Profile>()).ToList();
             return profiles.Select(p => p.ToProfileDto(_settings));
         }
 
@@ -42,7 +42,7 @@ namespace Tailwind.Traders.Profile.Api.Repositories
         {
             var profileSnapshot = await _profilesCollection.WhereEqualTo("Email", nameFilter).GetSnapshotAsync();
             var profile = profileSnapshot.Documents
-                .Select(x => x.ConvertTo<Profiles>())
+                .Select(x => x.ConvertTo<Models.Profile>())
                 .SingleOrDefault()
                 .ToProfileDto(_settings);
             return profile;

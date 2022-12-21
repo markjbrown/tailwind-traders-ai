@@ -88,7 +88,7 @@ namespace Tailwind.Traders.Product.Api.Controllers
         [HttpGet("filter")]
         [ProducesResponseType(200)]
         [ProducesResponseType(204)]
-        public async Task<IActionResult> FindProductAsync([FromQuery] int[] brand, [FromQuery] int[] type)
+        public async Task<IActionResult> FindProductAsync([FromQuery] string[] brand, [FromQuery] string[] type)
         {
             var items = await _productItemRepository.FindProductsAsync(brand, type);
 
@@ -116,7 +116,7 @@ namespace Tailwind.Traders.Product.Api.Controllers
 
             var data = items.Select(p => new ClassifiedProductDto()
             {
-                Id = p.Id,
+                Id = p.ProductItemId,
                 ImageUrl = $"{_settings.ProductImagesUrl}/{p.ImageName}",
                 Name = p.Name,
                 Price = p.Price

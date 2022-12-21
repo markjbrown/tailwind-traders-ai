@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Dtos
 {
@@ -12,10 +13,10 @@ namespace Tailwind.Traders.Product.Api.Dtos
 
         public string ImageUrl { get; set; }
 
-        public ProductBrandDto Brand { get; set; }
+        public string BrandName { get; set; }
 
-        public ProductTypeDto Type { get; set; }
+        public ProductType Type { get; set; }
 
-        public IEnumerable<ProductFeatureDto> Features { get; set; }
+        public IEnumerable<ProductFeature> Features { get; set; }
     }
 }

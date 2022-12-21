@@ -27,7 +27,7 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
 
         public async Task SeedAsync()
         {
-            var profiles = _processFile.Process<Profiles>(_env.ContentRootPath, "Profiles");
+            var profiles = _processFile.Process<Models.Profile>(_env.ContentRootPath, "Profiles");
 
             foreach (var profile in profiles)
             {
@@ -35,7 +35,7 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
             }
         }
 
-        private static async Task AddDocumentIfNeeded(CollectionReference collection, Profiles profile)
+        private static async Task AddDocumentIfNeeded(CollectionReference collection, Models.Profile profile)
         {
             var docResult = await collection.Select("Email").WhereEqualTo("Email", profile.Email).GetSnapshotAsync();
             if (docResult.Count == 0)
