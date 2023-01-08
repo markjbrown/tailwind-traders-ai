@@ -1,6 +1,18 @@
 ﻿[
-  Drills Co,
-  ElctroDrill,
-  Home & Pro tools,
-  ProSaws
+  {
+    code: null,
+    name: Drills Co
+  },
+  {
+    code: null,
+    name: ElctroDrill
+  },
+  {
+    code: null,
+    name: Home & Pro tools
+  },
+  {
+    code: null,
+    name: ProSaws
+  }
 ]

@@ -141,17 +141,14 @@ namespace Tailwind.Traders.WebBff.Controllers
         // GET: v1/products
         [HttpGet()]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetProducts([FromQuery] int[] brand = null, [FromQuery] string[] type = null)
+        public async Task<IActionResult> GetProducts([FromQuery] string[] brand = null, [FromQuery] string[] type = null)
         {
             var client = _httpClientFactory.CreateClient(HttpClients.ApiGW);
 
             var result = await client.GetStringAsync(API.Products.GetTypes(_settings.ProductsApiUrl, VERSION_API));
             var types = JsonConvert.DeserializeObject<IEnumerable<ProductType>>(result);
-
-            var selectedTypeIds = types.Where(t => type.Contains(t.Code)).Select(t => t.Id).ToArray();
-
             var productsUrl = brand?.Count() > 0 || type?.Count() > 0 ?
-                API.Products.GetProductsByFilter(_settings.ProductsApiUrl, VERSION_API, brand, selectedTypeIds) :
+                API.Products.GetProductsByFilter(_settings.ProductsApiUrl, VERSION_API, brand, type) :
                 API.Products.GetProducts(_settings.ProductsApiUrl, VERSION_API);
 
             var resultProducts = await client.GetAsync(productsUrl);
@@ -159,7 +156,7 @@ namespace Tailwind.Traders.WebBff.Controllers
             var products = JsonConvert.DeserializeObject<IEnumerable<Product>>(result);
 
             result = await client.GetStringAsync(API.Products.GetBrands(_settings.ProductsApiUrl, VERSION_API));
-            var brands = JsonConvert.DeserializeObject<IEnumerable<ProductBrand>>(result);
+            var brands = JsonConvert.DeserializeObject<ProductBrand[]>(result);
 
             var aggresponse = new
             {

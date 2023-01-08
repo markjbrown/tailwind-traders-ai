@@ -60,11 +60,11 @@ namespace Tailwind.Traders.Product.Api.Repositories
             return items;
         }
 
-        public async Task<List<string>> GetAllBrandsAsync()
+        public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
             var productsSnapshot = await _productItemCollection.GetSnapshotAsync();
             var brands = productsSnapshot.Documents
-                .Select(x => x.GetValue<string>(nameof(ProductItem.BrandName)))
+                .Select(item => new ProductBrand { Name = item.GetValue<string>(nameof(ProductItem.BrandName)) })
                 .Distinct().ToList();
             return brands;
         }

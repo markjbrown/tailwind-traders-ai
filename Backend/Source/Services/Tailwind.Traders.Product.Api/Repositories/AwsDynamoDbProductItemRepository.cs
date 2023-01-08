@@ -47,10 +47,11 @@ namespace Tailwind.Traders.Product.Api.Repositories
             items = items.Take(_take).ToList();
             return items;
         }
-        public async Task<List<string>> GetAllBrandsAsync()
+        public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
             var items = await DynomoDbService.GetProductItemsAsync(_amazonDynamoDBClient, _appSettings.DynamoDBServiceKey.ProductBrandTable);
-            return items.Select(item => item.BrandName).Distinct().ToList();
+            return items.Select(item => new ProductBrand { Name = item.BrandName })
+                .Distinct().ToList();
         }
 
         public async Task<List<ProductItem>> GetAllProductsAsync()

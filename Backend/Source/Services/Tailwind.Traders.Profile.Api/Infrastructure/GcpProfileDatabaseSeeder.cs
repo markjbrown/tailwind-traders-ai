@@ -25,6 +25,18 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
             _profileCollection = db.Collection("Profiles");
         }
 
+        public async Task ResetAsync()
+        {
+            var profiles = _processFile.Process<Models.Profile>(_env.ContentRootPath, "Profiles",
+                new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
+
+            foreach (var profile in profiles)
+            {
+                DocumentReference docRef = _profileCollection.Document(profile.Email.ToString());
+                await docRef.DeleteAsync();
+            }
+        }
+
         public async Task SeedAsync()
         {
             var profiles = _processFile.Process<Models.Profile>(_env.ContentRootPath, "Profiles");

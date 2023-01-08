@@ -31,7 +31,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
             _productFeature = db.GetCollection<ProductFeature>(_featureCollection);
         }
 
-        public async Task<List<Models.ProductItem>> FindProductsAsync(string[] brands, string[] types)
+        public async Task<List<ProductItem>> FindProductsAsync(string[] brands, string[] types)
         {
             var items = await _productItem.FindAsync(item => brands.Contains(item.BrandName) || types.Contains(item.Type.Name))?.Result?.ToListAsync();
             return items;
@@ -70,13 +70,14 @@ namespace Tailwind.Traders.Product.Api.Repositories
             return items;
         }
 
-        public async Task<List<string>> GetAllBrandsAsync()
+        public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
             var brands = await _productItem.FindAsync(_ => true)?.Result?.ToListAsync();
-            return brands.Select(p => p.BrandName).Distinct().ToList();
+            return brands.Select(p => new ProductBrand { Name = p.BrandName })
+                .Distinct().ToList();
         }
 
-        public async Task<List<Models.ProductType>> GetAllTypesAsync()
+        public async Task<List<ProductType>> GetAllTypesAsync()
         {
             var types = await _productType.FindAsync(_ => true)?.Result?.ToListAsync();
             return types.DistinctBy(x => x.Code).ToList();

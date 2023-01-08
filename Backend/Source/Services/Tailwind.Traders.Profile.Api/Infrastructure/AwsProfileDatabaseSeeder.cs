@@ -30,6 +30,20 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
             _amazonDynamoDBClient = factory.Create();
         }
 
+        public async Task ResetAsync()
+        {
+            var profiles = _processFile.Process<Models.Profile>(_env.ContentRootPath, "Profiles",
+                new CsvHelper.Configuration.Configuration() { IgnoreReferences = true, MissingFieldFound = null });
+
+            Table profileTable = Table.LoadTable(_amazonDynamoDBClient, _appSettings.DynamoDb.ProfileTable);
+            var profileBatchWrite = profileTable.CreateBatchWrite();
+            foreach (var item in profiles)
+            {
+                profileBatchWrite.AddKeyToDelete(item.Email);
+            }
+            await profileBatchWrite.ExecuteAsync();
+        }
+
         public async Task SeedAsync()
         {
             var profiles = _processFile.Process<Models.Profile>(_env.ContentRootPath, "Profiles");

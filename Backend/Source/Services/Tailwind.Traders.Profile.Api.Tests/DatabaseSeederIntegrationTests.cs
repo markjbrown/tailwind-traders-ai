@@ -34,6 +34,7 @@ namespace Tailwind.Traders.Profile.Api.Tests
                 services.AddScoped<IWebHostEnvironment>(w => _mockWebHostEnv.Object);
             });
             var seeder = ApiHost.Server.Services.GetService<ISeedDatabase>();
+            await seeder.ResetAsync();
             await seeder.SeedAsync();
         }
 
@@ -45,6 +46,7 @@ namespace Tailwind.Traders.Profile.Api.Tests
                 services.AddScoped<IWebHostEnvironment>(w => _mockWebHostEnv.Object);
             });
             var seeder = ApiHost.Server.Services.GetService<ISeedDatabase>();
+            await seeder.ResetAsync();
             await seeder.SeedAsync();
         }
 
@@ -56,6 +58,7 @@ namespace Tailwind.Traders.Profile.Api.Tests
                 services.AddScoped<IWebHostEnvironment>(w => _mockWebHostEnv.Object);
             });
             var seeder = ApiHost.Server.Services.GetService<ISeedDatabase>();
+            await seeder.ResetAsync();
             await seeder.SeedAsync();
         }
 

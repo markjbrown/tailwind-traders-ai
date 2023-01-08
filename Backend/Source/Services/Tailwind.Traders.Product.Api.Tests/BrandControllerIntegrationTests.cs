@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tailwind.Traders.Product.Api.Dtos;
+using Tailwind.Traders.Product.Api.Models;
 
 namespace Tailwind.Traders.Product.Api.Tests
 {
@@ -23,13 +24,13 @@ namespace Tailwind.Traders.Product.Api.Tests
             Initialize(CloudPlatform);
             string uri = ApiPath($@"/v1/brand");
             var response = await ApiClient.GetAsync(uri);
-            var model = await response.VerifyResponseModelAsync<IEnumerable<string>>();
+            var model = await response.VerifyResponseModelAsync<IEnumerable<ProductBrand>>();
             await VerifyJson(await response.Content.ReadAsStringAsync());
 
 
             await TimeMethod(CloudPlatform, "GetAllBrands", 50,
                 (index) => uri,
-                async (response) => await response.VerifyResponseModelAsync<IEnumerable<string>>());
+                async (response) => await response.VerifyResponseModelAsync<IEnumerable<ProductBrand>>());
         }
 
         [TestMethod]

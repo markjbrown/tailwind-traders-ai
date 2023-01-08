@@ -29,16 +29,16 @@ namespace Tailwind.Traders.WebBff.Tests
             var typesUrl = "/type";
             var productTypes = new ProductType[]
             {
-                new ProductType() { Id = 23, Code = "home", Name = "White Door"},
-                new ProductType() { Id = 27, Code = "gardening", Name = "Metal Watering Can"},
+                new ProductType() { Code = "home", Name = "White Door"},
+                new ProductType() { Code = "gardening", Name = "Metal Watering Can"},
             };
             var productTypesJson = JsonConvert.SerializeObject(productTypes);
 
             var brandsUrl = "/brand";
             var brands = new ProductBrand[]
             {
-                new ProductBrand() { Id = 1, Name = "ElectroDrill"},
-                new ProductBrand() { Id = 3, Name = "ProSaws"},
+                new ProductBrand() { Name = "ElectroDrill"},
+                new ProductBrand() { Name = "ProSaws"},
             };
             var brandsJson = JsonConvert.SerializeObject(brands);
 

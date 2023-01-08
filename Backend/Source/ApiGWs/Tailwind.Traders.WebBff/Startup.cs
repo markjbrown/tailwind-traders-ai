@@ -60,31 +60,31 @@ namespace Tailwind.Traders.WebBff
             }
 
             services.AddControllers()
-                            .SetCompatibilityVersion(CompatibilityVersion.Latest)
-                            .AddNewtonsoftJson()
-                            .Services
-                            .AddHealthChecks(Configuration)
-                            .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                            .AddJwtBearer(options =>
-                            {
-                                if (UseBc2.GetUseB2CBoolean(Configuration))
-                                {
-                                    options.Authority = Configuration["Authority"];
-                                    options.TokenValidationParameters.ValidateAudience = false;
-                                    options.RequireHttpsMetadata = false;
-                                }
-                                else
-                                {
-                                    options.TokenValidationParameters = new TokenValidationParameters
-                                    {
-                                        ValidateIssuer = true,
-                                        ValidateAudience = false,
-                                        ValidIssuer = Configuration["Issuer"],
-                                        ValidateLifetime = true,
-                                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
-                                    };
-                                }
-                            });
+                .SetCompatibilityVersion(CompatibilityVersion.Latest)
+                .AddNewtonsoftJson()
+                .Services
+                .AddHealthChecks(Configuration)
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    if (UseBc2.GetUseB2CBoolean(Configuration))
+                    {
+                        options.Authority = Configuration["Authority"];
+                        options.TokenValidationParameters.ValidateAudience = false;
+                        options.RequireHttpsMetadata = false;
+                    }
+                    else
+                    {
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidateAudience = false,
+                            ValidIssuer = Configuration["Issuer"],
+                            ValidateLifetime = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
+                        };
+                    }
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

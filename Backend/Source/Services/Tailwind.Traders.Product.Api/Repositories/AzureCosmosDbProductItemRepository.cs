@@ -18,35 +18,35 @@ namespace Tailwind.Traders.Product.Api.Repositories
         {
             _productContext = productContext;
         }
-        public async Task<List<Models.ProductItem>> FindProductsAsync(string[] brands, string[] types)
+        public async Task<List<ProductItem>> FindProductsAsync(string[] brands, string[] types)
         {
             var items = await _productContext.ProductItems
-                .Where(item => brands.Contains(item.BrandName) || types.Contains(item.Type.Name))
+                .Where(item => brands.Contains(item.BrandName) || types.Contains(item.Type.Code))
                 .ToListAsync();
             return items;
         }
 
-        public async Task<List<Models.ProductItem>> FindProductsByTag(string tag)
+        public async Task<List<ProductItem>> FindProductsByTag(string tag)
         {
             var items = await _productContext.ProductItems.Where(p => p.Tags.Contains(tag))
                 .Take(_take).ToListAsync();
             return items;
         }
 
-        public async Task<List<Models.ProductItem>> GetAllProductsAsync()
+        public async Task<List<ProductItem>> GetAllProductsAsync()
         {
             var items = await _productContext.ProductItems.AsQueryable().ToListAsync();
             return items;
         }
 
-        public async Task<Models.ProductItem> GetProductById(int productId)
+        public async Task<ProductItem> GetProductById(int productId)
         {
             var items = await _productContext.ProductItems.Where(p => p.ProductItemId == productId).ToListAsync();
             var item = items.SingleOrDefault();
             return item;
         }
 
-        public async Task<List<Models.ProductItem>> RecommendedProductsAsync()
+        public async Task<List<ProductItem>> RecommendedProductsAsync()
         {
             //TODOL this does not seem right, is this used?
             var items = await _productContext.ProductItems.AsQueryable()
@@ -55,13 +55,16 @@ namespace Tailwind.Traders.Product.Api.Repositories
             return items;
         }
 
-        public async Task<List<string>> GetAllBrandsAsync()
+        public async Task<List<ProductBrand>> GetAllBrandsAsync()
         {
-            var brands = await _productContext.ProductItems.AsQueryable().Select(pi => pi.BrandName).Distinct().ToListAsync();
+            var brands = await _productContext.ProductItems.AsQueryable()
+                .Select(pi => new ProductBrand { Name = pi.BrandName })
+                .Distinct()
+                .ToListAsync();
             return brands;
         }
 
-        public async Task<List<Models.ProductType>> GetAllTypesAsync()
+        public async Task<List<ProductType>> GetAllTypesAsync()
         {
             var types = (await _productContext.ProductItems.AsQueryable().Select(pi => pi.Type).ToListAsync())
                 .DistinctBy(x => x.Code).ToList();

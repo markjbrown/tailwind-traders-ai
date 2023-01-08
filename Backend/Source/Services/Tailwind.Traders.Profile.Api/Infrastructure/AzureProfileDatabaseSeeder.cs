@@ -18,6 +18,11 @@ namespace Tailwind.Traders.Profile.Api.Infrastructure
             _env = env;
         }
 
+        public async Task ResetAsync()
+        {
+            await _profileContext.Database.EnsureDeletedAsync();
+        }
+
         public async Task SeedAsync()
         {
             await _profileContext.Database.EnsureCreatedAsync();

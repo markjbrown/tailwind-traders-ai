@@ -17,7 +17,7 @@ namespace Tailwind.Traders.WebBff.Infrastructure
                 var idsFormatted = string.Join("&", ids.Select(b => "id=" + b));
                 return $"{baseUri}/{version}/product/ids?" + idsFormatted;
             }
-            public static string GetProductsByFilter(string baseUri, string version, int[] brands, int[] types)
+            public static string GetProductsByFilter(string baseUri, string version, string[] brands, string[] types)
             {
                 var productBrandsFormatted = string.Join("&", brands?.Select(b => "brand=" + b) ?? new string[0]);
                 var productTypesFormatted = string.Join("&", types?.Select(b => "type=" + b) ?? new string[0]);

@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Tailwind.Traders.WebBff.Models
 {
     public class Product
     {
         public int Id { get; set; }
-        
+
         public string Name { get; set; }
 
         public float Price { get; set; }
-        // Uncomment line 16 for AKS Dev Spaces Demo Script and comment line 17
-        // public string ProductName { get; set; }
+
         public string ImageUrl { get; set; }
 
-        public ProductBrand Brand { get; set; }
+        public string BrandName { get; set; }
 
         public ProductType Type { get; set; }
 

@@ -12,7 +12,7 @@ namespace Tailwind.Traders.Product.Api.Repositories
         Task<List<ProductItem>> FindProductsByTag(string tag);
         Task<List<ProductItem>> FindProductsByIdsAsync(int[] ids);
         Task<List<ProductItem>> RecommendedProductsAsync();
-        Task<List<string>> GetAllBrandsAsync();
+        Task<List<ProductBrand>> GetAllBrandsAsync();
         Task<List<ProductType>> GetAllTypesAsync();
     }
 }
