@@ -25,4 +25,6 @@ data:
   Authority: {{ .Values.B2C.Authority | quote }}
   RegisterUsers: {{ .Values.inf.registrationusers.registerusers | quote }}
   RegistrationUsersEndpoint: {{ .Values.inf.registrationusers.registrationusersurl }}
+  RecommenderService__ApiKey: {{ .Values.inf.db.webbff.recommenderServiceApiKey}}
+  RecommenderService__Url: {{ .Values.inf.db.webbff.recommenderServiceUrl }}
 

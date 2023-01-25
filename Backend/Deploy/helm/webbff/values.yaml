@@ -40,6 +40,8 @@ env:
     - name: Authority
     - name: RegisterUsers
     - name: RegistrationUsersEndpoint
+    - name: RecommenderService__ApiKey
+    - name: RecommenderService__Url
   values:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development

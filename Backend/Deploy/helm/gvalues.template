@@ -50,6 +50,9 @@ inf:
       port: "10255"
       dbName: Coupon
       collection: CouponCollection
+    webbff:
+      recommenderServiceApiKey: {{recommenderServiceApiKey}}
+      recommenderServiceUrl: {{recommenderServiceUrl}}
   storage:
     productimages: {{storage}}product-list
     productdetailimages: {{storage}}product-detail
